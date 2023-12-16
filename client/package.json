@@ -10,8 +10,8 @@
     "storybook": "storybook dev -p 6006",
     "test-storybook": "test-storybook",
     "build-storybook": "storybook build",
-    "lint": "npx standard",
-    "lint-fix": "standard --fix"
+    "lint": "standard & eslint .",
+    "lint-fix": "standard --fix & eslint . --fix"
   },
   "license": "MIT",
   "devDependencies": {
@@ -50,8 +50,7 @@
   },
   "standard": {
     "ignore": [
-      "index.jsx",
-      "/src/stories/"
+      "index.jsx"
     ],
     "globals": []
   }

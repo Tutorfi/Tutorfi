@@ -1,4 +1,4 @@
-import { Header } from './Header';
+import { Header } from './Header'
 
 const meta = {
   title: 'Example/Header',
@@ -7,18 +7,18 @@ const meta = {
   tags: ['autodocs'],
   parameters: {
     // More on how to position stories at: https://storybook.js.org/docs/7.0/solid/configure/story-layout
-    layout: 'fullscreen',
-  },
-};
+    layout: 'fullscreen'
+  }
+}
 
-export default meta;
+export default meta
 
 export const LoggedIn = {
   args: {
     user: {
-      name: 'Jane Doe',
-    },
-  },
-};
+      name: 'Jane Doe'
+    }
+  }
+}
 
-export const LoggedOut = {};
+export const LoggedOut = {}

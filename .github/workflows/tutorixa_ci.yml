@@ -27,7 +27,7 @@ jobs:
       run: yarn install --frozen-lockfile
 
     - name: Run eslint
-      run: npx eslint $(git ls-files '*.jsx')
+      run: yarn lint
 
   golangci:
     runs-on: ubuntu-latest

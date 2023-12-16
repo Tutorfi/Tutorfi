@@ -1,5 +1,5 @@
-import { defineConfig } from 'vite';
-import solidPlugin from 'vite-plugin-solid';
+import { defineConfig } from 'vite'
+import solidPlugin from 'vite-plugin-solid'
 
 export default defineConfig({
   plugins: [solidPlugin()],
@@ -12,11 +12,11 @@ export default defineConfig({
       '/api': {
         target: 'http://back-end:5000',
         changeOrigin: true,
-        secure: false,
+        secure: false
       }
-    },
+    }
   },
   build: {
-    target: 'esnext',
-  },
-});
+    target: 'esnext'
+  }
+})

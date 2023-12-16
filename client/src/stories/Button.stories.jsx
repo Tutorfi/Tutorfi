@@ -1,4 +1,4 @@
-import { Button } from './Button';
+import { Button } from './Button'
 
 // More on how to set up stories at: https://storybook.js.org/docs/7.0/solid/writing-stories/introduction
 const meta = {
@@ -6,36 +6,36 @@ const meta = {
   component: Button,
   tags: ['autodocs'],
   argTypes: {
-    backgroundColor: { control: 'color' },
-  },
-};
+    backgroundColor: { control: 'color' }
+  }
+}
 
-export default meta;
+export default meta
 
 // More on writing stories with args: https://storybook.js.org/docs/7.0/solid/writing-stories/args
 export const Primary = {
   args: {
     primary: true,
-    label: 'Button',
-  },
-};
+    label: 'Button'
+  }
+}
 
 export const Secondary = {
   args: {
-    label: 'Button',
-  },
-};
+    label: 'Button'
+  }
+}
 
 export const Large = {
   args: {
     size: 'large',
-    label: 'Button',
-  },
-};
+    label: 'Button'
+  }
+}
 
 export const Small = {
   args: {
     size: 'small',
-    label: 'Button',
-  },
-};
+    label: 'Button'
+  }
+}
