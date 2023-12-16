@@ -27,7 +27,9 @@ jobs:
       run: yarn install --frozen-lockfile
       
     - name: Run style standard
-      run: npx standard ./client/src/
+      run: |
+        cd ./client
+        npx standard /src/
 
     - name: Run eslint
       run: npx eslint $(git ls-files '*.jsx')
