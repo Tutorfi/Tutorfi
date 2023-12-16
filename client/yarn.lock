@@ -3750,17 +3750,6 @@ babel-plugin-jest-hoist@^29.6.3:
     "@types/babel__core" "^7.1.14"
     "@types/babel__traverse" "^7.0.6"
 
-babel-plugin-jsx-dom-expressions@^0.35.8:
-  version "0.35.23"
-  resolved "https://registry.yarnpkg.com/babel-plugin-jsx-dom-expressions/-/babel-plugin-jsx-dom-expressions-0.35.23.tgz#748598aaf7e733a411d825dcd6de0f23d95a88dd"
-  integrity sha512-KaBiZPm2riB5jyRUy5BVaz8TkKcyAx2frePOG2lj5vbYsBpZHIknQkUU/csWr+EeV75h/mRHIOzLo2mX4Dxq3g==
-  dependencies:
-    "@babel/helper-module-imports" "7.18.6"
-    "@babel/plugin-syntax-jsx" "^7.18.6"
-    "@babel/types" "^7.20.7"
-    html-entities "2.3.3"
-    validate-html-nesting "^1.2.1"
-
 babel-plugin-jsx-dom-expressions@^0.37.9:
   version "0.37.9"
   resolved "https://registry.yarnpkg.com/babel-plugin-jsx-dom-expressions/-/babel-plugin-jsx-dom-expressions-0.37.9.tgz#6597954180efd25c08cf1cae45b3ae4da76d15b4"
@@ -3822,14 +3811,7 @@ babel-preset-jest@^29.6.3:
     babel-plugin-jest-hoist "^29.6.3"
     babel-preset-current-node-syntax "^1.0.0"
 
-babel-preset-solid@1.6.6:
-  version "1.6.6"
-  resolved "https://registry.yarnpkg.com/babel-preset-solid/-/babel-preset-solid-1.6.6.tgz#5777a3c03ade33453f1ad807df91c85b8802022d"
-  integrity sha512-uG6svyjDRmQxLtRyydlJjFkvlOGYEd/xvfUZu58UuzJdiv40lZ34K+EcgbAFD85JPUdlnkr6bbHUpUXP/VK+Jg==
-  dependencies:
-    babel-plugin-jsx-dom-expressions "^0.35.8"
-
-babel-preset-solid@^1.8.4:
+babel-preset-solid@1.8.6, babel-preset-solid@^1.8.4:
   version "1.8.6"
   resolved "https://registry.yarnpkg.com/babel-preset-solid/-/babel-preset-solid-1.8.6.tgz#fb9000d03ec2a5f28f2c5729f062dfbdc8e3de0e"
   integrity sha512-Ened42CHjU4EFkvNeS042/3Pm21yvMWn8p4G4ddzQTlKaMwSGGD1VciA/e7EshBVHJCcBj9vHiUd/r3A4qLPZA==
@@ -9610,6 +9592,7 @@ wordwrap@^1.0.0:
   integrity sha512-gvVzJFlPycKc5dZN4yPkP8w7Dc37BtP1yczEneOb4uq34pXZcvrtRTmWV8W+Ume+XCxKgbjM+nevkyFPMybd4Q==
 
 "wrap-ansi-cjs@npm:wrap-ansi@^7.0.0", wrap-ansi@^7.0.0:
+  name wrap-ansi-cjs
   version "7.0.0"
   resolved "https://registry.yarnpkg.com/wrap-ansi/-/wrap-ansi-7.0.0.tgz#67e145cff510a6a6984bdf1152911d69d2eb9e43"
   integrity sha512-YVGIj2kamLSTxw6NsZjoBxfSwsn0ycdesmc4p+Q21c5zPuZ1pl+NfxVdxPtdHvmNVOQ6XSYG4AUtyt/Fi7D16Q==
