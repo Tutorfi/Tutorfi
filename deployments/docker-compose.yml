@@ -1,0 +1,26 @@
+#major.minor.patch
+version: "0.0.0"
+name: tutorixa
+
+services:
+  # mongo:
+  #   image: mongo:7.0.4-jammy
+  #   container_name: mongo
+  #   restart: always
+  # volumes:
+  #   - './data:/data/db'
+
+  back-end:
+    container_name: back-end
+    build: 
+      context: ../server
+    # depends_on:
+    #   - mongo
+
+  front-end:
+    container_name: front-end
+    build: 
+      context: ../client
+  
+
+

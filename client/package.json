@@ -1,0 +1,51 @@
+{
+  "name": "turorixa",
+  "version": "0.0.0",
+  "description": "",
+  "scripts": {
+    "start": "vite",
+    "dev": "vite",
+    "build": "vite build",
+    "serve": "vite preview",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build",
+    "lint": "npx standard",
+    "lint-fix": "standard --fix"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@storybook/addon-essentials": "7.6.5",
+    "@storybook/addon-interactions": "7.6.5",
+    "@storybook/addon-links": "7.6.5",
+    "@storybook/blocks": "7.6.5",
+    "@storybook/testing-library": "0.2.2",
+    "eslint": "^8.53.0",
+    "eslint-plugin-solid": "^0.12.1",
+    "eslint-plugin-storybook": "^0.6.15",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "storybook-solidjs": "1.0.0-beta.2",
+    "storybook-solidjs-vite": "1.0.0-beta.2",
+    "vite": "^4.4.9",
+    "vite-plugin-solid": "^2.7.0"
+  },
+  "dependencies": {
+    "@solidjs/router": "^0.8.3",
+    "solid-js": "^1.8.5",
+    "standard": "^17.1.0",
+    "storybook": "^7.6.5",
+    "yarn": "^1.22.21"
+  },
+  "eslintConfig": {
+    "extends": [
+      "plugin:storybook/recommended"
+    ]
+  },
+  "standard": {
+    "ignore": [
+      "index.jsx",
+      "/src/stories/"
+    ],
+    "globals": []
+  }
+}
