@@ -1694,10 +1694,10 @@
   resolved "https://registry.yarnpkg.com/@sinclair/typebox/-/typebox-0.27.8.tgz#6667fac16c436b5434a387a34dedb013198f6e6e"
   integrity sha512-+Fj43pSMwJs4KRrH/938Uf+uAELIgVBmQzg/q1YG10djyfA3TnrU8N8XzqCh/okZdszqBQTZf96idMfE5lnwTA==
 
-"@solidjs/router@^0.8.3":
-  version "0.8.4"
-  resolved "https://registry.yarnpkg.com/@solidjs/router/-/router-0.8.4.tgz#aa19bee6dc6289807821b2d0dd5cf07a79da6b68"
-  integrity sha512-Gi/WVoVseGMKS1DBdT3pNAMgOzEOp6Q3dpgNd2mW9GUEnVocPmtyBjDvXwN6m7tjSGsqqfqJFXk7bm1hxabSRw==
+"@solidjs/router@^0.10.3":
+  version "0.10.3"
+  resolved "https://registry.yarnpkg.com/@solidjs/router/-/router-0.10.3.tgz#a72e84ef005c371cc88fc073375c0890edd7a2dd"
+  integrity sha512-UZyUcGbMzeJWCJZthWfveFbv9FyMLi62+BHpXyVwAYpowHaUkkV3WVKoYxYF9m47fVG23UfUo2S6GbuyPAyCjw==
 
 "@storybook/addon-actions@7.6.5":
   version "7.6.5"
