@@ -1,0 +1,16 @@
+FROM node:20-alpine as prod
+
+WORKDIR /app
+ENV PATH /app/node_modules/.bin:$PATH
+COPY package.json yarn.lock ./
+
+RUN yarn install --prod
+
+COPY . .
+
+RUN yarn build
+
+FROM nginx:1.25.2-alpine
+COPY --from=prod /app/dist /usr/share/nginx/html
+
+USER front

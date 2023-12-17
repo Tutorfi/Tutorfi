@@ -9,5 +9,4 @@ RUN yarn install --frozen-lockfile
 
 COPY . /app/
 
-#USER front
 
