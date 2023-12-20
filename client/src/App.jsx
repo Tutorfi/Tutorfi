@@ -1,4 +1,3 @@
-import { Routes, Route } from '@solidjs/router'
 
 function Home () {
   return (
@@ -11,11 +10,11 @@ function Home () {
 
 function App () {
   return (
-    <>
-      <Routes>
-        <Route path='/' element={<Home />} />
-      </Routes>
-    </>
+    <div>
+      <h1>App testing</h1>
+      <h2>App testing</h2>
+      <Home />
+    </div>
   )
 }
 
