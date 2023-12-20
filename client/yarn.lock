@@ -2105,12 +2105,12 @@
   resolved "https://registry.yarnpkg.com/@solidjs/router/-/router-0.10.5.tgz#e459e2b4ae3acde6fbb3766f277b818af57c40ef"
   integrity sha512-gxDeiyc97j8/UqzuuasZsQYA7jpmlwjkfpcay11Q2xfzoKR50eBM1AaxAPtf0MlBAdPsdPV3h/k8t5/XQCuebA==
 
-"@storybook/addon-a11y@^7.6.5":
-  version "7.6.5"
-  resolved "https://registry.yarnpkg.com/@storybook/addon-a11y/-/addon-a11y-7.6.5.tgz#73c8fba2e7169e0e61304953e73e8b428db71742"
-  integrity sha512-mbwjgdlNDcp0nL29s9FoF+HEFmWn0fMXfTcgMNjQWHs+sfmOy6w3llk0n0RJeDjc+x2Y8Oj2c+JwLU1hhJBnag==
+"@storybook/addon-a11y@^7.6.6":
+  version "7.6.6"
+  resolved "https://registry.yarnpkg.com/@storybook/addon-a11y/-/addon-a11y-7.6.6.tgz#8689deea09382903c884290f5a297c3a0bb97aa9"
+  integrity sha512-D7TlxmPB4qoqN1q1WoVvRCIAB6RhDN7s0JL4qvznK3cdDDkQyfk3zvip97NhbT5ZSLjpszyElV9CfWht1O341w==
   dependencies:
-    "@storybook/addon-highlight" "7.6.5"
+    "@storybook/addon-highlight" "7.6.6"
     axe-core "^4.2.0"
 
 "@storybook/addon-actions@7.6.5":
@@ -2192,6 +2192,13 @@
   version "7.6.5"
   resolved "https://registry.yarnpkg.com/@storybook/addon-highlight/-/addon-highlight-7.6.5.tgz#588818963c48cc1d0f06a20323e72e3f0077b7c4"
   integrity sha512-CxzmIb30F9nLPQwT0lCPYhOAwGlGF4IkgkO8hYA7VfGCGUkJZEyyN/YkP/ZCUSdCIRChDBouR3KiFFd4mDFKzg==
+  dependencies:
+    "@storybook/global" "^5.0.0"
+
+"@storybook/addon-highlight@7.6.6":
+  version "7.6.6"
+  resolved "https://registry.yarnpkg.com/@storybook/addon-highlight/-/addon-highlight-7.6.6.tgz#f39e174addfc97c44e1cfee6edbb0fd43b9356cd"
+  integrity sha512-B85UaCts2uMpa0yHBSnupzy2WCdW4vfB+lfaBug9beyOyZQdel07BumblE0KwSJftYgdCNPUZ5MRlqEDzMLTWQ==
   dependencies:
     "@storybook/global" "^5.0.0"
 
