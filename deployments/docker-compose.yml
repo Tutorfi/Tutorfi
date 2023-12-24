@@ -10,17 +10,12 @@ services:
   # volumes:
   #   - './data:/data/db'
 
-  back-end:
+  app:
     container_name: back-end
     build: 
-      context: ../server
+      context: ../app
     # depends_on:
     #   - mongo
 
-  front-end:
-    container_name: front-end
-    build: 
-      context: ../client
-  
 
 

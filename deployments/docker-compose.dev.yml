@@ -17,34 +17,12 @@ services:
   #     ME_CONFIG_MONGODB_ADMINPASSWORD: pwd
   #     ME_CONFIG_MONGODB_URL: mongodb://usr:pwd@mongo:27017/
   
-  back-end:
+  app:
     build: 
-      context: ../server
+      context: ../app
       dockerfile: Dockerfile.dev
     ports:
       - "8000:8000"
     volumes:
       - ../server:/app/
 
-  front-end:
-    build: 
-      context: ../client
-      dockerfile: Dockerfile.dev
-    command: yarn start --host 0.0.0.0
-    ports:
-      - "3000:3000"
-    volumes:
-      - ../client:/app/
-      - /app/node_modules
-
-  # Helps to organize the front-end components
-  front-end-storybook:
-    build: 
-      context: ../client
-      dockerfile: Dockerfile.dev
-    command: yarn storybook
-    ports:
-      - "6006:6006"
-    volumes:
-      - ../client:/app/
-      - /app/node_modules
