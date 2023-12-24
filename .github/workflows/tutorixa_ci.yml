@@ -17,6 +17,6 @@ jobs:
       - name: golangci-lint
         uses: golangci/golangci-lint-action@v3
         with:
-          working-directory: ./server/
+          working-directory: ./app/
           version: v1.54
       
