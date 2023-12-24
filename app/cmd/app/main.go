@@ -1,7 +1,7 @@
 package main
 
 import (
-	"app/internal/models"
+	// "app/internal/models"
 	"app/internal/pages"
 	"fmt"
 	"os"
@@ -16,8 +16,9 @@ func main() {
 	fmt.Println(os.Getwd())
 
 	// Change this to use the env file and this doesn't work
-	models.BootstrapMongo("mongodb://localhost:27017", "test", 30)
+	// db, err := models.BootstrapMongo("mongodb://localhost:27017", "test", 30)
 
+	
 	pages.AddPagesRoutes(e)
 	e.Use(middleware.CORS())
 	// e.Use(middleware.Logger())
