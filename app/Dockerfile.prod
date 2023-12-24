@@ -10,4 +10,4 @@ COPY . /app/
 
 USER backend
 
-CMD go run cmd/app/main.go
+CMD go run cmd/dev/main.go

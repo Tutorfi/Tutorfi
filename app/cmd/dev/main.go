@@ -10,16 +10,30 @@ import (
 	"github.com/labstack/echo/v4/middleware"
 )
 
+// Used to initialize the server
+// func buildServer() {
+
+// }
+
+// Adds routes to the echo server
+func addRoutes(e *echo.Echo) {
+	pages.AddPagesRoutes(e)
+}
+
+// Add a function that checks for flags here
+// func parseArgs() {
+
+
 func main() {
 	e := echo.New()
 	fmt.Println("Current Working Directory:")
 	fmt.Println(os.Getwd())
 
 	// Change this to use the env file and this doesn't work
-	// db, err := models.BootstrapMongo("mongodb://localhost:27017", "test", 30)
+	// db, err := models.BootstrapMongo(30)
 
-	
-	pages.AddPagesRoutes(e)
+	addRoutes(e)
+
 	e.Use(middleware.CORS())
 	// e.Use(middleware.Logger())
 	e.Logger.Fatal(e.Start(":8000"))
