@@ -5,5 +5,4 @@ package models
 
 // Add a base template for the user model here
 
-
 // Add queries for the user model here

@@ -11,7 +11,7 @@ import (
 // Change the name of this function to something more descriptive
 func BootstrapMongo(uri, dbName string, timeout time.Duration) (*mongo.Database, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), timeout)
-	
+
 	defer cancel()
 
 	clientOpts := options.Client().ApplyURI(uri)
