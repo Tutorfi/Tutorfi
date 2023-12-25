@@ -2,25 +2,38 @@ package account
 
 import (
 	"fmt"
+	"net/http"
 	"html/template"
 
 	"github.com/labstack/echo/v4"
 )
 
-// Implement the db template here
+type AccountController struct {
+	model *accountModel
+}
 
 /*
 AddAcountroutes add sign in route
 	Prob takes in a parameter for the database connection
 */
-func signIn(c echo.Context) error {
+func (t *AccountController) signIn(c echo.Context) error {
 	fmt.Println("Got a GET request")
-	temp, e := template.ParseFiles("./public/sign-in.html")
-	if e != nil {
-		fmt.Println("Error parsing template")
-		fmt.Println(e)
-		return e
+	correct, err := t.model.checkAccount("user", "pass")
+	if err != nil {
+		fmt.Println("Error checking account")
+		fmt.Println(err)
+		return err
 	}
-	tmpl := template.Must(temp, e)
+
+	// This doesn't contain the sign in page
+	// create the sign in page in the pages folder
+	if correct {
+		c.Redirect(http.StatusMovedPermanently, "<URL>")
+		return nil
+	}
+	
+	htmlstr := fmt.Sprintf("Incorrect Username or Password")
+	tmpl, err := template.New("t").Parse(htmlstr)
+
 	return tmpl.Execute(c.Response().Writer, nil)
 }

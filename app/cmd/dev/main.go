@@ -1,7 +1,7 @@
 package main
 
 import (
-	// "app/internal/models"
+	// "app/internal/connection"
 	"app/internal/pages"
 	"fmt"
 	"os"
@@ -30,11 +30,15 @@ func main() {
 	fmt.Println(os.Getwd())
 
 	// Change this to use the env file and this doesn't work
-	// db, err := models.BootstrapMongo(30)
+	// db, err := account.ConnectPgsql()
+	// if err != nil {
+		// fmt.Println(err)
+	// }
+	// defer db.Close()
 
 	addRoutes(e)
 
 	e.Use(middleware.CORS())
 	// e.Use(middleware.Logger())
-	e.Logger.Fatal(e.Start(":8000"))
+	e.Logger.Fatal(e.Start("0.0.0.0:8000"))
 }
