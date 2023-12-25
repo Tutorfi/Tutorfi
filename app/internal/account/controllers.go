@@ -34,10 +34,9 @@ func validateUser(c echo.Context) error{
 	//tmpl := template.Must(template.ParseFiles("./public/sign-in.html"))
 	
 	if email == "asdf" && password == "asdfqwe"{
-		//tmpl.ExecuteTemplate(c.Response().Writer, "login-error", "login failed")
 		fmt.Println("success")
 		return c.Redirect(http.StatusOK, "/pages/index.html")
-		
 	}
-	return c.String(http.StatusUnauthorized, "login failed")
+	//tmpl.ExecuteTemplate(c.Response().Writer, "login-error", "login failed")
+	return c.String(http.StatusOK, "login failed")
 }
