@@ -7,7 +7,10 @@
 </head>
 <body>
     <h1> Sign in</h1>
-    <form hx-post="/sign-in ">
+    <div id = "login-error">
+
+    </div>
+    <form hx-post="/sign-in" hx-target="#login-error">
         <label for="email">Email</label>
         <input type="text" name="email" />
         <label for="password">Password</label>

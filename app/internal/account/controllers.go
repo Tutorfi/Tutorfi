@@ -30,14 +30,14 @@ func validateUser(c echo.Context) error{
 	fmt.Println("Got a Post request sign in")
 	email := c.FormValue("email")
 	password := c.FormValue("password")
-	fmt.Println(email)
-	fmt.Println(password)
 	//Replace with actual validation later
-	tmpl := template.Must(template.ParseFiles("./public/sign-in.html"))
-	fmt.Println(email == "asdf")
-	if email != "asdf" && password != "asdfqwe"{
-		tmpl.ExecuteTemplate(c.Response().Writer, "login-error", "login failed")
-		return c.String(http.StatusUnauthorized, "login failed")
+	//tmpl := template.Must(template.ParseFiles("./public/sign-in.html"))
+	
+	if email == "asdf" && password == "asdfqwe"{
+		//tmpl.ExecuteTemplate(c.Response().Writer, "login-error", "login failed")
+		fmt.Println("success")
+		return c.Redirect(http.StatusOK, "/pages/index.html")
+		
 	}
-	return c.String(http.StatusOK, "login success, redirecting to homepage")
+	return c.String(http.StatusUnauthorized, "login failed")
 }
