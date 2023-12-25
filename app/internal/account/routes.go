@@ -11,5 +11,5 @@ func AddAcountroutes(e *echo.Echo, controller *AccountController) {
 	fmt.Println("Adding account routes")
 
 	e.GET("/sign-in", controller.signIn)
-
+	e.GET("/sign-in", controller.createAccount)
 }
