@@ -9,11 +9,9 @@ services:
     restart: always
 
   app:
-    container_name: back-end
+    container_name: app
     build: 
       context: ../app
     # depends_on:
     #   - mongo
-
-
 
