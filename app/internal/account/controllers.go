@@ -47,7 +47,7 @@ func validateUser(c echo.Context) error{
 	
 	if email == "asdf" && password == "asdfqwe"{
 		fmt.Println("success")
-		return c.Redirect(http.StatusOK, "/pages/index.html")
+		return c.Redirect(http.StatusOK, "<url>")
 	}
 	//tmpl.ExecuteTemplate(c.Response().Writer, "login-error", "login failed")
 	return c.String(http.StatusOK, "login failed")
