@@ -10,7 +10,7 @@ import (
 func AddAcountroutes(e *echo.Echo, controller *AccountController) {
 	fmt.Println("Adding account routes")
 
-	e.POST("/sign-in", validateUser)
+	e.POST("/sign-in", controller.validateUser)
 	e.GET("/sign-in", controller.signIn)
 
 }

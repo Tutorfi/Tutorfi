@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"html/template"
 	"net/http"
-
+	"time"
 	"github.com/labstack/echo/v4"
 )
 
@@ -43,12 +43,14 @@ func validateUser(c echo.Context) error{
 	email := c.FormValue("email")
 	password := c.FormValue("password")
 	//Replace with actual validation later
-	//tmpl := template.Must(template.ParseFiles("./public/sign-in.html"))
 	
 	if email == "asdf" && password == "asdfqwe"{
-		fmt.Println("success")
+		cookie := new(http.Cookie)
+		cookie.Name = "sessionID"
+		cookie.Value = "1" //Replace with an actual id later
+		cookie.Expires = time.Now().Add(24 * time.Hour)
+		c.SetCookie(cookie)
 		return c.Redirect(http.StatusOK, "<url>")
 	}
-	//tmpl.ExecuteTemplate(c.Response().Writer, "login-error", "login failed")
-	return c.String(http.StatusOK, "login failed")
+	return c.String(http.StatusUnauthorized, "login failed")
 }
