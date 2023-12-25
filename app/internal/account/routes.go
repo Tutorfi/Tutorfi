@@ -12,5 +12,5 @@ func AddAcountroutes(e *echo.Echo, controller *AccountController) {
 
 	e.POST("/sign-in", controller.validateUser)
 	e.GET("/sign-in", controller.signIn)
-
+	e.GET("/sign-in", controller.createAccount)
 }

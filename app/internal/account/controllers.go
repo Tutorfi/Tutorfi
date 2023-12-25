@@ -28,12 +28,16 @@ func (t *AccountController) signIn(c echo.Context) error {
 	// This doesn't contain the sign in page
 	// create the sign in page in the pages folder
 	if correct {
-		c.Redirect(http.StatusMovedPermanently, "<URL>")
-		return nil
+		err := c.Redirect(http.StatusMovedPermanently, "<URL>")
+		return err
 	}
 
-	htmlstr := fmt.Sprintf("Incorrect Username or Password")
+	htmlstr := "Incorrect Username or Password"
 	tmpl, err := template.New("t").Parse(htmlstr)
+	if err != nil {
+		fmt.Println(err)
+		return err
+	}
 
 	return tmpl.Execute(c.Response().Writer, nil)
 }
@@ -53,4 +57,28 @@ func validateUser(c echo.Context) error{
 		return c.Redirect(http.StatusOK, "<url>")
 	}
 	return c.String(http.StatusUnauthorized, "login failed")
+}
+func (t *AccountController) createAccount(c echo.Context) error {
+
+	// This is example code
+	correct, err := t.model.createAccount(53)
+	if correct {
+		// Add a success here
+		return nil
+	}
+	if err != nil {
+		fmt.Println("Error creating account")
+		fmt.Println(err)
+		return err
+	}
+
+	//Fix this
+	htmlstr := "Incorrect Username or Password"
+	tmpl, err := template.New("t").Parse(htmlstr)
+	if err != nil {
+		fmt.Println(err)
+		return err
+	}
+
+	return tmpl.Execute(c.Response().Writer, nil)
 }
