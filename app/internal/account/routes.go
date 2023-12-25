@@ -7,9 +7,10 @@ import (
 )
 
 // AddAcountroutes adds account option routes to the echo router
-func AddAcountroutes(e *echo.Echo) {
+func AddAcountroutes(e *echo.Echo, controller *AccountController) {
 	fmt.Println("Adding account routes")
 
-	e.GET("/sign-in", signIn)
 	e.POST("/sign-in", validateUser)
+	e.GET("/sign-in", controller.signIn)
+
 }
