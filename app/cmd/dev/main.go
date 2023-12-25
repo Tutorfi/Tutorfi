@@ -5,6 +5,7 @@ import (
 	"app/internal/pages"
 	"fmt"
 	"os"
+	"app/internal/account"
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
@@ -18,6 +19,7 @@ import (
 // Adds routes to the echo server
 func addRoutes(e *echo.Echo) {
 	pages.AddPagesRoutes(e)
+	account.AddAcountroutes(e)
 }
 
 // Add a function that checks for flags here
@@ -31,7 +33,7 @@ func main() {
 
 	// Change this to use the env file and this doesn't work
 	// db, err := models.BootstrapMongo(30)
-
+	fmt.Println("Adding routes: ")
 	addRoutes(e)
 
 	e.Use(middleware.CORS())

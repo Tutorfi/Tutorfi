@@ -11,5 +11,5 @@ func AddAcountroutes(e *echo.Echo) {
 	fmt.Println("Adding account routes")
 
 	e.GET("/sign-in", signIn)
-
+	e.POST("/sign-in", validateUser)
 }
