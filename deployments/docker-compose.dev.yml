@@ -1,21 +1,9 @@
 services:
-  # # Databse
-  # mongo:
-  #   environment:
-  #     MONGO_INITDB_ROOT_USERNAME: usr
-  #     MONGO_INITDB_ROOT_PASSWORD: pwd
-  #     MONGO_INITDB_DATABASE: Master
-
-  # # Database Interface (comment out if not needed)
-  # mongo-express:
-  #   image: mongo-express
-  #   restart: always
-  #   ports:
-  #     - 8081:8081
-  #   environment:
-  #     ME_CONFIG_MONGODB_ADMINUSERNAME: usr
-  #     ME_CONFIG_MONGODB_ADMINPASSWORD: pwd
-  #     ME_CONFIG_MONGODB_URL: mongodb://usr:pwd@mongo:27017/
+  pgsql:
+    environment:
+      POSTGRES_USER: usr
+      POSTGRES_DB: master
+      POSTGRES_PASSWORD: pwd
   
   app:
     build: 

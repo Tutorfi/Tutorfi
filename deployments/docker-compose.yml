@@ -3,12 +3,10 @@ version: "0.0.0"
 name: tutorixa
 
 services:
-  # mongo:
-  #   image: mongo:7.0.4-jammy
-  #   container_name: mongo
-  #   restart: always
-  # volumes:
-  #   - './data:/data/db'
+  pgsql:
+    image: postgres:16-bullseye
+    container_name: pgsql
+    restart: always
 
   app:
     container_name: back-end
