@@ -5,7 +5,7 @@ import (
 )
 
 type account struct {
-	ID int 
+	ID int
 }
 
 type accountModel struct {
@@ -14,7 +14,7 @@ type accountModel struct {
 
 func NewAccountModel(db *sql.DB) *accountModel {
 	return &accountModel{
-		db:db,
+		db: db,
 	}
 }
 

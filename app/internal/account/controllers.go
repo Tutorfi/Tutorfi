@@ -2,8 +2,8 @@ package account
 
 import (
 	"fmt"
-	"net/http"
 	"html/template"
+	"net/http"
 
 	"github.com/labstack/echo/v4"
 )
@@ -31,7 +31,7 @@ func (t *AccountController) signIn(c echo.Context) error {
 		c.Redirect(http.StatusMovedPermanently, "<URL>")
 		return nil
 	}
-	
+
 	htmlstr := fmt.Sprintf("Incorrect Username or Password")
 	tmpl, err := template.New("t").Parse(htmlstr)
 

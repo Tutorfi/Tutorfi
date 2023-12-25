@@ -23,7 +23,6 @@ func addRoutes(e *echo.Echo) {
 // Add a function that checks for flags here
 // func parseArgs() {
 
-
 func main() {
 	e := echo.New()
 	fmt.Println("Current Working Directory:")
@@ -32,7 +31,7 @@ func main() {
 	// Change this to use the env file and this doesn't work
 	// db, err := account.ConnectPgsql()
 	// if err != nil {
-		// fmt.Println(err)
+	// fmt.Println(err)
 	// }
 	// defer db.Close()
 
