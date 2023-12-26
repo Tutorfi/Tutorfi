@@ -5,7 +5,6 @@ import (
 	"os"
 	"database/sql"
 	"github.com/joho/godotenv"
-
 )
 
 // Change the name of this function to something more descriptive
