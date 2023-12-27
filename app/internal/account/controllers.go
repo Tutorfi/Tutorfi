@@ -12,6 +12,12 @@ type AccountController struct {
 	model *accountModel
 }
 
+func NewAccountController(model *accountModel) *AccountController {
+	return &AccountController{
+		model: model,
+	}
+}
+
 /*
 AddAcountroutes add sign in route
 	Prob takes in a parameter for the database connection

@@ -1,11 +1,13 @@
 package main
 
 import (
+	"app/internal/account"
 	"app/internal/connection"
 	"app/internal/pages"
 	"fmt"
 	"os"
 
+	"database/sql"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	_ "github.com/lib/pq"
@@ -17,7 +19,9 @@ import (
 // }
 
 // Adds routes to the echo server
-func addRoutes(e *echo.Echo) {
+func addRoutes(e *echo.Echo, db *sql.DB) {
+	accountController := account.NewAccountController(account.NewAccountModel(db))
+	account.AddAccountRoutes(e, accountController)
 	pages.AddPagesRoutes(e)
 }
 
@@ -37,7 +41,7 @@ func main() {
 	fmt.Println(db)
 	// defer db.Close()
 
-	addRoutes(e)
+	addRoutes(e, db)
 
 	e.Use(middleware.CORS())
 	// e.Use(middleware.Logger())
