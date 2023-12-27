@@ -34,7 +34,10 @@ func (m *accountModel) checkAccount(user string, pass string) (bool, error) {
 	if row != nil {
 		return false, nil
 	}
-	row.Scan(&ac.ID, &ac.Firstname, &ac.Lastname, &ac.Email, &ac.Password)
+	err := row.Scan(&ac.ID, &ac.Firstname, &ac.Lastname, &ac.Email, &ac.Password)
+	if err != nil {
+		return false, err
+	}
 
 	return false, nil
 }
