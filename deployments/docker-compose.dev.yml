@@ -1,14 +1,17 @@
 services:
   pgsql:
     environment:
-      POSTGRES_USER: usr
-      POSTGRES_DB: master
-      POSTGRES_PASSWORD: pwd
-  
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "5432:5432"
   app:
     build: 
       context: ../app
       dockerfile: Dockerfile.dev
+    env_file:
+      - .env
     ports:
       - "8000:8000"
     volumes:

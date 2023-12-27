@@ -12,6 +12,6 @@ services:
     container_name: app
     build: 
       context: ../app
-    # depends_on:
-    #   - mongo
+    depends_on:
+      - pgsql
 
