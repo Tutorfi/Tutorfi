@@ -1,13 +1,14 @@
 package main
 
 import (
-	// "app/internal/connection"
+	"app/internal/connection"
 	"app/internal/pages"
 	"fmt"
 	"os"
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
+	_ "github.com/lib/pq"
 )
 
 // Used to initialize the server
@@ -29,10 +30,11 @@ func main() {
 	fmt.Println(os.Getwd())
 
 	// Change this to use the env file and this doesn't work
-	// db, err := account.ConnectPgsql()
-	// if err != nil {
-	// fmt.Println(err)
-	// }
+	db, err := connection.ConnectPgsql()
+	if err != nil {
+		fmt.Println(err)
+	}
+	fmt.Println(db)
 	// defer db.Close()
 
 	addRoutes(e)
