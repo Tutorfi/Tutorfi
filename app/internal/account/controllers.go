@@ -5,7 +5,11 @@ import (
 	"html/template"
 	"net/http"
 	"time"
+
 	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
+	//"github.com/markbates/goth" For future oauth stuff
+	//"github.com/markbates/goth/gothic" //Wrapper for goth, should make it easier to use
 )
 
 type AccountController struct {
@@ -42,12 +46,11 @@ func (t *AccountController) signIn(c echo.Context) error {
 	return tmpl.Execute(c.Response().Writer, nil)
 }
 
-func validateUser(c echo.Context) error{
+func (t *AccountController) validateUser(c echo.Context) error{
 	fmt.Println("Got a Post request sign in")
 	email := c.FormValue("email")
 	password := c.FormValue("password")
 	//Replace with actual validation later
-	
 	if email == "asdf" && password == "asdfqwe"{
 		cookie := new(http.Cookie)
 		cookie.Name = "sessionID"

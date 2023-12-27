@@ -15,12 +15,19 @@ func homePage (c echo.Context) error {
 		return e
 	}
 	tmpl := template.Must(temp, e)
+	fmt.Println(c.Cookies())
+	if len(c.Cookies()) == 0{
+		fmt.Println("no cookies")
+		login := ""
+		return tmpl.Execute(c.Response().Writer, login)
+	}
 	return tmpl.Execute(c.Response().Writer, nil)
+	
 }
 
 func AddPagesRoutes(e *echo.Echo) {
 	fmt.Println("Adding pages routes")
 
 	e.GET("/", homePage)
-
+	e.GET("/sign-in", signIn)
 }
