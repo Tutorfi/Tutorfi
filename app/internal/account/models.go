@@ -2,13 +2,16 @@ package account
 
 import (
 	"database/sql"
-	"fmt"
 
 	_ "github.com/lib/pq"
 )
 
 type account struct {
-	ID int
+	ID int64
+	Firstname string
+	Lastname string
+	Email string
+	Password string
 }
 
 type accountModel struct {
@@ -16,20 +19,22 @@ type accountModel struct {
 }
 
 func NewAccountModel(db *sql.DB) *accountModel {
-	insert := account{53}
-	fmt.Println(insert.ID)
 	return &accountModel{
 		db: db,
 	}
 }
 
 func (m *accountModel) createAccount(id int) (bool, error) {
-	insert := account{53}
-	fmt.Println(insert.ID)
 	return false, nil
 }
 
 func (m *accountModel) checkAccount(user string, pass string) (bool, error) {
-	// Add check here
+	var ac account
+	row := m.db.QueryRow("SELECT * FROM Account WHERE Username = $1", user)
+	if row != nil {
+		return false, nil
+	}
+	row.Scan(&ac.ID, &ac.Firstname, &ac.Lastname, &ac.Email, &ac.Password)
+
 	return false, nil
 }
