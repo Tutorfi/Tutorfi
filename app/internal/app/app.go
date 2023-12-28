@@ -32,5 +32,5 @@ func (a *App) Start(e *echo.Echo ) error {
 	e.GET("/sign-in/verify", accountFunctions.Verification)
 	e.GET("/schedule/date", schedulerFunctions.Schedule)
 
-	return nil
+	return e.Start(a.listenAddr)
 }
