@@ -24,3 +24,7 @@ package-lock.json # Makes sure people don't use npm install
 
 # Go workspace file
 go.work
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
