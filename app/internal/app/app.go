@@ -24,13 +24,13 @@ func NewApp(listenAddr string, store storage.Storage) *App {
 
 func (a *App) Start(e *echo.Echo ) error {
 	pages.AddPagesRoutes(e)
-	e.Use(middleware.CORS())
 	
 	accountFunctions := accounthandler.New(a.store)
 	schedulerFunctions := schedulerhandler.New(a.store)
-
+	
 	e.GET("/sign-in/verify", accountFunctions.Verification)
 	e.GET("/schedule/date", schedulerFunctions.Schedule)
-
+	
+	e.Use(middleware.CORS())
 	return e.Start(a.listenAddr)
 }
