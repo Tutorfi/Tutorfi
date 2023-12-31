@@ -10,6 +10,7 @@ import (
 	"net/http"
 
 	"github.com/labstack/echo/v4"
+	"bcrypt"
 )
 
 type AccountHandler struct {
@@ -23,23 +24,47 @@ func New(store storage.Storage) *AccountHandler {
 }
 
 func (handle *AccountHandler) CreateAccount(c echo.Context) error {
+	email := c.FormValue("email")
+	account, err := handle.store.GetAccount(email)
+	if account{
+		fmt.Println("Account already exists")
+		return nil
+	}
+	password := c.FormValue("password")
+	if RuneCountInString(password) < 8{
+		fmt.Println("Password too short")
+		return nil
+	}
+	if RuneCountInString(password) > 72{
+		fmt.Println("Password too long")
+		return nil
+	}
+	password := c.FormValue("password")
+	hash, err := GenerateFromPassword(password, RuneCountInString(password))
+	handle.store.CreateAccount(c.FormValue("fname"), c.FormValue("lname"), email, hash)
 	return nil
 }
 
 func (handle *AccountHandler) Verification(c echo.Context) error {
 	// Pull the data from the request
-	account, err := handle.store.GetAccount("thing@gmail.com")
+	email := c.FormValue("email")
+	account, err := handle.store.GetAccount(email)
 	if err != nil {
+		fmt.Println("No account found")
 		return err
 	}
 
 	fmt.Println(account)
+	fmt.Println(handle.store)
 	
 	// Check if the account password matches the hashed password
 	
 	matched := false
+	password := c.FormValue("password")
+	hash := handle.store.GetPassword(account)
+	matched, _ := CompareHashAndPassword(hash, password)
 	if matched {
-		err := c.Redirect(http.StatusMovedPermanently, "<URL>")
+		err := c.Redirect(http.StatusOK, "<URL>")
 		return err
 	}
 

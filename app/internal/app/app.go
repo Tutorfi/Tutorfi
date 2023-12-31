@@ -28,7 +28,7 @@ func (a *App) Start(e *echo.Echo ) error {
 	accountFunctions := accounthandler.New(a.store)
 	schedulerFunctions := schedulerhandler.New(a.store)
 	
-	e.GET("/sign-in/verify", accountFunctions.Verification)
+	e.POST("/sign-in/verify", accountFunctions.Verification)
 	e.GET("/schedule/date", schedulerFunctions.Schedule)
 	
 	e.Use(middleware.CORS())

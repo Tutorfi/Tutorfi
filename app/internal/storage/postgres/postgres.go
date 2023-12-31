@@ -22,3 +22,7 @@ func (s *PostgresStorage) GetAccount(email string) (*models.Account, error) {
 
 	return &models.Account{}, nil
 }
+
+func (s *PostgresStorage) CreateAccount(fname, lname, email, password string) (*models.Account, error){
+	s.db.Query("INSERT INTO users VALUES (0, $1, $2, $3, $4)", fname, lname, email, password)
+}
