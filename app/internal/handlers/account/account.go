@@ -44,7 +44,7 @@ func (handle *AccountHandler) CreateAccount(c echo.Context) error {
 	}
 	//Create a new account
 	hash, err := bcrypt.GenerateFromPassword([]byte(password), 0)
-	handle.store.CreateAccount(c.FormValue("fname"), c.FormValue("lname"), email, hash)
+	handle.store.CreateAccount(c.FormValue("fname"), c.FormValue("lname"), email, string(hash))
 	return nil
 }
 
@@ -63,9 +63,14 @@ func (handle *AccountHandler) Verification(c echo.Context) error {
 	// Check if the account password matches the hashed password
 	
 	password := c.FormValue("password")
-	hash := handle.store.GetPassword(email)
-	matched:= bcrypt.CompareHashAndPassword(hash, []byte(password))
+	hash, _ := handle.store.GetPassword(email)
+	matched:= bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
 	if matched != nil {
+		cookie := new(http.Cookie)
+		cookie.Name = "UUID"
+		cookie.Value = "1"
+		cookie.Expires = time.Now().Add(24 * time.Hour)
+    	c.SetCookie(cookie)
 		err := c.Redirect(http.StatusOK, "<URL>")
 		return err
 	}
