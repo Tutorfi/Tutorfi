@@ -10,7 +10,8 @@ import (
 	"net/http"
 
 	"github.com/labstack/echo/v4"
-	"bcrypt"
+	"golang.org/x/crypto/bcrypt"
+	"unicode/utf8"
 )
 
 type AccountHandler struct {
@@ -24,23 +25,25 @@ func New(store storage.Storage) *AccountHandler {
 }
 
 func (handle *AccountHandler) CreateAccount(c echo.Context) error {
+	//Get and check the email to see if the account exists
 	email := c.FormValue("email")
 	account, err := handle.store.GetAccount(email)
-	if account{
+	if err != nil{
 		fmt.Println("Account already exists")
-		return nil
+		return err
 	}
+	//Check and hash the password
 	password := c.FormValue("password")
-	if RuneCountInString(password) < 8{
+	if utf8.RuneCountInString(password) < 8{
 		fmt.Println("Password too short")
 		return nil
 	}
-	if RuneCountInString(password) > 72{
+	if utf8.RuneCountInString(password) > 72{
 		fmt.Println("Password too long")
 		return nil
 	}
-	password := c.FormValue("password")
-	hash, err := GenerateFromPassword(password, RuneCountInString(password))
+	//Create a new account
+	hash, err := bcrypt.GenerateFromPassword([]byte(password), 0)
 	handle.store.CreateAccount(c.FormValue("fname"), c.FormValue("lname"), email, hash)
 	return nil
 }
@@ -59,11 +62,10 @@ func (handle *AccountHandler) Verification(c echo.Context) error {
 	
 	// Check if the account password matches the hashed password
 	
-	matched := false
 	password := c.FormValue("password")
-	hash := handle.store.GetPassword(account)
-	matched, _ := CompareHashAndPassword(hash, password)
-	if matched {
+	hash := handle.store.GetPassword(email)
+	matched:= bcrypt.CompareHashAndPassword(hash, []byte(password))
+	if matched != nil {
 		err := c.Redirect(http.StatusOK, "<URL>")
 		return err
 	}

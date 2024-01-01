@@ -24,10 +24,10 @@ func homePage (c echo.Context) error {
 	return tmpl.Execute(c.Response().Writer, nil)
 	
 }
-
 func AddPagesRoutes(e *echo.Echo) {
 	fmt.Println("Adding pages routes")
 
 	e.GET("/", homePage)
 	e.GET("/sign-in", signIn)
+	e.GET("/login", login)
 }
