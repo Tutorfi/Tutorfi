@@ -12,6 +12,7 @@ import (
 	"github.com/labstack/echo/v4"
 	"golang.org/x/crypto/bcrypt"
 	"unicode/utf8"
+	"time"
 )
 
 type AccountHandler struct {
@@ -27,7 +28,7 @@ func New(store storage.Storage) *AccountHandler {
 func (handle *AccountHandler) CreateAccount(c echo.Context) error {
 	//Get and check the email to see if the account exists
 	email := c.FormValue("email")
-	account, err := handle.store.GetAccount(email)
+	_, err := handle.store.GetAccount(email)
 	if err != nil{
 		fmt.Println("Account already exists")
 		return err
