@@ -44,9 +44,16 @@ func (handle *AccountHandler) CreateAccount(c echo.Context) error {
 		return nil
 	}
 	//Create a new account
+	
 	hash, err := bcrypt.GenerateFromPassword([]byte(password), 0)
-	handle.store.CreateAccount(c.FormValue("fname"), c.FormValue("lname"), email, string(hash))
-	return nil
+	if err != nil{
+		fmt.Println("password hasing failed")
+		return nil
+	}
+	fmt.Println("account created successfully")
+	err = handle.store.CreateAccount(c.FormValue("fname"), c.FormValue("lname"), email, string(hash))
+	fmt.Println(err)
+	return c.Redirect(http.StatusFound, "/")
 }
 
 func (handle *AccountHandler) Verification(c echo.Context) error {
