@@ -48,12 +48,16 @@ func (handle *AccountHandler) CreateAccount(c echo.Context) error {
 	hash, err := bcrypt.GenerateFromPassword([]byte(password), 0)
 	if err != nil{
 		fmt.Println("password hasing failed")
+		fmt.Println(err)
 		return nil
 	}
-	fmt.Println("account created successfully")
+	
 	err = handle.store.CreateAccount(c.FormValue("fname"), c.FormValue("lname"), email, string(hash))
-	fmt.Println(err)
-	return c.Redirect(http.StatusFound, "/")
+	if err != nil{
+		fmt.Println(err)
+	}
+	fmt.Println("account created successfully")
+	return nil
 }
 
 func (handle *AccountHandler) Verification(c echo.Context) error {
@@ -71,15 +75,19 @@ func (handle *AccountHandler) Verification(c echo.Context) error {
 	// Check if the account password matches the hashed password
 	
 	password := c.FormValue("password")
-	hash, _ := handle.store.GetPassword(email)
-	matched:= bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
-	if matched != nil {
+	hash, err := handle.store.GetPassword(email)
+	fmt.Println(hash)
+	fmt.Println(err)
+	matched := bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
+	if matched == nil {
 		cookie := new(http.Cookie)
 		cookie.Name = "UUID"
 		cookie.Value = "1"
 		cookie.Expires = time.Now().Add(24 * time.Hour)
     	c.SetCookie(cookie)
-		err := c.Redirect(http.StatusOK, "<URL>")
+		fmt.Println(c.Cookies())
+		fmt.Println("login successful")
+		err := c.Redirect(http.StatusFound, "/")
 		return err
 	}
 
