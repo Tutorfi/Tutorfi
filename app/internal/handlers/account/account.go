@@ -13,6 +13,7 @@ import (
 	"golang.org/x/crypto/bcrypt"
 	"unicode/utf8"
 	"time"
+	"database/sql"
 )
 
 type AccountHandler struct {
@@ -29,20 +30,18 @@ func (handle *AccountHandler) CreateAccount(c echo.Context) error {
 	//Get and check the email to see if the account exists
 	email := c.FormValue("email")
 	_, err := handle.store.GetAccount(email)
-	if err != nil{
+	if err != sql.ErrNoRows{
 		fmt.Println("Account already exists")
+		fmt.Println(err)
 		return err
 	}
 	//Check and hash the password
 	password := c.FormValue("password")
 	if utf8.RuneCountInString(password) < 8{
 		fmt.Println("Password too short")
-		return nil
+		return c.String(http.StatusForbidden, "Invalid Password")
 	}
-	if utf8.RuneCountInString(password) > 72{
-		fmt.Println("Password too long")
-		return nil
-	}
+	//In the future we may need a restriction on passwords too long
 	//Create a new account
 	
 	hash, err := bcrypt.GenerateFromPassword([]byte(password), 0)
@@ -55,9 +54,10 @@ func (handle *AccountHandler) CreateAccount(c echo.Context) error {
 	err = handle.store.CreateAccount(c.FormValue("fname"), c.FormValue("lname"), email, string(hash))
 	if err != nil{
 		fmt.Println(err)
+		return c.String(http.StatusForbidden, "Account creation error")
 	}
 	fmt.Println("account created successfully")
-	return nil
+	return c.Redirect(http.StatusFound, "<URL>")
 }
 
 func (handle *AccountHandler) Verification(c echo.Context) error {
@@ -66,19 +66,16 @@ func (handle *AccountHandler) Verification(c echo.Context) error {
 	account, err := handle.store.GetAccount(email)
 	if err != nil {
 		fmt.Println("No account found")
+		fmt.Println(err)
 		return err
 	}
 
-	fmt.Println(account)
-	fmt.Println(handle.store)
 	
 	// Check if the account password matches the hashed password
 	
 	password := c.FormValue("password")
-	hash, err := handle.store.GetPassword(email)
-	fmt.Println(hash)
-	fmt.Println(err)
-	matched := bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
+	hash := []byte(account.Password)
+	matched := bcrypt.CompareHashAndPassword(hash, []byte(password))
 	if matched == nil {
 		cookie := new(http.Cookie)
 		cookie.Name = "UUID"

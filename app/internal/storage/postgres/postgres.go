@@ -4,7 +4,6 @@ import (
 	"app/internal/models"
 	"database/sql"
 	_ "github.com/lib/pq"
-	"fmt"
 )
 
 type PostgresStorage struct {
@@ -18,8 +17,12 @@ func NewPostgresStorage(db *sql.DB) *PostgresStorage {
 }
 
 func (s *PostgresStorage) GetAccount(email string) (*models.Account, error) {
-	s.db.QueryRow("SELECT * FROM account WHERE account.Email = $1", email)
-	return &models.Account{}, nil
+	var acc models.Account
+	err := s.db.QueryRow("SELECT id, fname, lname, email, password FROM account WHERE email = $1", email).Scan(&acc.ID, &acc.Firstname, &acc.Lastname, &acc.Email, &acc.Password)
+	if err == sql.ErrNoRows{
+		return nil, err
+	}
+	return &acc, err
 }
 //Insert a new account into the database, returning the account that was just created
 func (s *PostgresStorage) CreateAccount(fname, lname, email, password string) (error){
@@ -29,6 +32,6 @@ func (s *PostgresStorage) CreateAccount(fname, lname, email, password string) (e
 
 func (s *PostgresStorage) GetPassword(email string) (string, error) {
 	var password string
-	err := s.db.QueryRow("SELECT Password FROM account WHERE account.Email = $1", email).Scan(password)
+	err := s.db.QueryRow("SELECT password FROM account WHERE email = $1", email).Scan(password)
 	return password, err
 }
