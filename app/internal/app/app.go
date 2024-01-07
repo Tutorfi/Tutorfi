@@ -27,10 +27,14 @@ func (a *App) Start(e *echo.Echo ) error {
 
 	accountFunctions := accounthandler.New(a.store)
 	schedulerFunctions := schedulerhandler.New(a.store)
-	
+
 	e.GET("/sign-in/verify", accountFunctions.Verification)
+
 	e.GET("/schedule/date", schedulerFunctions.Schedule)
 	
+	e.Static("/css", "/app/internal/public/css")
+	e.Static("/js", "/app/internal/public/js")
 	e.Use(middleware.CORS(),middleware.Logger(), middleware.Recover())
+	e.Use(middleware.GzipWithConfig(middleware.GzipConfig{ Level: 6 }))
 	return e.Start(a.listenAddr)
 }
