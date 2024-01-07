@@ -1,26 +1,32 @@
 package pages
 
 import (
+	"app/internal/public/components"
+	"app/internal/public/views/home"
+	"app/internal/utils"
 	"fmt"
-	"html/template"
+	"net/http"
+
 	"github.com/labstack/echo/v4"
 )
 
 func homePage (c echo.Context) error {
-	fmt.Println("Got a GET request")
-	temp, e := template.ParseFiles("./public/index.html")
-	if e != nil {
-		fmt.Println("Error parsing template")
-		fmt.Println(e)
-		return e
+	err := utils.RenderPages(c, http.StatusOK, hometempl.Home())
+	if err != nil {
+		return err
 	}
-	tmpl := template.Must(temp, e)
-	return tmpl.Execute(c.Response().Writer, nil)
+	// Check if user is logged in	
+	return nil
+}
+
+func test(c echo.Context) error {
+	return utils.RenderPages(c, http.StatusOK, components.Testing("Test")) 
 }
 
 func AddPagesRoutes(e *echo.Echo) {
 	fmt.Println("Adding pages routes")
 
 	e.GET("/", homePage)
+	e.GET("/test", test)
 
 }

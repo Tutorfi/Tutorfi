@@ -1,0 +1,2 @@
+cd ../../
+templ generate

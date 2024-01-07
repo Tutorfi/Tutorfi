@@ -4,7 +4,6 @@
 
 # Frontend
 node_modules
-package-lock.json # Makes sure people don't use npm install
 
 # Binaries for programs and plugins
 *.exe
@@ -12,7 +11,7 @@ package-lock.json # Makes sure people don't use npm install
 *.dll
 *.so
 *.dylib
-
+*_templ.go
 # Test binary, built with `go test -c`
 *.test
 
