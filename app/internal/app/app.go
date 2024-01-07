@@ -32,6 +32,9 @@ func (a *App) Start(e *echo.Echo ) error {
 	e.GET("/schedule/date", schedulerFunctions.Schedule)
 	e.POST("/create-account/create", accountFunctions.CreateAccount)
 	
+	e.Static("/css", "/app/internal/public/css")
+	e.Static("/js", "/app/internal/public/js")
 	e.Use(middleware.CORS(),middleware.Logger(), middleware.Recover())
+	e.Use(middleware.GzipWithConfig(middleware.GzipConfig{ Level: 6 }))
 	return e.Start(a.listenAddr)
 }
