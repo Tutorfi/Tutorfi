@@ -22,9 +22,9 @@ func NewApp(listenAddr string, store storage.Storage) *App {
 	}
 }
 
-func (a *App) Start(e *echo.Echo ) error {
+func (a *App) Start(e *echo.Echo ) error {	
 	pages.AddPagesRoutes(e)
-	
+
 	accountFunctions := accounthandler.New(a.store)
 	schedulerFunctions := schedulerhandler.New(a.store)
 	
@@ -32,6 +32,6 @@ func (a *App) Start(e *echo.Echo ) error {
 	e.GET("/schedule/date", schedulerFunctions.Schedule)
 	e.POST("/create-account/create", accountFunctions.CreateAccount)
 	
-	e.Use(middleware.CORS())
+	e.Use(middleware.CORS(),middleware.Logger(), middleware.Recover())
 	return e.Start(a.listenAddr)
 }
