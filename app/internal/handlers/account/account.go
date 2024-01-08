@@ -14,6 +14,7 @@ import (
 	"unicode/utf8"
 	"time"
 	"database/sql"
+	"strconv"
 )
 
 type AccountHandler struct {
@@ -59,7 +60,16 @@ func (handle *AccountHandler) CreateAccount(c echo.Context) error {
 	fmt.Println("account created successfully")
 	return c.Redirect(http.StatusFound, "<URL>")
 }
-
+func createCookie(id string) *http.Cookie{
+	var cookie = new(http.Cookie)
+	cookie.Name = "UUID"
+	cookie.Value = id
+	cookie.Expires = time.Now().Add(24 * time.Hour)
+	cookie.HttpOnly = true
+	cookie.Secure = true
+	cookie.Path = "/"
+	return cookie
+}
 func (handle *AccountHandler) Verification(c echo.Context) error {
 	// Pull the data from the request
 	email := c.FormValue("email")
@@ -78,11 +88,9 @@ func (handle *AccountHandler) Verification(c echo.Context) error {
 	hash := []byte(account.Password)
 	matched := bcrypt.CompareHashAndPassword(hash, []byte(password))
 	if matched == nil {
-		cookie := new(http.Cookie)
-		cookie.Name = "UUID"
-		cookie.Value = string(account.ID)
-		cookie.Expires = time.Now().Add(24 * time.Hour)
+		cookie := createCookie(strconv.Itoa(int(account.ID)))//For some reason we need to cast the int to an int
     	c.SetCookie(cookie)
+		fmt.Println(account.ID)
 		fmt.Println("login successful")
 		fmt.Println(c.Cookies())
 		
