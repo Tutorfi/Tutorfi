@@ -8,5 +8,8 @@ type Account struct {
 	Email string
 	Password string
 }
-
-
+/*
+func (a *Account) verify (bool, error){
+	
+}
+*/

@@ -16,17 +16,23 @@ func homePage (c echo.Context) error {
 		return err
 	}
 	// Check if user is logged in	
+	if len(c.Cookies()) == 0{
+		fmt.Println(c.Cookies())
+		fmt.Println("No cookies found")
+	}
 	return nil
 }
 
 func test(c echo.Context) error {
 	return utils.RenderPages(c, http.StatusOK, components.Testing("Test")) 
 }
-
 func AddPagesRoutes(e *echo.Echo) {
 	fmt.Println("Adding pages routes")
 
 	e.GET("/", homePage)
+	e.GET("/sign-in", signIn)
+	e.GET("/login", login)
+	e.GET("/create-account", createAccount)
 	e.GET("/test", test)
 
 }
