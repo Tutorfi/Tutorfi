@@ -86,7 +86,7 @@ func (handle *AccountHandler) Verification(c echo.Context) error {
 		fmt.Println("login successful")
 		fmt.Println(c.Cookies())
 		
-		err := c.Redirect(http.StatusFound, "/")
+		err := c.Redirect(http.StatusSeeOther, "/")
 		return err
 	}
 
