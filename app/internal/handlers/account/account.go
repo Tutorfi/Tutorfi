@@ -63,6 +63,7 @@ func (handle *AccountHandler) CreateAccount(c echo.Context) error {
 func (handle *AccountHandler) Verification(c echo.Context) error {
 	// Pull the data from the request
 	email := c.FormValue("email")
+	fmt.Println("Got a sign in request")
 	account, err := handle.store.GetAccount(email)
 	if err != nil {
 		fmt.Println("No account found")
@@ -79,11 +80,12 @@ func (handle *AccountHandler) Verification(c echo.Context) error {
 	if matched == nil {
 		cookie := new(http.Cookie)
 		cookie.Name = "UUID"
-		cookie.Value = "1"
+		cookie.Value = string(account.ID)
 		cookie.Expires = time.Now().Add(24 * time.Hour)
     	c.SetCookie(cookie)
-		fmt.Println(c.Cookies())
 		fmt.Println("login successful")
+		fmt.Println(c.Cookies())
+		
 		err := c.Redirect(http.StatusFound, "/")
 		return err
 	}

@@ -16,7 +16,7 @@ func homePage (c echo.Context) error {
 		return err
 	}
 	// Check if user is logged in	
-	if len(c.Cookies) == 0{
+	if len(c.Cookies()) == 0{
 		fmt.Println("No cookies found")
 	}
 	return nil
