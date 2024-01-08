@@ -1,19 +1,17 @@
 package pages
 
 import (
-	"fmt"
-	"html/template"
+	"app/internal/public/views/createAccount"
+	"app/internal/utils"
+	"net/http"
+
 	"github.com/labstack/echo/v4"
 )
 
 func createAccount (c echo.Context) error {
-	fmt.Println("Got a GET request")
-	temp, e := template.ParseFiles("./public/create-account.html")
-	if e != nil {
-		fmt.Println("Error parsing template")
-		fmt.Println(e)
-		return e
+	err := utils.RenderPages(c, http.StatusOK, createtempl.Create())
+	if err != nil {
+		return err
 	}
-	tmpl := template.Must(temp, e)
-	return tmpl.Execute(c.Response().Writer, nil)	
+	return nil
 }

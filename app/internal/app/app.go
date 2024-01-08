@@ -30,7 +30,7 @@ func (a *App) Start(e *echo.Echo ) error {
 	
 	e.POST("/login/verify", accountFunctions.Verification)
 	e.GET("/schedule/date", schedulerFunctions.Schedule)
-	e.POST("/create/create", accountFunctions.CreateAccount)
+	e.POST("/create-account/create", accountFunctions.CreateAccount)
 	
 	e.Static("/css", "/app/internal/public/css")
 	e.Static("/js", "/app/internal/public/js")
