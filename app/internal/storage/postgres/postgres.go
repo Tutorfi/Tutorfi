@@ -3,6 +3,8 @@ package storage
 import (
 	"app/internal/models"
 	"database/sql"
+
+	"github.com/google/uuid"
 	_ "github.com/lib/pq"
 )
 
@@ -18,7 +20,7 @@ func NewPostgresStorage(db *sql.DB) *PostgresStorage {
 
 func (s *PostgresStorage) GetAccount(email string) (*models.Account, error) {
 	var acc models.Account
-	err := s.db.QueryRow("SELECT id, fname, lname, email, password FROM account WHERE email = $1", email).Scan(&acc.ID, &acc.Firstname, &acc.Lastname, &acc.Email, &acc.Password)
+	err := s.db.QueryRow("SELECT id, altid, fname, lname, email, password FROM account WHERE email = $1", email).Scan(&acc.ID, &acc.AltID, &acc.Firstname, &acc.Lastname, &acc.Email, &acc.Password)
 	if err == sql.ErrNoRows{
 		return nil, err
 	}
@@ -26,7 +28,7 @@ func (s *PostgresStorage) GetAccount(email string) (*models.Account, error) {
 }
 //Insert a new account into the database, returning the account that was just created
 func (s *PostgresStorage) CreateAccount(fname, lname, email, password string) (error){
-	_, err := s.db.Exec("INSERT INTO account VALUES (0, $1, $2, $3, $4)", fname, lname, email, password)
+	_, err := s.db.Exec("INSERT INTO account VALUES ($1, $2, $3, $4, $5)",uuid.NewString(), fname, lname, email, password)
 	return err
 }
 
