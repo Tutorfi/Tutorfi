@@ -70,39 +70,30 @@ func createCookie(altid string) *http.Cookie{
 	return cookie
 }
 func (handle *AccountHandler) Verification(c echo.Context) error {
-	// Pull the data from the request
 	email := c.FormValue("email")
-	fmt.Println("Got a sign in request")
-	account, err := handle.store.GetAccount(email)
-	if err != nil {
-		fmt.Println("No account found")
-		fmt.Println(err)
-		return err
-	}
-
-	
-	// Check if the account password matches the hashed password
-	
 	password := c.FormValue("password")
-	hash := []byte(account.Password)
-	matched := bcrypt.CompareHashAndPassword(hash, []byte(password))
-	if matched == nil {
-		cookie := createCookie(account.AltID)//For some reason we need to cast the int to an int
-    	c.SetCookie(cookie)
-		fmt.Println(account.ID)
-		fmt.Println("login successful")
-		fmt.Println(c.Cookies())
-		
+	fmt.Println("Login request")
+	account, err := handle.store.GetAccount(email)
+	if err != nil{
+		fmt.Println("No account found")
+		return c.String(http.StatusForbidden, "Could not find account")
+	}
+	hash := []byte (account.Password)
+	if bcrypt.CompareHashAndPassword(hash, []byte (password)) == nil{
+		cookie := createCookie(account.ID)
+		c.SetCookie(cookie)
 		err := c.Redirect(http.StatusSeeOther, "/")
 		return err
 	}
-
-	htmlstr := "Incorrect Username or Password"
-	tmpl, err := template.New("t").Parse(htmlstr)
-	if err != nil {
-		fmt.Println(err)
-		return err
+	return c.String(http.StatusForbidden, "Invalid username or password")
+	/*
+	err := model.verify(email, password, hash)
+	if err != nil{
+		return c.String(http.StatusForbidden, "Invalid email or password")
 	}
-
-	return tmpl.Execute(c.Response().Writer, nil)
+	cookie := model.createCookie(account.ID)
+	c.SetCookie(cookie)
+	err := c.Redirect(http.StatusSeeOther, "/")
+	return err
+	*/
 }
