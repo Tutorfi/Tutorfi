@@ -6,7 +6,6 @@ package accounthandler
 import (
 	"app/internal/storage"
 	"fmt"
-	"html/template"
 	"net/http"
 
 	"github.com/labstack/echo/v4"

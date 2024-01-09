@@ -6,7 +6,7 @@ templ Login() {
     @templates.Base() {
         <div>
             <h1> Sign in</h1>
-            <form action="/login/verify" method="post">
+            <form hx-post="/login/verify" hx-push-url="true">
                 <label for="email">Email</label>
                 <input type="text" name="email" />
                 <label for="password">Password</label>

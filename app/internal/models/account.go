@@ -3,7 +3,7 @@ package models
 
 type Account struct {
 	ID string
-	AltID string
+	SessionID string
 	Firstname string
 	Lastname string
 	Email string
