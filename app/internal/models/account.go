@@ -2,7 +2,8 @@ package models
 
 
 type Account struct {
-	ID int64
+	ID string
+	AltID string
 	Firstname string
 	Lastname string
 	Email string

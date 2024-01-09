@@ -4,6 +4,7 @@ import (
 	"app/internal/app"
 	"app/internal/storage/postgres"
 	"app/internal/utils"
+	"flag"
 	"fmt"
 	"os"
 
@@ -23,8 +24,17 @@ func main() {
 	if err != nil {
 		fmt.Println(err)
 	}
+	postgresStorage := storage.NewPostgresStorage(db)
 
-	server := app.NewApp("0.0.0.0:8000",storage.NewPostgresStorage(db)) 
+	build := flag.Bool("build", false, "ReBuild the database")
+	if *build {
+		fmt.Println("Building database")
+		postgresStorage.BuildDevDB()
+		return;
+	}
+
+	postgresStorage.BuildDevDB()
+	server := app.NewApp("0.0.0.0:8000",postgresStorage) 
 	err = server.Start(e)
 
 	e.Logger.Fatal(err)
