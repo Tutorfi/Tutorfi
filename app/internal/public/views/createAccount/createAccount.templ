@@ -3,20 +3,20 @@ package createtempl
 import "app/internal/public/templates"
 
 templ Create() {
-    @templates.Base() {
-        <div>
-            <h1> Create Account </h1>
-            <form hx-post="/create-account/create">
-                <label for="fname">First Name</label>
-                <input type="text" name="fname" />
-                <label for="lname">Last Name</label>
-                <input type="text" name="lname" />
-                <label for="email">Email</label>
-                <input type="text" name="email" />
-                <label for="password">Password</label>
-                <input type="text" name="password" />
-                <button type="submit">Submit</button>
-            </form>
-        </div>
-    }
+	@templates.Base() {
+		<div>
+			<h1>Create Account </h1>
+			<form hx-post="/create-account/create">
+				<label for="fname">First Name</label>
+				<input type="text" name="fname"/>
+				<label for="lname">Last Name</label>
+				<input type="text" name="lname"/>
+				<label for="email">Email</label>
+				<input type="text" name="email"/>
+				<label for="password">Password</label>
+				<input type="text" name="password"/>
+				<button type="submit">Submit</button>
+			</form>
+		</div>
+	}
 }
