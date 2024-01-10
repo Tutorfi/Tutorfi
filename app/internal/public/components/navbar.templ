@@ -1,11 +1,42 @@
 package components
 
-templ CreateNavbar() {
-	<div class = "navbar">
-        <img class = "logo">
+css removeStyles(){
+    all: unset;
+}
+
+css header(){
+    background-color: #f00;
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+}
+
+css buttons(){
+    display: flex;
+    gap: 10px;
+}
+
+//templ.KV("darkmode", isDarkmode)
+
+templ HeaderNotLogginedIn() {
+    <div class={header()}>
+      <img />
+      <div class={buttons()}>
         <button>Subscriptions</button>
         <button>About</button>
         <button>Log in</button>
         <button>Sign up</button>
+      </div>
+    </div>
+}
+
+templ HeaderLoggedIn(){
+    <div class={header()}>
+      <img />
+      <div class={buttons()}>
+        <button>Subscriptions</button>
+        <button>About</button>
+        <button>Profile</button>
+      </div>
     </div>
 }

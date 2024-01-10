@@ -1,10 +1,13 @@
 package hometempl
 
 import "app/internal/public/templates"
+import "app/internal/public/components"
+
 
 templ Home() {
 	@templates.Base() {
 		<div>
+			@components.HeaderNotLogginedIn()
 			<h1>Home</h1>
 			<p>Home page</p>
             <a href="/login"><button>Login</button></a>
