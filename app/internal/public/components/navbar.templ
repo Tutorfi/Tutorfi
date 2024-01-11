@@ -1,31 +1,55 @@
 package components
 
-css removeStyles(){
+var faintGray = "#f8f5f0"
+var darkGray = "#555454"
+var tan = "#bd9c81"
+
+css noStyle(){
     all: unset;
 }
 
 css header(){
-    background-color: #f00;
     display: flex;
     justify-content: space-between;
-    padding: 20px;
+    padding: 10px;
+    font-weight: 500;
+    background-color: {faintGray};
 }
 
 css buttons(){
     display: flex;
-    gap: 10px;
+    gap: 15px;
+    color: {darkGray};
 }
+
 
 //templ.KV("darkmode", isDarkmode)
 
 templ HeaderNotLogginedIn() {
+    <style>
+      button{
+        all: unset;
+        padding: 10px;
+      }
+      button:hover{
+        color: #dbcdcc;
+      }
+      .sign-up{
+        background-color: #dbcdcc;
+        border-radius: 4px;
+      }
+      .sign-up:hover{
+        background-color: #bd9c81;
+        border-radius: 4px;
+      }
+    </style>
     <div class={header()}>
-      <img />
+      <img alt="Logo"/>
       <div class={buttons()}>
-        <button>Subscriptions</button>
-        <button>About</button>
-        <button>Log in</button>
-        <button>Sign up</button>
+        <button class={noStyle()}>Subscriptions</button>
+        <button class={noStyle()}>About</button>
+        <button class={noStyle()}>Log in</button>
+        <button class="sign-up">Sign up</button>
       </div>
     </div>
 }
@@ -34,9 +58,9 @@ templ HeaderLoggedIn(){
     <div class={header()}>
       <img />
       <div class={buttons()}>
-        <button>Subscriptions</button>
-        <button>About</button>
-        <button>Profile</button>
+        <button class={noStyle()}>Subscriptions</button>
+        <button class={noStyle()}>About</button>
+        <button class={noStyle()}>Profile</button>
       </div>
     </div>
 }
