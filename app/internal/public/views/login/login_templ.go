@@ -40,7 +40,7 @@ func Login() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</h1><h4 id=\"loginerror\"></h4><form hx-post=\"/login/verify\" hx-target=\"#loginerror\"><label for=\"email\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</h1><div id=\"login-error\"></div><form hx-post=\"/login/verify\" hx-target=\"#login-error\"><label for=\"email\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

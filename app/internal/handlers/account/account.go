@@ -32,13 +32,13 @@ func (handle *AccountHandler) CreateAccount(c echo.Context) error {
 	if err != sql.ErrNoRows{
 		fmt.Println("Account already exists")
 		fmt.Println(err)
-		return err
+		return c.String(http.StatusOK, "Account already exists")
 	}
 	//Check and hash the password
 	password := c.FormValue("password")
 	if utf8.RuneCountInString(password) < 8{
 		fmt.Println("Password too short")
-		return c.String(http.StatusForbidden, "Invalid Password")
+		return c.String(http.StatusOK, "Invalid Password")
 	}
 	//In the future we may need a restriction on passwords too long
 	//Create a new account
@@ -47,16 +47,17 @@ func (handle *AccountHandler) CreateAccount(c echo.Context) error {
 	if err != nil{
 		fmt.Println("password hasing failed")
 		fmt.Println(err)
-		return nil
+		return c.String(http.StatusOK, "Invalid Password")
 	}
 	
 	err = handle.store.CreateAccount(c.FormValue("fname"), c.FormValue("lname"), email, string(hash))
 	if err != nil{
 		fmt.Println(err)
-		return c.String(http.StatusForbidden, "Account creation error")
+		return c.String(http.StatusOK, "Unknown Account creation error")
 	}
 	fmt.Println("account created successfully")
-	return c.Redirect(http.StatusFound, "/login")
+	c.Response().Header().Set("HX-Redirect", "/login")
+	return c.String(http.StatusCreated, "Created account")
 }
 func createCookie(altid string) *http.Cookie{
 	var cookie = new(http.Cookie)
@@ -76,16 +77,15 @@ func (handle *AccountHandler) Verification(c echo.Context) error {
 	if err != nil{
 		fmt.Println(err)
 		fmt.Println("No account found")
-		return c.String(http.StatusForbidden, "Could not find account")
+		return c.String(http.StatusOK, "Could not find account")
 	}
 	hash := []byte (account.Password)
 	if bcrypt.CompareHashAndPassword(hash, []byte (password)) == nil{
 		cookie := createCookie(account.ID)
 		c.SetCookie(cookie)
 		c.Response().Header().Set("HX-Redirect", "/")
-		fmt.Println(c.Response().Header())
 		return c.String(http.StatusOK, "Logged in")
 	}
 	fmt.Println("login failed")
-	return c.String(http.StatusForbidden, "Invalid username or password")
+	return c.String(http.StatusOK, "Invalid username or password")
 }

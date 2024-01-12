@@ -6,8 +6,8 @@ templ Login() {
     @templates.Base() {
         <div>
             <h1> Sign in</h1>
-            <h4 id="loginerror"> </h4>
-            <form hx-post="/login/verify" hx-target="#loginerror">
+            <div id="login-error"></div>
+            <form hx-post="/login/verify" hx-target="#login-error">
                 <label for="email">Email</label>
                 <input type="text" name="email" />
                 <label for="password">Password</label>
