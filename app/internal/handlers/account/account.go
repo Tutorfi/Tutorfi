@@ -56,7 +56,7 @@ func (handle *AccountHandler) CreateAccount(c echo.Context) error {
 		return c.String(http.StatusForbidden, "Account creation error")
 	}
 	fmt.Println("account created successfully")
-	return c.Redirect(http.StatusFound, "<URL>")
+	return c.Redirect(http.StatusFound, "/login")
 }
 func createCookie(altid string) *http.Cookie{
 	var cookie = new(http.Cookie)
@@ -74,6 +74,7 @@ func (handle *AccountHandler) Verification(c echo.Context) error {
 	fmt.Println("Login request")
 	account, err := handle.store.GetAccount(email)
 	if err != nil{
+		fmt.Println(err)
 		fmt.Println("No account found")
 		return c.String(http.StatusForbidden, "Could not find account")
 	}
@@ -81,18 +82,10 @@ func (handle *AccountHandler) Verification(c echo.Context) error {
 	if bcrypt.CompareHashAndPassword(hash, []byte (password)) == nil{
 		cookie := createCookie(account.ID)
 		c.SetCookie(cookie)
-		err := c.Redirect(http.StatusSeeOther, "/")
-		return err
+		c.Response().Header().Set("HX-Redirect", "/")
+		fmt.Println(c.Response().Header())
+		return c.String(http.StatusOK, "Logged in")
 	}
+	fmt.Println("login failed")
 	return c.String(http.StatusForbidden, "Invalid username or password")
-	/*
-	err := model.verify(email, password, hash)
-	if err != nil{
-		return c.String(http.StatusForbidden, "Invalid email or password")
-	}
-	cookie := model.createCookie(account.ID)
-	c.SetCookie(cookie)
-	err := c.Redirect(http.StatusSeeOther, "/")
-	return err
-	*/
 }

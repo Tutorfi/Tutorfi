@@ -3,14 +3,14 @@ package models
 
 type Account struct {
 	ID string
-	SessionID string
+	SessionID *string
 	Firstname string
 	Lastname string
 	Email string
 	Password string
 }
 
-func (a *Account) verify (bool, error){
-	
+func (a *Account) verify () error{
+	return nil
 }
 

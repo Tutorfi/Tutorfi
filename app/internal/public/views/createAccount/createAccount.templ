@@ -6,7 +6,7 @@ templ Create() {
     @templates.Base() {
         <div>
             <h1> Create Account </h1>
-            <form hx-post="/create-account/create" hx-push-url="true">
+            <form hx-post="/create-account/create" hx-push-url="true" hx-swap="outerHTML">
                 <label for="fname">First Name</label>
                 <input type="text" name="fname" />
                 <label for="lname">Last Name</label>
