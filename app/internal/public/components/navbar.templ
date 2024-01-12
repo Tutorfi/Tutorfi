@@ -4,6 +4,11 @@ var faintGray = "#f8f5f0"
 var darkGray = "#555454"
 var tan = "#bd9c81"
 
+var candyAppleRed = "#ff0800"
+var canaryYellow = "#ffef00"
+var carolinaBlue = "#99badd"
+var lemonYellow = "#fff44f"
+
 css noStyle(){
     all: unset;
 }
@@ -17,6 +22,7 @@ css header(){
 }
 
 css buttons(){
+    padding: 10px;
     display: flex;
     gap: 15px;
     color: {darkGray};
@@ -25,21 +31,24 @@ css buttons(){
 
 //templ.KV("darkmode", isDarkmode)
 
-templ HeaderNotLogginedIn() {
+templ HeaderNotLoggedIn() {
     <style>
       button{
         all: unset;
         padding: 10px;
       }
       button:hover{
-        color: #dbcdcc;
+        color: #99badd;
       }
       .sign-up{
-        background-color: #dbcdcc;
+        background-color: #99badd;
         border-radius: 4px;
+        color: white;
       }
       .sign-up:hover{
-        background-color: #bd9c81;
+        background-color: #99badd;
+        color: white;
+        filter: brightness(90%);
         border-radius: 4px;
       }
     </style>
@@ -49,18 +58,38 @@ templ HeaderNotLogginedIn() {
         <button class={noStyle()}>Subscriptions</button>
         <button class={noStyle()}>About</button>
         <button class={noStyle()}>Log in</button>
-        <button class="sign-up">Sign up</button>
+        <button class="sign-up">Create an account</button>
       </div>
     </div>
 }
 
 templ HeaderLoggedIn(){
+  <style>
+      button{
+        all: unset;
+        padding: 10px;
+      }
+      button:hover{
+        color: #99badd;
+      }
+      .sign-up{
+        background-color: #99badd;
+        border-radius: 4px;
+        color: white;
+      }
+      .sign-up:hover{
+        background-color: #99badd;
+        color: white;
+        filter: brightness(90%);
+        border-radius: 4px;
+      }
+    </style>
     <div class={header()}>
       <img />
       <div class={buttons()}>
         <button class={noStyle()}>Subscriptions</button>
         <button class={noStyle()}>About</button>
-        <button class={noStyle()}>Profile</button>
+        <button class={noStyle(), "sign-up"}>Profile</button>
       </div>
     </div>
 }
