@@ -86,7 +86,12 @@ func (handle *AccountHandler) Verification(c echo.Context) error {
 		sessionid := uuid.New()
 		cookie := createCookie(sessionid.String())
 		c.SetCookie(cookie)
-		handle.store.SetSessionID(email, sessionid.String())
+		err := handle.store.SetSessionID(email, sessionid.String())
+		if err != nil{
+			fmt.Println("cookie error")
+			fmt.Println(err)
+			return c.String(http.StatusOK, "Invalid session id, please try again")
+		}
 		c.Response().Header().Set("HX-Redirect", "/")
 		return c.String(http.StatusOK, "Logged in")
 	}
