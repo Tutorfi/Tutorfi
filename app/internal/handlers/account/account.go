@@ -82,6 +82,7 @@ func (handle *AccountHandler) Verification(c echo.Context) error {
 	}
 	hash := []byte (account.Password)
 	if bcrypt.CompareHashAndPassword(hash, []byte (password)) == nil{
+		//Create a new session id, set this session id in the database and make a cookie for it
 		sessionid := uuid.New()
 		cookie := createCookie(sessionid.String())
 		c.SetCookie(cookie)
