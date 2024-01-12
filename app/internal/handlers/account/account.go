@@ -13,6 +13,7 @@ import (
 	"unicode/utf8"
 	"time"
 	"database/sql"
+	"github.com/google/uuid"
 )
 
 type AccountHandler struct {
@@ -59,10 +60,10 @@ func (handle *AccountHandler) CreateAccount(c echo.Context) error {
 	c.Response().Header().Set("HX-Redirect", "/login")
 	return c.String(http.StatusCreated, "Created account")
 }
-func createCookie(altid string) *http.Cookie{
+func createCookie(sessionid string) *http.Cookie{
 	var cookie = new(http.Cookie)
 	cookie.Name = "UUID"
-	cookie.Value = altid
+	cookie.Value = sessionid
 	cookie.Expires = time.Now().Add(24 * time.Hour)
 	cookie.HttpOnly = true
 	cookie.Secure = true
@@ -81,8 +82,10 @@ func (handle *AccountHandler) Verification(c echo.Context) error {
 	}
 	hash := []byte (account.Password)
 	if bcrypt.CompareHashAndPassword(hash, []byte (password)) == nil{
-		cookie := createCookie(account.ID)
+		sessionid := uuid.New()
+		cookie := createCookie(sessionid.String())
 		c.SetCookie(cookie)
+		handle.store.SetSessionID(email, sessionid.String())
 		c.Response().Header().Set("HX-Redirect", "/")
 		return c.String(http.StatusOK, "Logged in")
 	}

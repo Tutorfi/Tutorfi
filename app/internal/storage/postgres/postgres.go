@@ -3,7 +3,6 @@ package storage
 import (
 	"app/internal/models"
 	"database/sql"
-
 	_ "github.com/lib/pq"
 )
 
@@ -35,4 +34,9 @@ func (s *PostgresStorage) GetPassword(email string) (string, error) {
 	var password string
 	err := s.db.QueryRow("SELECT password FROM account WHERE email = $1", email).Scan(password)
 	return password, err
+}
+
+func (s *PostgresStorage) SetSessionID(email string, sessionid string) (error){
+	_, err := s.db.Exec("UPDATE account SET sessionid = $1 WHERE email = $2", sessionid, email)
+	return err
 }
