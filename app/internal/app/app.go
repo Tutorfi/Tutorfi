@@ -34,7 +34,7 @@ func (a *App) Start(e *echo.Echo ) error {
 	
 	e.Static("/css", "/app/internal/public/css")
 	e.Static("/js", "/app/internal/public/js")
-	e.Use(middleware.CORS(), middleware.Recover())
+	e.Use(middleware.CORS(), middleware.Logger(), middleware.Recover())
 	e.Use(middleware.GzipWithConfig(middleware.GzipConfig{ Level: 6 }))
 	return e.Start(a.listenAddr)
 }

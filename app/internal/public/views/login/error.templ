@@ -1,0 +1,11 @@
+package logintempl
+
+import "app/internal/public/templates"
+
+templ Error() {
+    @templates.Base(err string) {//Maybe in the future change to an error type instead
+        <div>
+            <p class="error-text">{err}</p>
+        </div>
+    }
+}
