@@ -7,13 +7,15 @@ import (
 	"app/internal/storage"
 	"fmt"
 	"net/http"
-
 	"github.com/labstack/echo/v4"
 	"golang.org/x/crypto/bcrypt"
 	"unicode/utf8"
 	"time"
 	"database/sql"
 	"github.com/google/uuid"
+	"app/internal/public/views/login"
+	"app/internal/utils"
+	"github.com/asaskevich/govalidator"
 )
 
 type AccountHandler struct {
@@ -25,21 +27,26 @@ func New(store storage.Storage) *AccountHandler {
 		store: store,
 	}
 }
-
 func (handle *AccountHandler) CreateAccount(c echo.Context) error {
 	//Get and check the email to see if the account exists
 	email := c.FormValue("email")
 	_, err := handle.store.GetAccount(email)
+
 	if err != sql.ErrNoRows{
 		fmt.Println("Account already exists")
 		fmt.Println(err)
-		return c.String(http.StatusOK, "Account already exists")
+		return utils.RenderComponents(c, 200, logintempl.Error("Email currently registered"), nil)
+	}
+	if !govalidator.IsEmail(email){
+		fmt.Println("Invalid email")
+		fmt.Println(err)
+		return utils.RenderComponents(c, 200, logintempl.Error("Invalid Email"), nil)
 	}
 	//Check and hash the password
 	password := c.FormValue("password")
 	if utf8.RuneCountInString(password) < 8{
 		fmt.Println("Password too short")
-		return c.String(http.StatusOK, "Invalid Password")
+		return utils.RenderComponents(c, 200, logintempl.Error("Invalid password"), nil)
 	}
 	//In the future we may need a restriction on passwords too long
 	//Create a new account
@@ -48,17 +55,17 @@ func (handle *AccountHandler) CreateAccount(c echo.Context) error {
 	if err != nil{
 		fmt.Println("password hasing failed")
 		fmt.Println(err)
-		return c.String(http.StatusOK, "Invalid Password")
+		return utils.RenderComponents(c, 200, logintempl.Error("Invalid password"), nil)
 	}
 	
 	err = handle.store.CreateAccount(c.FormValue("fname"), c.FormValue("lname"), email, string(hash))
 	if err != nil{
 		fmt.Println(err)
-		return c.String(http.StatusOK, "Unknown Account creation error")
+		return utils.RenderComponents(c, 200, logintempl.Error("Unkown creation error"), nil)
 	}
 	fmt.Println("account created successfully")
 	c.Response().Header().Set("HX-Redirect", "/login")
-	return c.String(http.StatusCreated, "Created account")
+	return utils.RenderComponents(c, 201, logintempl.Error("Account Created"), nil)
 }
 func createCookie(sessionid string) *http.Cookie{
 	var cookie = new(http.Cookie)
@@ -78,7 +85,7 @@ func (handle *AccountHandler) Verification(c echo.Context) error {
 	if err != nil{
 		fmt.Println(err)
 		fmt.Println("No account found")
-		return c.String(http.StatusOK, "Could not find account")
+		return utils.RenderComponents(c, 200, logintempl.Error("Invalid email or password"), nil)
 	}
 	hash := []byte (account.Password)
 	if bcrypt.CompareHashAndPassword(hash, []byte (password)) == nil{
@@ -90,11 +97,11 @@ func (handle *AccountHandler) Verification(c echo.Context) error {
 		if err != nil{
 			fmt.Println("cookie error")
 			fmt.Println(err)
-			return c.String(http.StatusOK, "Invalid session id, please try again")
+			return utils.RenderComponents(c, 200, logintempl.Error("Unknown error, please try again"), nil)
 		}
 		c.Response().Header().Set("HX-Redirect", "/")
-		return c.String(http.StatusOK, "Logged in")
+		return utils.RenderComponents(c, 200, logintempl.Error("Logging in"), nil)
 	}
 	fmt.Println("login failed")
-	return c.String(http.StatusOK, "Invalid username or password")
+	return utils.RenderComponents(c, 200, logintempl.Error("Invalid email or password"), nil)
 }
