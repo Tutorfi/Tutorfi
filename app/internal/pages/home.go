@@ -30,7 +30,6 @@ func AddPagesRoutes(e *echo.Echo) {
 	fmt.Println("Adding pages routes")
 
 	e.GET("/", homePage)
-	e.GET("/sign-in", signIn)
 	e.GET("/login", login)
 	e.GET("/create-account", createAccount)
 	e.GET("/test", test)

@@ -6,14 +6,16 @@ package accounthandler
 import (
 	"app/internal/storage"
 	"fmt"
-	"html/template"
 	"net/http"
-
 	"github.com/labstack/echo/v4"
 	"golang.org/x/crypto/bcrypt"
 	"unicode/utf8"
 	"time"
 	"database/sql"
+	"github.com/google/uuid"
+	"app/internal/public/views/login"
+	"app/internal/utils"
+	"github.com/asaskevich/govalidator"
 )
 
 type AccountHandler struct {
@@ -25,21 +27,26 @@ func New(store storage.Storage) *AccountHandler {
 		store: store,
 	}
 }
-
 func (handle *AccountHandler) CreateAccount(c echo.Context) error {
 	//Get and check the email to see if the account exists
 	email := c.FormValue("email")
 	_, err := handle.store.GetAccount(email)
+
 	if err != sql.ErrNoRows{
 		fmt.Println("Account already exists")
 		fmt.Println(err)
-		return err
+		return utils.RenderComponents(c, 200, logintempl.Error("Email currently registered"), nil)
+	}
+	if !govalidator.IsEmail(email){
+		fmt.Println("Invalid email")
+		fmt.Println(err)
+		return utils.RenderComponents(c, 200, logintempl.Error("Invalid Email"), nil)
 	}
 	//Check and hash the password
 	password := c.FormValue("password")
 	if utf8.RuneCountInString(password) < 8{
 		fmt.Println("Password too short")
-		return c.String(http.StatusForbidden, "Invalid Password")
+		return utils.RenderComponents(c, 200, logintempl.Error("Invalid password"), nil)
 	}
 	//In the future we may need a restriction on passwords too long
 	//Create a new account
@@ -48,21 +55,22 @@ func (handle *AccountHandler) CreateAccount(c echo.Context) error {
 	if err != nil{
 		fmt.Println("password hasing failed")
 		fmt.Println(err)
-		return nil
+		return utils.RenderComponents(c, 200, logintempl.Error("Invalid password"), nil)
 	}
 	
 	err = handle.store.CreateAccount(c.FormValue("fname"), c.FormValue("lname"), email, string(hash))
 	if err != nil{
 		fmt.Println(err)
-		return c.String(http.StatusForbidden, "Account creation error")
+		return utils.RenderComponents(c, 200, logintempl.Error("Unkown creation error"), nil)
 	}
 	fmt.Println("account created successfully")
-	return c.Redirect(http.StatusFound, "<URL>")
+	c.Response().Header().Set("HX-Redirect", "/login")
+	return utils.RenderComponents(c, 201, logintempl.Error("Account Created"), nil)
 }
-func createCookie(altid string) *http.Cookie{
+func createCookie(sessionid string) *http.Cookie{
 	var cookie = new(http.Cookie)
 	cookie.Name = "UUID"
-	cookie.Value = altid
+	cookie.Value = sessionid
 	cookie.Expires = time.Now().Add(24 * time.Hour)
 	cookie.HttpOnly = true
 	cookie.Secure = true
@@ -70,39 +78,30 @@ func createCookie(altid string) *http.Cookie{
 	return cookie
 }
 func (handle *AccountHandler) Verification(c echo.Context) error {
-	// Pull the data from the request
 	email := c.FormValue("email")
-	fmt.Println("Got a sign in request")
-	account, err := handle.store.GetAccount(email)
-	if err != nil {
-		fmt.Println("No account found")
-		fmt.Println(err)
-		return err
-	}
-
-	
-	// Check if the account password matches the hashed password
-	
 	password := c.FormValue("password")
-	hash := []byte(account.Password)
-	matched := bcrypt.CompareHashAndPassword(hash, []byte(password))
-	if matched == nil {
-		cookie := createCookie(account.AltID)//For some reason we need to cast the int to an int
-    	c.SetCookie(cookie)
-		fmt.Println(account.ID)
-		fmt.Println("login successful")
-		fmt.Println(c.Cookies())
-		
-		err := c.Redirect(http.StatusSeeOther, "/")
-		return err
-	}
-
-	htmlstr := "Incorrect Username or Password"
-	tmpl, err := template.New("t").Parse(htmlstr)
-	if err != nil {
+	fmt.Println("Login request")
+	account, err := handle.store.GetAccount(email)
+	if err != nil{
 		fmt.Println(err)
-		return err
+		fmt.Println("No account found")
+		return utils.RenderComponents(c, 200, logintempl.Error("Invalid email or password"), nil)
 	}
-
-	return tmpl.Execute(c.Response().Writer, nil)
+	hash := []byte (account.Password)
+	if bcrypt.CompareHashAndPassword(hash, []byte (password)) == nil{
+		//Create a new session id, set this session id in the database and make a cookie for it
+		sessionid := uuid.New()
+		cookie := createCookie(sessionid.String())
+		c.SetCookie(cookie)
+		err := handle.store.SetSessionID(email, sessionid.String())
+		if err != nil{
+			fmt.Println("cookie error")
+			fmt.Println(err)
+			return utils.RenderComponents(c, 200, logintempl.Error("Unknown error, please try again"), nil)
+		}
+		c.Response().Header().Set("HX-Redirect", "/")
+		return utils.RenderComponents(c, 200, logintempl.Error("Logging in"), nil)
+	}
+	fmt.Println("login failed")
+	return utils.RenderComponents(c, 200, logintempl.Error("Invalid email or password"), nil)
 }

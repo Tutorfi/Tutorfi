@@ -13,6 +13,7 @@ require (
 	github.com/a-h/parse v0.0.0-20230402144745-e6c8bc86e846 // indirect
 	github.com/a-h/protocol v0.0.0-20230224160810-b4eec67c1c22 // indirect
 	github.com/a-h/templ v0.2.513 // indirect
+	github.com/asaskevich/govalidator v0.0.0-20230301143203-a9d515a09cc2 // indirect
 	github.com/cenkalti/backoff/v4 v4.2.1 // indirect
 	github.com/cli/browser v1.2.0 // indirect
 	github.com/fatih/color v1.16.0 // indirect
