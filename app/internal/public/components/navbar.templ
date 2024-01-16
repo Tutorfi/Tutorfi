@@ -9,8 +9,9 @@ var canaryYellow = "#ffef00"
 var carolinaBlue = "#99badd"
 var lemonYellow = "#fff44f"
 
-css noStyle(){
+css buttonStyle(){
     all: unset;
+    padding: 10px;
 }
 
 css header(){
@@ -22,7 +23,6 @@ css header(){
 }
 
 css buttons(){
-    padding: 10px;
     display: flex;
     gap: 15px;
     color: {darkGray};
@@ -33,11 +33,8 @@ css buttons(){
 
 templ HeaderNotLoggedIn() {
     <style>
-      button{
-        all: unset;
-        padding: 10px;
-      }
-      button:hover{
+      .navbarButton{}
+      .navbarButton:hover{
         color: #99badd;
       }
       .sign-up{
@@ -55,21 +52,18 @@ templ HeaderNotLoggedIn() {
     <div class={header()}>
       <img alt="Logo"/>
       <div class={buttons()}>
-        <button class={noStyle()}>Subscriptions</button>
-        <button class={noStyle()}>About</button>
-        <button class={noStyle()}>Log in</button>
-        <button class="sign-up">Create an account</button>
+        <button class={buttonStyle(), "navbarButton"}>Subscriptions</button>
+        <button class={buttonStyle(), "navbarButton"}>About</button>
+        <button class={buttonStyle(), "navbarButton"}>Log in</button>
+        <button class={buttonStyle(), "navbarButton","sign-up"}>Create an account</button>
       </div>
     </div>
 }
 
 templ HeaderLoggedIn(){
   <style>
-      button{
-        all: unset;
-        padding: 10px;
-      }
-      button:hover{
+      .navbarButton{}
+      .navbarButton:hover{
         color: #99badd;
       }
       .sign-up{
@@ -87,9 +81,9 @@ templ HeaderLoggedIn(){
     <div class={header()}>
       <img />
       <div class={buttons()}>
-        <button class={noStyle()}>Subscriptions</button>
-        <button class={noStyle()}>About</button>
-        <button class={noStyle(), "sign-up"}>Profile</button>
+        <button class={buttonStyle(),"navbarButton"}>Subscriptions</button>
+        <button class={buttonStyle(), "navbarButton"}>About</button>
+        <button class={buttonStyle(), "navbarButton", "sign-up"}>Profile</button>
       </div>
     </div>
 }
