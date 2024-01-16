@@ -24,6 +24,7 @@ func buttonStyle() templ.CSSClass {
 	var templ_7745c5c3_CSSBuilder strings.Builder
 	templ_7745c5c3_CSSBuilder.WriteString(`all:unset;`)
 	templ_7745c5c3_CSSBuilder.WriteString(`padding:10px;`)
+	templ_7745c5c3_CSSBuilder.WriteString(`cursor:pointer;`)
 	templ_7745c5c3_CSSID := templ.CSSID(`buttonStyle`, templ_7745c5c3_CSSBuilder.String())
 	return templ.ComponentCSSClass{
 		ID:    templ_7745c5c3_CSSID,
