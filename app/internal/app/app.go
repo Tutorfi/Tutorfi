@@ -1,8 +1,8 @@
 package app
 
 import (
-	"app/internal/handlers/account"
-	"app/internal/handlers/scheduler"
+	accounthandler "app/internal/handlers/account"
+	schedulerhandler "app/internal/handlers/scheduler"
 	"app/internal/pages"
 	"app/internal/storage"
 
@@ -31,7 +31,8 @@ func (a *App) Start(e *echo.Echo ) error {
 	e.POST("/login/verify", accountFunctions.Verification)
 	e.GET("/schedule/date", schedulerFunctions.Schedule)
 	e.POST("/create-account/create", accountFunctions.CreateAccount)
-	
+
+	e.Static("/assets", "/app/internal/public/assets/")
 	e.Static("/css", "/app/internal/public/css")
 	e.Static("/js", "/app/internal/public/js")
 	e.Use(middleware.CORS(),middleware.Logger(), middleware.Recover())

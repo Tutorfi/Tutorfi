@@ -1,0 +1,46 @@
+package components
+
+css footer(){
+    display: flex;
+    flex-direction: column;
+    background-color: #f8f5f0;
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
+
+css copyright(){
+    display: flex;
+    justify-content: center;
+    align-items:center;
+    color: black;
+}
+
+css footerButtons(){
+    color: black;
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+}
+
+css github(){
+  width: 15px;
+  height: 15px;
+  padding-left: 2px;
+  padding-right: 2px;
+}
+
+templ Footer() {
+    <style>
+      .buttons{}
+      .buttons:hover{
+        color: #99badd;
+      }
+    </style>
+    <div class={footer()}>
+      <div class={copyright()}>© 2024 Tutorfi<a href="https://github.com/Tutorfi/Tutorfi"><img alt="Github" src="/../assets/icons/github-mark.svg" class={github()}/></a></div>
+      <div class={footerButtons()}>
+        <a class="buttons">Privacy</a>
+        <a class="buttons">Contact Us</a>
+      </div>
+    </div>
+}
