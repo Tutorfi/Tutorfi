@@ -13,33 +13,35 @@ func (s *PostgresStorage) BuildDevDB() {
     
     CREATE TABLE organization (
       id integer PRIMARY KEY UNIQUE,
-      setting text
+      setting varchar
     );
     
     CREATE TABLE account (
       id uuid DEFAULT gen_random_uuid () PRIMARY KEY UNIQUE,
       organization_id integer UNIQUE,
-      email varchar UNIQUE,
-      firstname varchar,
-      lastname varchar,
-      password varchar,
+      email varchar UNIQUE NOT NULL,
+      firstname varchar NOT NULL,
+      lastname varchar NOT NULL,
+      password varchar NOT NULL,
       created_at timestamp
     );
     
     CREATE TABLE schedule (
       id integer PRIMARY KEY UNIQUE,
-      organization_id integer UNIQUE
+      organization_id integer,
+      name varchar UNIQUE NOT NULL,
+      data jsonb
     );
     
     CREATE TABLE user_schedule (
       id integer PRIMARY KEY UNIQUE,
-      account_id uuid UNIQUE,
+      account_id uuid UNIQUE NOT NULL,
       data jsonb
     );
     
-    CREATE TABLE permission (
+    CREATE TABLE "permission" (
       id integer PRIMARY KEY UNIQUE,
-      account_id uuid UNIQUE,
+      account_id uuid UNIQUE NOT NULL,
       permissions jsonb
     );
     
@@ -51,7 +53,7 @@ func (s *PostgresStorage) BuildDevDB() {
 	ALTER TABLE schedule ADD FOREIGN KEY (organization_id) REFERENCES organization (id)
 	on delete cascade on update cascade;
 	
-    ALTER TABLE permission ADD FOREIGN KEY (account_id) REFERENCES account (id)
+    ALTER TABLE "permission" ADD FOREIGN KEY (account_id) REFERENCES account (id)
 	on delete cascade on update cascade;
 	
 	ALTER TABLE account ALTER COLUMN organization_id DROP NOT NULL;
