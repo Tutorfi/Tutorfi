@@ -18,6 +18,7 @@ func (s *PostgresStorage) BuildDevDB() {
     
     CREATE TABLE account (
       id uuid DEFAULT gen_random_uuid () PRIMARY KEY UNIQUE,
+      seesion_id uuid UNIQUE,
       organization_id integer UNIQUE,
       email varchar UNIQUE NOT NULL,
       firstname varchar NOT NULL,
