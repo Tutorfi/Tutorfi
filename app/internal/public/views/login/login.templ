@@ -5,15 +5,24 @@ import "app/internal/public/templates"
 templ Login() {
     @templates.Base() {
         <div class="center-screen">
-            <h1> Sign in</h1>
-            <div id="login-error"></div>
+            <div>
+                <a href="/"><p>Tutorfi</p></a> <!--In the future insert logo here-->
+            </div>
+            <h1 class="md"> Sign in</h1>
+            <div id="login-error" class="md"></div>
             <form hx-post="/login/verify" hx-target="#login-error">
-                <label for="email">Email</label>
-                <input type="text" name="email" required/>
+                <label>
+                    Email
+                    <input type="text" name="email" required/>
+                </label>
                 <label for="password">Password</label>
                 <input type="password" name="password" required/>
-                <button type="submit">Submit</button>
+                <div class="md">
+                    <button type="submit">Submit</button>
+                </div>
+                
             </form>
+            <a href="/create-account"><h4>Create an account</h4></a>
         </div>
     }
 }
