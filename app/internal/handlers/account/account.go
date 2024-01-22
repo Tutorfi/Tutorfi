@@ -15,7 +15,7 @@ import (
 	"github.com/google/uuid"
 	"app/internal/public/views/login"
 	"app/internal/utils"
-	"github.com/go-playground/validator/v11"
+	"github.com/go-playground/validator/v10"
 )
 
 type AccountHandler struct {
@@ -27,18 +27,19 @@ func New(store storage.Storage) *AccountHandler {
 		store: store,
 	}
 }
-validate := validator.New(validator.WithRequiredStructEnabled())
+
 func (handle *AccountHandler) CreateAccount(c echo.Context) error {
+	validate := validator.New(validator.WithRequiredStructEnabled())
 	//Get and check the email to see if the account exists
 	email := c.FormValue("email")
-	
-	if validate.Email(email) != nil{
+	err := validate.Var(email, "required,email")//Note that adding a space here will throw an error, maybe lint this???
+	if err != nil{
 		fmt.Println("Invalid email")
 		fmt.Println(err)
 		return utils.RenderComponents(c, 200, logintempl.Error("Invalid Email"), nil)
 	}
 
-	_, err := handle.store.GetAccount(email)
+	_, err = handle.store.GetAccount(email)
 	if err != sql.ErrNoRows{
 		fmt.Println("Account already exists")
 		fmt.Println(err)
@@ -50,7 +51,7 @@ func (handle *AccountHandler) CreateAccount(c echo.Context) error {
 
 	if utf8.RuneCountInString(password) < 8{
 		fmt.Println("Password too short")
-		return utils.RenderComponents(c, 200, logintempl.Error("Invalid password"), nil)
+		return utils.RenderComponents(c, 200, logintempl.Error("Password must be longer than 8 characters"), nil)
 	}
 	//In the future we may need a restriction on passwords too long
 	//Create a new account
@@ -82,6 +83,7 @@ func createCookie(sessionid string) *http.Cookie{
 	return cookie
 }
 func (handle *AccountHandler) Verification(c echo.Context) error {
+	validate := validator.New(validator.WithRequiredStructEnabled())
 	email := c.FormValue("email")
 	password := c.FormValue("password")
 	
