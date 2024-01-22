@@ -15,7 +15,7 @@ import (
 	"github.com/google/uuid"
 	"app/internal/public/views/login"
 	"app/internal/utils"
-	"github.com/asaskevich/govalidator"
+	"github.com/go-playground/validator/v11"
 )
 
 type AccountHandler struct {
@@ -27,23 +27,27 @@ func New(store storage.Storage) *AccountHandler {
 		store: store,
 	}
 }
+validate := validator.New(validator.WithRequiredStructEnabled())
 func (handle *AccountHandler) CreateAccount(c echo.Context) error {
 	//Get and check the email to see if the account exists
 	email := c.FormValue("email")
-	_, err := handle.store.GetAccount(email)
+	
+	if validate.Email(email) != nil{
+		fmt.Println("Invalid email")
+		fmt.Println(err)
+		return utils.RenderComponents(c, 200, logintempl.Error("Invalid Email"), nil)
+	}
 
+	_, err := handle.store.GetAccount(email)
 	if err != sql.ErrNoRows{
 		fmt.Println("Account already exists")
 		fmt.Println(err)
 		return utils.RenderComponents(c, 200, logintempl.Error("Email currently registered"), nil)
 	}
-	if !govalidator.IsEmail(email){
-		fmt.Println("Invalid email")
-		fmt.Println(err)
-		return utils.RenderComponents(c, 200, logintempl.Error("Invalid Email"), nil)
-	}
+
 	//Check and hash the password
 	password := c.FormValue("password")
+
 	if utf8.RuneCountInString(password) < 8{
 		fmt.Println("Password too short")
 		return utils.RenderComponents(c, 200, logintempl.Error("Invalid password"), nil)
@@ -80,10 +84,12 @@ func createCookie(sessionid string) *http.Cookie{
 func (handle *AccountHandler) Verification(c echo.Context) error {
 	email := c.FormValue("email")
 	password := c.FormValue("password")
+	
 	fmt.Println("Login request")
 	account, err := handle.store.GetAccount(email)
-	if err != nil{
+	if err != nil || validate.Struct(account) != nil{
 		fmt.Println(err)
+		fmt.Println(validate.Struct(account))
 		fmt.Println("No account found")
 		return utils.RenderComponents(c, 200, logintempl.Error("Invalid email or password"), nil)
 	}
