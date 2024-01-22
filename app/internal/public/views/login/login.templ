@@ -4,7 +4,7 @@ import "app/internal/public/templates"
 
 templ Login() {
     @templates.Base() {
-        <div>
+        <div class="center-screen">
             <h1> Sign in</h1>
             <div id="login-error"></div>
             <form hx-post="/login/verify" hx-target="#login-error">

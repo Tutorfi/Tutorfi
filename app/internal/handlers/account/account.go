@@ -63,7 +63,11 @@ func (handle *AccountHandler) CreateAccount(c echo.Context) error {
 		return utils.RenderComponents(c, 200, logintempl.Error("Invalid password"), nil)
 	}
 	
-	err = handle.store.CreateAccount(c.FormValue("fname"), c.FormValue("lname"), email, string(hash))
+	acc, err := handle.store.CreateAccount(c.FormValue("fname"), c.FormValue("lname"), email, string(hash))
+	if validate.Struct(acc) != nil{
+		fmt.Println(validate.Struct(acc))
+		return utils.RenderComponents(c, 200, logintempl.Error("Invalid first or last name"), nil)
+	}
 	if err != nil{
 		fmt.Println(err)
 		return utils.RenderComponents(c, 200, logintempl.Error("Unkown creation error"), nil)

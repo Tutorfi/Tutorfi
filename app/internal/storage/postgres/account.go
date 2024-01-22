@@ -5,30 +5,37 @@ import (
 	"database/sql"
 	_ "github.com/lib/pq"
 	"fmt"
-	"reflect"
 )
-func RowToAccount(row *sql.Rows) (models.Account){
-	
+func RowToAccount(row *sql.Row) (models.Account){
 	var acc models.Account
+	row.Scan(&acc.Id, &acc.Firstname, &acc.Lastname, &acc.Email, &acc.Password, &acc.SessionId)
+	fmt.Println(acc)
 	return acc
 }
 func (s *PostgresStorage) GetAccount(email string) (*models.Account, error) {
 	var acc models.Account
-	res, err := s.db.Query("SELECT id, firstname, lastname, email, password, sessionid FROM account WHERE email = $1", email)
-	
-	fmt.Println(reflect.TypeOf(res))
-	fmt.Println(res)
-	fmt.Println(err)
-	if err == sql.ErrNoRows{
-		return nil, err
+	res := s.db.QueryRow("SELECT id, firstname, lastname, email, password, sessionid FROM account WHERE email = $1", email)
+	if res.Scan(&acc.Id) != nil{
+		return nil, sql.ErrNoRows
+	}
+	if res.Err() != nil{
+		return nil, res.Err()
 	}
 	acc = RowToAccount(res)
-	return &acc, err
+	return &acc, nil
 }
 //Inserts an account into the database, does not return the created account.
-func (s *PostgresStorage) CreateAccount(fname, lname, email, password string) (error){
-	_, err := s.db.Exec("INSERT INTO account VALUES (DEFAULT, null, $1, $2, $3, $4)", fname, lname, email, password)
-	return err
+func (s *PostgresStorage) CreateAccount(fname, lname, email, password string) (*models.Account, error){
+	var acc models.Account
+	res := s.db.QueryRow("INSERT INTO account VALUES (DEFAULT, null, $1, $2, $3, $4)", fname, lname, email, password)
+	if res.Scan(&acc.Id) != nil{
+		return nil, sql.ErrNoRows
+	}
+	if res.Err() != nil{
+		return nil, res.Err()
+	}
+	acc = RowToAccount(res)
+	return &acc, nil
 }
 
 func (s *PostgresStorage) GetPassword(email string) (string, error) {
