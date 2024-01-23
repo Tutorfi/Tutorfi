@@ -110,13 +110,17 @@ func createCookie(sessionid string) *http.Cookie{
 func (handle *AccountHandler) Verification(c echo.Context) error {
 	email := c.FormValue("email")
 	password := c.FormValue("password")
-	
+	err := checkFormValue(`^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$`, email)
+	if err != nil{
+		return utils.RenderComponents(c, 200, logintempl.Error("Invalid email"), nil)
+	}
 	fmt.Println("Login request")
 	account, err := handle.store.GetAccount(email)
+	
 	if err != nil{
 		fmt.Println(err)
 		fmt.Println("No account found")
-		return utils.RenderComponents(c, 200, logintempl.Error("Invalid email or password"), nil)
+		return utils.RenderComponents(c, 200, logintempl.Error(err.Error()), nil)
 	}
 	hash := []byte (account.Password)
 	if bcrypt.CompareHashAndPassword(hash, []byte (password)) == nil{
@@ -125,14 +129,14 @@ func (handle *AccountHandler) Verification(c echo.Context) error {
 		cookie := createCookie(sessionid.String())
 		c.SetCookie(cookie)
 		err := handle.store.SetSessionID(email, sessionid.String())
-		if err != nil{
+		if err != nil{//What to do here?
 			fmt.Println("cookie error")
 			fmt.Println(err)
-			return utils.RenderComponents(c, 200, logintempl.Error("Unknown error, please try again"), nil)
+			return utils.RenderComponents(c, 200, logintempl.Error(err.Error()), nil)
 		}
 		c.Response().Header().Set("HX-Redirect", "/")
 		return utils.RenderComponents(c, 200, logintempl.Error("Logging in"), nil)
 	}
-	fmt.Println("login failed")
-	return utils.RenderComponents(c, 200, logintempl.Error("Invalid email or password"), nil)
+	fmt.Println("login failed, should never be reached?")
+	return utils.RenderComponents(c, 200, logintempl.Error(err.Error()), nil)
 }
