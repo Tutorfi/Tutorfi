@@ -3,7 +3,7 @@ package createtempl
 import "app/internal/public/templates"
 
 templ Create() {
-    @templates.Base() {
+    @templates.Base([]string{}) {
         <div>
             <h1> Create Account </h1>
             <div id="create-error"> </div>
