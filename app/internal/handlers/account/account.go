@@ -16,6 +16,7 @@ import (
 	"app/internal/public/views/login"
 	"app/internal/utils"
 	"regexp"
+	"errors"
 )
 
 type AccountHandler struct {
@@ -27,6 +28,7 @@ func New(store storage.Storage) *AccountHandler {
 		store: store,
 	}
 }
+
 func checkFormValue(expression, val string) (error){
 	regex := expression
 	matcher, err := regexp.Compile(regex)
@@ -36,7 +38,7 @@ func checkFormValue(expression, val string) (error){
 	}
 	matched := matcher.MatchString(val)
 	if !matched{
-		return nil//In the future insert an error in here
+		return errors.New("Invalid form input")//In the future insert an error in here
 	}
 	return nil
 }
