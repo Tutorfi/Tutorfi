@@ -58,7 +58,7 @@ func Login() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</h1><div id=\"login-error\" class=\"md\"></div><form hx-post=\"/login/verify\" hx-target=\"#login-error\"><label>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</h1><div id=\"login-error\" class=\"md\"></div><form hx-post=\"/login/verify\" hx-target=\"#login-error\"><label for=\"email\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -67,7 +67,7 @@ func Login() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(" <input type=\"text\" name=\"email\" required></label> <label for=\"password\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</label> <input type=\"text\" name=\"email\" id=\"email\" required> <label for=\"password\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -76,25 +76,34 @@ func Login() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</label> <input type=\"password\" name=\"password\" required><div class=\"md\"><button type=\"submit\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</label> <a href=\"/\" class=\"right\"><button>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Var8 := `Submit`
+			templ_7745c5c3_Var8 := `Forgot password?`
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var8)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</button></div></form><a href=\"/create-account\"><h4>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</button></a> <input type=\"password\" name=\"password\" id=\"password\" required><div class=\"md\"><button type=\"submit\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Var9 := `Create an account`
+			templ_7745c5c3_Var9 := `Submit`
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var9)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</h4></a></div>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</button></div></form><a href=\"/create-account\"><button><h4>")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Var10 := `Create an account`
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var10)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</h4></button></a></div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

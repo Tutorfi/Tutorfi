@@ -1,9 +1,9 @@
 /*Sets the style that multiple pages use */
 .center-screen {
-    padding-top: 5%;
-    margin-left: auto;
-    margin-right: auto;
-    width: 12em;
+    margin-top: 2%;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
 }
 
 .container {
@@ -23,3 +23,23 @@
     text-align: center;
 }
 
+.right{
+    float: right;
+}
+
+.vw-20{
+    width:20vw;
+}
+
+.w-75{
+    width:75%;
+}
+.m-30lr{
+    margin-left: 30vw;
+    margin-right: 30vw;
+}
+
+.container-border{
+    border:.1em solid black;
+    border-color:inherit;
+}

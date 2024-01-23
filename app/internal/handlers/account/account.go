@@ -36,14 +36,13 @@ func (handle *AccountHandler) CreateAccount(c echo.Context) error {
 	if err != nil{
 		fmt.Println("Invalid email")
 		fmt.Println(err)
-		return utils.RenderComponents(c, 200, logintempl.Error("Invalid Email"), nil)
+		return utils.RenderComponents(c, 200, logintempl.Error(err), nil)
 	}
-
 	_, err = handle.store.GetAccount(email)
 	if err != sql.ErrNoRows{
 		fmt.Println("Account already exists")
 		fmt.Println(err)
-		return utils.RenderComponents(c, 200, logintempl.Error("Email currently registered"), nil)
+		return utils.RenderComponents(c, 200, logintempl.Error(err), nil)
 	}
 
 	//Check and hash the password
@@ -58,19 +57,20 @@ func (handle *AccountHandler) CreateAccount(c echo.Context) error {
 	
 	hash, err := bcrypt.GenerateFromPassword([]byte(password), 0)
 	if err != nil{
-		fmt.Println("password hasing failed")
+		fmt.Println("password hasing failed")//Don't know when this will happen
 		fmt.Println(err)
-		return utils.RenderComponents(c, 200, logintempl.Error("Invalid password"), nil)
+		return utils.RenderComponents(c, 200, logintempl.Error(err), nil)
 	}
 	
-	acc, err := handle.store.CreateAccount(c.FormValue("fname"), c.FormValue("lname"), email, string(hash))
-	if validate.Struct(acc) != nil{
-		fmt.Println(validate.Struct(acc))
-		return utils.RenderComponents(c, 200, logintempl.Error("Invalid first or last name"), nil)
-	}
+	err = handle.store.CreateAccount(c.FormValue("fname"), c.FormValue("lname"), email, string(hash))
 	if err != nil{
 		fmt.Println(err)
-		return utils.RenderComponents(c, 200, logintempl.Error("Unkown creation error"), nil)
+		return utils.RenderComponents(c, 200, logintempl.Error(err), nil)
+	}
+	err = validate.Struct(handle.store.GetAccount(email))
+	if err != nil{
+		fmt.Println(err)
+		return utils.RenderComponents(c, 200, logintempl.Error(err), nil)
 	}
 	fmt.Println("account created successfully")
 	c.Response().Header().Set("HX-Redirect", "/login")
