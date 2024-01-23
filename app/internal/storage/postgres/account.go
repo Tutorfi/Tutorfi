@@ -2,8 +2,9 @@ package storage
 
 import (
 	"app/internal/models"
-	"database/sql"
+	_ "database/sql"
 	_ "github.com/lib/pq"
+	"fmt"
 )
 func (s *PostgresStorage) GetAccount(email string) (*models.Account, error) {
 	var acc models.Account
@@ -32,7 +33,8 @@ func (s *PostgresStorage) SetSessionID(email string, sessionid string) (error){
 }
 
 func (s *PostgresStorage) DeleteAccount(id string) (error){
-	_, err := s.db.Exec(`DELETE FROM account WHERE id = $1`, id)
+	num, err := s.db.Exec(`DELETE FROM account WHERE id = $1`, id)
+	fmt.Println(num)
 	return err
 }
 

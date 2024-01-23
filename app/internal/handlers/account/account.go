@@ -15,7 +15,7 @@ import (
 	"github.com/google/uuid"
 	"app/internal/public/views/login"
 	"app/internal/utils"
-	"github.com/go-playground/validator/v10"
+	"regexp"
 )
 
 type AccountHandler struct {
@@ -27,26 +27,48 @@ func New(store storage.Storage) *AccountHandler {
 		store: store,
 	}
 }
-
+func checkFormValue(expression, val string) (error){
+	regex := expression
+	matcher, err := regexp.Compile(regex)
+	if err != nil{
+		fmt.Println("regex failed")//What to do here?
+		//Maybe use mustcompile?
+	}
+	matched := matcher.MatchString(val)
+	if !matched{
+		return nil//In the future insert an error in here
+	}
+	return nil
+}
 func (handle *AccountHandler) CreateAccount(c echo.Context) error {
-	validate := validator.New(validator.WithRequiredStructEnabled())
 	//Get and check the email to see if the account exists
 	email := c.FormValue("email")
-	err := validate.Var(email, "required,email")//Note that adding a space here will throw an error, maybe lint this???
+	emailRegex := `^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$`
+	err := checkFormValue(emailRegex, email)
 	if err != nil{
 		fmt.Println("Invalid email")
-		fmt.Println(err)
-		return utils.RenderComponents(c, 200, logintempl.Error(err), nil)
+		fmt.Println(email)
+		return utils.RenderComponents(c, 200, logintempl.Error("Invalid email"), nil)
 	}
 	_, err = handle.store.GetAccount(email)
 	if err != sql.ErrNoRows{
 		fmt.Println("Account already exists")
 		fmt.Println(err)
-		return utils.RenderComponents(c, 200, logintempl.Error(err), nil)
+		return utils.RenderComponents(c, 200, logintempl.Error(err.Error()), nil)
 	}
-
+	nameRegex := `^[A-Za-z\x{00C0}-\x{00FF}][A-Za-z\x{00C0}-\x{00FF}\'\-]+([\ A-Za-z\x{00C0}-\x{00FF}][A-Za-z\x{00C0}-\x{00FF}\'\-]+)*`
+	err = checkFormValue(nameRegex, c.FormValue("fname"))
+	if err != nil{
+		return utils.RenderComponents(c, 200, logintempl.Error("Invalid first name"), nil)
+	}
+	err = checkFormValue(nameRegex, c.FormValue("lname"))
+	if err != nil{
+		return utils.RenderComponents(c, 200, logintempl.Error("Invalid last name"), nil)
+	}
 	//Check and hash the password
 	password := c.FormValue("password")
+	//For the future when we figure out error handeling better
+	//https://stackoverflow.com/questions/19605150/regex-for-password-must-contain-at-least-eight-characters-at-least-one-number-a
 
 	if utf8.RuneCountInString(password) < 8{
 		fmt.Println("Password too short")
@@ -59,21 +81,18 @@ func (handle *AccountHandler) CreateAccount(c echo.Context) error {
 	if err != nil{
 		fmt.Println("password hasing failed")//Don't know when this will happen
 		fmt.Println(err)
-		return utils.RenderComponents(c, 200, logintempl.Error(err), nil)
+		return utils.RenderComponents(c, 200, logintempl.Error(err.Error()), nil)
 	}
 	
 	err = handle.store.CreateAccount(c.FormValue("fname"), c.FormValue("lname"), email, string(hash))
 	if err != nil{
 		fmt.Println(err)
-		return utils.RenderComponents(c, 200, logintempl.Error(err), nil)
+		return utils.RenderComponents(c, 200, logintempl.Error(err.Error()), nil)
 	}
-	acc = handle.store.GetAccount(email)
-	err = validate.Struct(acc)
-	if err != nil{
-		fmt.Println(err)
-		handle.store.DeleteAccount(acc.Id)
-		return utils.RenderComponents(c, 200, logintempl.Error(err), nil)
-	}
+	//For now we allow all kinds of names, this may change in the future
+	//https://stackoverflow.com/questions/2385701/regular-expression-for-first-and-last-name
+	//https://andrewwoods.net/blog/2018/name-validation-regex/
+	
 	fmt.Println("account created successfully")
 	c.Response().Header().Set("HX-Redirect", "/login")
 	return utils.RenderComponents(c, 201, logintempl.Error("Account Created"), nil)
@@ -89,15 +108,13 @@ func createCookie(sessionid string) *http.Cookie{
 	return cookie
 }
 func (handle *AccountHandler) Verification(c echo.Context) error {
-	validate := validator.New(validator.WithRequiredStructEnabled())
 	email := c.FormValue("email")
 	password := c.FormValue("password")
 	
 	fmt.Println("Login request")
 	account, err := handle.store.GetAccount(email)
-	if err != nil || validate.Struct(account) != nil{
+	if err != nil{
 		fmt.Println(err)
-		fmt.Println(validate.Struct(account))
 		fmt.Println("No account found")
 		return utils.RenderComponents(c, 200, logintempl.Error("Invalid email or password"), nil)
 	}
