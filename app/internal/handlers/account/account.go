@@ -67,9 +67,11 @@ func (handle *AccountHandler) CreateAccount(c echo.Context) error {
 		fmt.Println(err)
 		return utils.RenderComponents(c, 200, logintempl.Error(err), nil)
 	}
-	err = validate.Struct(handle.store.GetAccount(email))
+	acc = handle.store.GetAccount(email)
+	err = validate.Struct(acc)
 	if err != nil{
 		fmt.Println(err)
+		handle.store.DeleteAccount(acc.Id)
 		return utils.RenderComponents(c, 200, logintempl.Error(err), nil)
 	}
 	fmt.Println("account created successfully")
