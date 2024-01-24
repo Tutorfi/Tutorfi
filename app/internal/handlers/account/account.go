@@ -17,6 +17,7 @@ import (
 	"app/internal/utils"
 	"regexp"
 	"errors"
+	"github.com/microcosm-cc/bluemonday"
 )
 
 type AccountHandler struct {
@@ -44,7 +45,8 @@ func checkFormValue(expression, val string) (error){
 }
 func (handle *AccountHandler) CreateAccount(c echo.Context) error {
 	//Get and check the email to see if the account exists
-	email := c.FormValue("email")
+	policy := bluemonday.StrictPolicy()
+	email := policy.Sanitize(c.FormValue("email"))
 	emailRegex := `^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$`
 	err := checkFormValue(emailRegex, email)
 	if err != nil{
@@ -52,6 +54,7 @@ func (handle *AccountHandler) CreateAccount(c echo.Context) error {
 		fmt.Println(email)
 		return utils.RenderComponents(c, 200, logintempl.Error("Invalid email"), nil)
 	}
+
 	_, err = handle.store.GetAccount(email)
 	if err != sql.ErrNoRows{
 		fmt.Println("Account already exists")
@@ -59,11 +62,13 @@ func (handle *AccountHandler) CreateAccount(c echo.Context) error {
 		return utils.RenderComponents(c, 200, logintempl.Error(err.Error()), nil)
 	}
 	nameRegex := `^[A-Za-z\x{00C0}-\x{00FF}][A-Za-z\x{00C0}-\x{00FF}\'\-]+([\ A-Za-z\x{00C0}-\x{00FF}][A-Za-z\x{00C0}-\x{00FF}\'\-]+)*`
-	err = checkFormValue(nameRegex, c.FormValue("fname"))
+	fname := policy.Sanitize(c.FormValue("fname"))
+	lname := policy.Sanitize(c.FormValue("lname"))
+	err = checkFormValue(nameRegex, fname)
 	if err != nil{
 		return utils.RenderComponents(c, 200, logintempl.Error("Invalid first name"), nil)
 	}
-	err = checkFormValue(nameRegex, c.FormValue("lname"))
+	err = checkFormValue(nameRegex, lname)
 	if err != nil{
 		return utils.RenderComponents(c, 200, logintempl.Error("Invalid last name"), nil)
 	}
@@ -86,7 +91,7 @@ func (handle *AccountHandler) CreateAccount(c echo.Context) error {
 		return utils.RenderComponents(c, 200, logintempl.Error(err.Error()), nil)
 	}
 	
-	err = handle.store.CreateAccount(c.FormValue("fname"), c.FormValue("lname"), email, string(hash))
+	err = handle.store.CreateAccount(fname, lname, email, string(hash))
 	if err != nil{
 		fmt.Println(err)
 		return utils.RenderComponents(c, 200, logintempl.Error(err.Error()), nil)
@@ -110,8 +115,9 @@ func createCookie(sessionid string) *http.Cookie{
 	return cookie
 }
 func (handle *AccountHandler) Verification(c echo.Context) error {
-	email := c.FormValue("email")
-	password := c.FormValue("password")
+	policy := bluemonday.StrictPolicy()
+	email := policy.Sanitize(c.FormValue("email"))
+	password := policy.Sanitize(c.FormValue("password"))
 	err := checkFormValue(`^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$`, email)
 	if err != nil{
 		return utils.RenderComponents(c, 200, logintempl.Error("Invalid email"), nil)
