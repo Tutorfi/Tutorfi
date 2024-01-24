@@ -8,7 +8,7 @@ import (
 )
 func (s *PostgresStorage) GetAccount(email string) (*models.Account, error) {
 	var acc models.Account
-	err := s.db.QueryRow("SELECT id, firstname, lastname, email, password, sessionid FROM account WHERE email = $1", email).Scan(&acc.Id, &acc.Firstname, &acc.Lastname, &acc.Email, &acc.Password, &acc.SessionId)
+	err := s.db.QueryRow("SELECT id, firstname, lastname, email, password, seesion_id, organization_id FROM account WHERE email = $1", email).Scan(&acc.Id, &acc.Firstname, &acc.Lastname, &acc.Email, &acc.Password, &acc.SessionId, &acc.OrganizationId)
 	if err != nil{
 		return nil, err
 	}
