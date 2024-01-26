@@ -34,12 +34,11 @@ func checkFormValue(expression, val string) (error){
 	matcher, err := regexp.Compile(regex)
 	if err != nil{
 		fmt.Println("regex failed")//What to do here?
-		//Maybe use mustcompile?
+		return err
 	}
 	matched := matcher.MatchString(val)
 	if !matched{
-		return errors.New("Invalid form input")//In the future insert an error in here
-	}
+		return &AccountError{msg: fmt.Sprintf("Invalid form value")}
 	return nil
 }
 func (handle *AccountHandler) CreateAccount(c echo.Context) error {
@@ -50,7 +49,7 @@ func (handle *AccountHandler) CreateAccount(c echo.Context) error {
 	if err != nil{
 		fmt.Println("Invalid email")
 		fmt.Println(email)
-		return utils.RenderComponents(c, 200, logintempl.Error("Invalid email"), nil)
+		return utils.RenderComponents(c, 200, logintempl.Error(err.Error()), nil)
 	}
 
 	_, err = handle.store.GetAccount(email)
@@ -64,7 +63,7 @@ func (handle *AccountHandler) CreateAccount(c echo.Context) error {
 	lname := c.FormValue("lname")
 	err = checkFormValue(nameRegex, fname)
 	if err != nil{
-		return utils.RenderComponents(c, 200, logintempl.Error("Invalid first name"), nil)
+		return utils.RenderComponents(c, 200, logintempl.Error(err.Error()), nil)
 	}
 	err = checkFormValue(nameRegex, lname)
 	if err != nil{
