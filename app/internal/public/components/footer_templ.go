@@ -82,7 +82,9 @@ func Footer() templ.Component {
 			return templ_7745c5c3_Err
 		}
 		templ_7745c5c3_Var2 := `
-      .buttons{}
+      .buttons{
+        cursor: pointer;
+      }
       .buttons:hover{
         color: #99badd;
       }
