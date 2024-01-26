@@ -28,7 +28,7 @@ func Base(cssDirectories []string) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		for _, cssDirectory := range cssDirectories {
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(" <link href=\"")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<link href=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

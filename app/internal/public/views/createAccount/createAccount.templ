@@ -3,14 +3,14 @@ package createtempl
 import "app/internal/public/templates"
 
 templ Create() {
-	@templates.Base([]string{}) {
-		<div class="center-screen m-30lr container-border container">
+	@templates.Base([]string{"account/create.css"}) {
+		<div class="center-screen container create-container">
             <div>
 				<a href="/"><p>Tutorfi</p></a> <!--In the future insert logo here-->
 			</div>
 			<h1 class="md">Create Account </h1>
 			<div id="create-error" class="md"></div>
-			<form hx-post="/create-account/create" class="w-75" hx-target="#create-error">
+			<form hx-post="/create-account/create" class="create-form" hx-target="#create-error">
 				<label for="fname">First Name</label>
 				<input type="text" name="fname" id="fname" required/>
 				<label for="lname">Last Name</label>

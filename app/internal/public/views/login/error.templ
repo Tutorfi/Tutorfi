@@ -1,7 +1,5 @@
 package logintempl
 
 templ Error(err string) {
-    @templates.Base([]string{}) {
-        <p class={errorMessage}>{err}</p>
-    }
+        <p class="error-message">{err}</p>
 }
