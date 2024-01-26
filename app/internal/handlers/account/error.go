@@ -1,8 +1,8 @@
 package accounthandler
 
 type AccountError struct{
-	message string
+	msg string
 }
 func (ac *AccountError) Error() (string){
-	return ac.message
+	return ac.msg
 }

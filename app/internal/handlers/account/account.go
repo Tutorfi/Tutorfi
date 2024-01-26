@@ -16,7 +16,6 @@ import (
 	"app/internal/public/views/login"
 	"app/internal/utils"
 	"regexp"
-	"errors"
 )
 
 type AccountHandler struct {
@@ -39,6 +38,7 @@ func checkFormValue(expression, val string) (error){
 	matched := matcher.MatchString(val)
 	if !matched{
 		return &AccountError{msg: fmt.Sprintf("Invalid form value")}
+	}
 	return nil
 }
 func (handle *AccountHandler) CreateAccount(c echo.Context) error {
@@ -67,7 +67,7 @@ func (handle *AccountHandler) CreateAccount(c echo.Context) error {
 	}
 	err = checkFormValue(nameRegex, lname)
 	if err != nil{
-		return utils.RenderComponents(c, 200, logintempl.Error("Invalid last name"), nil)
+		return utils.RenderComponents(c, 200, logintempl.Error(err.Error()), nil)
 	}
 	//Check and hash the password
 	password := c.FormValue("password")
@@ -76,7 +76,8 @@ func (handle *AccountHandler) CreateAccount(c echo.Context) error {
 
 	if utf8.RuneCountInString(password) < 8{
 		fmt.Println("Password too short")
-		return utils.RenderComponents(c, 200, logintempl.Error("Password must be longer than 8 characters"), nil)
+		err := &AccountError{msg: fmt.Sprintf("Password must be longer than 8 characters")}
+		return utils.RenderComponents(c, 200, logintempl.Error(err.Error()), nil)
 	}
 	//In the future we may need a restriction on passwords too long
 	//Create a new account
@@ -116,7 +117,7 @@ func (handle *AccountHandler) Verification(c echo.Context) error {
 	password := c.FormValue("password")
 	err := checkFormValue(`^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$`, email)
 	if err != nil{
-		return utils.RenderComponents(c, 200, logintempl.Error("Invalid email"), nil)
+		return utils.RenderComponents(c, 200, logintempl.Error(err.Error()), nil)
 	}
 	fmt.Println("Login request")
 	account, err := handle.store.GetAccount(email)

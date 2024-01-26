@@ -12,6 +12,3 @@ func (se *PostgresError) Error() (string){
 	return se.message
 }
 
-func(se *PostgresError) SQLError(){
-	return sqlError
-}
