@@ -16,6 +16,7 @@ import (
 	"app/internal/public/views/login"
 	"app/internal/utils"
 	"regexp"
+	"net/mail"
 )
 
 type AccountHandler struct {
@@ -44,14 +45,12 @@ func checkFormValue(expression, val string) (error){
 func (handle *AccountHandler) CreateAccount(c echo.Context) error {
 	//Get and check the email to see if the account exists
 	email := c.FormValue("email")
-	emailRegex := `^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$`
-	err := checkFormValue(emailRegex, email)
+	_, err := mail.ParseAddress(email)
 	if err != nil{
 		fmt.Println("Invalid email")
 		fmt.Println(email)
 		return utils.RenderComponents(c, 200, logintempl.Error(err.Error()), nil)
 	}
-
 	_, err = handle.store.GetAccount(email)
 	if err != sql.ErrNoRows{
 		fmt.Println("Account already exists")
