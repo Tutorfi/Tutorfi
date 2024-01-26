@@ -10,26 +10,6 @@
   }
 }
 
-.red {
-  color: #723543; /*rgb(114,53,67)*/
-}
-
-.light-brown {
-  color: #bd9c81; /*rgb(189,156,129)*/
-}
-
-.dark-gray {
-  color: #555454; /*rgb(85,84,84)*/
-}
-
-.light-pastel-gray {
-  color: #dbcdcc; /*rgb(219,205,204)*/
-}
-
-.faint-gray {
-  color: #f8f5f0; /*rgb(248,245,240)*/
-}
-
-.background-faint-gray {
-  color: #f8f5f0; /*rgb(248,245,240)*/
+.error-message {
+  color: red;
 }
