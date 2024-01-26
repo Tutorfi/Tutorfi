@@ -3,7 +3,7 @@ package logintempl
 import "app/internal/public/templates"
 
 templ Login() {
-    @templates.Base() {
+    @templates.Base([]string{}) {
         <div>
             <h1> Sign in</h1>
             <div id="login-error"></div>

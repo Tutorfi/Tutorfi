@@ -6,7 +6,7 @@ css errorMessage(){
     color: red;
 }
 templ Error(err string) {
-    @templates.Base() {
+    @templates.Base([]string{}) {
         <div>
             <p class={errorMessage}>{err}</p>
         </div>
