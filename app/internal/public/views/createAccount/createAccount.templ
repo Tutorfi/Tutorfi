@@ -3,21 +3,27 @@ package createtempl
 import "app/internal/public/templates"
 
 templ Create() {
-    @templates.Base([]string{}) {
-        <div>
-            <h1> Create Account </h1>
-            <div id="create-error"> </div>
-            <form hx-post="/create-account/create" hx-target="#create-error">
-                <label for="fname">First Name</label>
-                <input type="text" name="fname" required/>
-                <label for="lname">Last Name</label>
-                <input type="text" name="lname" required/>
-                <label for="email">Email</label>
-                <input type="text" name="email" required/>
-                <label for="password">Password</label>
-                <input type="text" name="password" required min="8"/>
-                <button type="submit">Submit</button>
-            </form>
-        </div>
-    }
+	@templates.Base([]string{"account/account.css"}) {
+		<div class="center-screen container account-container">
+            <div>
+				<a href="/"><p>Tutorfi</p></a> <!--In the future insert logo here-->
+			</div>
+			<h1 class="md">Create Account </h1>
+			<div id="create-error" class="md"></div>
+			<form hx-post="/create-account/create" class="account-form" hx-target="#create-error">
+				<label for="fname">First Name</label>
+				<input type="text" name="fname" id="fname" required/>
+				<label for="lname">Last Name</label>
+				<input type="text" name="lname" id="lname" required/>
+				<label for="email">Email</label>
+				<input type="text" name="email" id="email" required/>
+				<label for="password">Password</label>
+				<input type="text" name="password" id="password" required min="8"/>
+                <div class="md">
+                    <button type="submit">Submit</button>
+                </div>
+			</form>
+            <a href="/login"><button><h4>Sign in</h4></button></a>
+		</div>
+	}
 }

@@ -63,12 +63,12 @@ func (s *PostgresStorage) BuildDevDB() {
     `
 	_, err := s.db.Exec(val)
 	if err != nil {
-		fmt.Println("unable to create table")
+		fmt.Println("unable to create database")
 	}
 	hash, _ := bcrypt.GenerateFromPassword([]byte("passwordthing"), 0)
 	_, err = s.db.Exec("INSERT INTO account (firstname,lastname,email,password) VALUES ('bob', 'Builder', 'bob@gmail.com', $1)", hash)
 	if err != nil {
-		fmt.Println("unable to insert values")
+		fmt.Println("unable to insert values into test database")
 		fmt.Println(err)
 	}
     fmt.Println("Finished building db")

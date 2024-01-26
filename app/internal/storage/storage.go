@@ -8,4 +8,6 @@ type Storage interface {
 	CreateAccount(fname, lname, email, password string) (error)
 	GetPassword(email string) (string, error)
 	SetSessionID(email string, sessionid string) (error)
+	DeleteAccount(id string) (error)
+	ResetSessionID(id string)(error)
 }
