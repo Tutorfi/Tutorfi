@@ -1,5 +1,41 @@
 package components
 
+css bodyImage(){
+    width: 300px;
+    height: 200px;
+    background-color: white;
+}
+
+css features(){
+    display: flex;
+    flex-direction: column;
+}
+
+css feature(){
+    display: flex;
+    justify-content: space-evenly;
+    margin: 30px;
+    margin-left: 130px; 
+    margin-right: 130px;
+}
+
+css featureInfo(){
+    display: flex;
+    flex-direction: column;
+
+    width: 80vmin;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+css featureTitle(){
+
+}
+
+css featureDetail(){
+
+}
+
 templ HomepageBody(){
     <div class="bodyImageContainer">
         <img/>
@@ -10,26 +46,26 @@ templ HomepageBody(){
             <a class="signupbutton"></a>
         </div>
     </div>
-    <div class="features">
-        <div class="feature">
-            <img/>
-            <div>
-                <h3></h3>
-                <p></p>
+    <div class={features()}>
+        <div class={feature()}>
+            <img class={bodyImage()}/>
+            <div class={featureInfo()}>
+                <h3 class={featureTitle()}>Easy Tutor Management</h3>
+                <p class={featureDetail()}>Ability to assign tutors to students, giving organizations the freedom and ease of managing while giving them accessible tools and features.</p>
             </div>
         </div>
-        <div class="feature">
-            <div>
-                <h3></h3>
-                <p></p>
+        <div class={feature()}>
+            <div class={featureInfo()}>
+                <h3 class={featureTitle()}>Intuitive Calendar and Scheduling</h3>
+                <p class={featureDetail()}>Planning made easy with our seamless approach to scheduling within our system. The user-friendly design with powerful functionality allows tutors and students to effortlessly set availability and schedule appointments. The intuitive calendar interface simplifies the process of organizing sessions, ensuring a hassle-free experience for users. With automated reminders and synchronization capabilities, this feature not only optimizes scheduling efficiency but also contributes to a well-organized and stress-free learning environment.</p>
             </div>
-            <img/>
+            <img class={bodyImage()}/>
         </div>
-        <div class="feature">
-            <img/>
-            <div>
-                <h3></h3>
-                <p></p>
+        <div class={feature()}>
+            <img class={bodyImage()} alt="classroomImage"/>
+            <div class={featureInfo()}>
+                <h3 class={featureTitle()}>Simple Navigational Classroom Hub</h3>
+                <p class={featureDetail()}></p>
             </div>
         </div>
     </div>
