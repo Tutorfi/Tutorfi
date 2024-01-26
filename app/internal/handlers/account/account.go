@@ -16,6 +16,7 @@ import (
 	"app/internal/public/views/login"
 	"app/internal/utils"
 	"regexp"
+	"errors"
 )
 
 type AccountHandler struct {
@@ -117,6 +118,7 @@ func (handle *AccountHandler) Verification(c echo.Context) error {
 	password := c.FormValue("password")
 	err := checkFormValue(`^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$`, email)
 	if err != nil{
+		
 		return utils.RenderComponents(c, 200, logintempl.Error(err.Error()), nil)
 	}
 	fmt.Println("Login request")
@@ -124,6 +126,7 @@ func (handle *AccountHandler) Verification(c echo.Context) error {
 	
 	if err != nil{
 		fmt.Println(err)
+		fmt.Println(errors.Unwrap(err))
 		fmt.Println("No account found")
 		return utils.RenderComponents(c, 200, logintempl.Error(err.Error()), nil)
 	}
