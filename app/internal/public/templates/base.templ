@@ -1,6 +1,7 @@
 package templates
 
-templ Base() {
+
+templ Base(cssDirectories []string) {
 	<!DOCTYPE html>
 	<html lang="en">
 		<head>
@@ -9,6 +10,9 @@ templ Base() {
 			<link href="/css/colors.css" rel="stylesheet"/>
 			<link href="/css/general.css" rel="stylesheet"/>
 			<link href="/css/styles.css" rel="stylesheet"/>
+            for _, cssDirectory := range cssDirectories {
+                <link href={ "/css/pages/" + cssDirectory } rel="stylesheet"/>
+            }
 			<title>Tutorfi</title>
 		</head>
 		<body>

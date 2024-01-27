@@ -1,14 +1,5 @@
 package logintempl
 
-import "app/internal/public/templates"
-
-css errorMessage(){
-    color: red;
-}
 templ Error(err string) {
-    @templates.Base() {
-        <div>
-            <p class={errorMessage}>{err}</p>
-        </div>
-    }
+        <p class="error-message">{err}</p>
 }

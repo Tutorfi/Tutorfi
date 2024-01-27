@@ -3,17 +3,24 @@ package logintempl
 import "app/internal/public/templates"
 
 templ Login() {
-    @templates.Base() {
-        <div>
-            <h1> Sign in</h1>
-            <div id="login-error"></div>
-            <form hx-post="/login/verify" hx-target="#login-error">
-                <label for="email">Email</label>
-                <input type="text" name="email" required/>
-                <label for="password">Password</label>
-                <input type="password" name="password" required/>
-                <button type="submit">Submit</button>
-            </form>
-        </div>
-    }
+	@templates.Base([]string{"account/account.css"}) {
+		<div class="center-screen account-container">
+			<div>
+				<a href="/"><p>Tutorfi</p></a> <!--In the future insert logo here-->
+			</div>
+			<h1 class="md">Sign in</h1>
+			<div id="login-error" class="md"></div>
+			<form hx-post="/login/verify" hx-target="#login-error" class="account-form">
+				<label for="email">Email</label>
+				<input type="text" name="email" id="email" required/>
+				<label for="password">Password</label>
+				<a href="/" class="right"><button>Forgot password?</button></a>
+				<input type="password" name="password" id="password" required/>
+				<div class="md">
+					<button type="submit">Submit</button>
+				</div>
+			</form>
+			<a href="/create-account"><button><h4>Create an account</h4></button></a>
+		</div>
+	}
 }

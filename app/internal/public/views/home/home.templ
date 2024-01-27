@@ -3,7 +3,7 @@ package hometempl
 import "app/internal/public/templates"
 
 templ Home() {
-	@templates.Base() {
+	@templates.Base([]string{}) {
 		<div>
 			<h1>Home</h1>
 			<p>Home page</p>
