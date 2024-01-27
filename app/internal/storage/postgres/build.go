@@ -31,13 +31,16 @@ func (s *PostgresStorage) BuildDevDB() {
       id integer PRIMARY KEY UNIQUE,
       organization_id integer,
       name varchar UNIQUE NOT NULL,
-      data jsonb
+      scheduled_at TIMESTAMPTZ NOT NULL,
+      time_created TIMESTAMP DEFAULT Now()
     );
     
     CREATE TABLE user_schedule (
       id integer PRIMARY KEY UNIQUE,
       account_id uuid UNIQUE NOT NULL,
-      data jsonb
+      name varchar UNIQUE NOT NULL,
+      scheduled_at TIMESTAMPTZ NOT NULL,
+      time_created TIMESTAMP DEFAULT Now()
     );
     
     CREATE TABLE "permission" (
