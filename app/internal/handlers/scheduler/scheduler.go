@@ -24,4 +24,3 @@ func (handle *SchedulerHandler) Schedule(c echo.Context) error {
 	fmt.Println("Scheduler")
 	return nil
 }
-

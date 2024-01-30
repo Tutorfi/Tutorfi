@@ -1,6 +1,6 @@
 package pages
 
-import(
+import (
 	"app/internal/public/views/login"
 	"app/internal/utils"
 	"net/http"
