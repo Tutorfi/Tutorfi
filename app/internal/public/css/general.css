@@ -1,9 +1,9 @@
 /*Sets the style that multiple pages use */
 .center-screen {
-    padding-top: 5%;
-    margin-left: auto;
-    margin-right: auto;
-    width: 12em;
+    margin-top: 2%;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
 }
 
 .container {
@@ -22,3 +22,9 @@
 .md {
     text-align: center;
 }
+
+.right{
+    float: right;
+}
+
+

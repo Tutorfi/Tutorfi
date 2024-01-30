@@ -9,3 +9,7 @@
         color-scheme: dark;
     }
 }
+
+.error-message{
+    color: red;
+}
