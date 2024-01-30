@@ -12,7 +12,7 @@ import "bytes"
 
 import "app/internal/public/templates"
 
-func Login() templ.Component {
+func Login(cssDir []string) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
 		if !templ_7745c5c3_IsBuffer {
@@ -58,9 +58,6 @@ func Login() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</label> <input type=\"text\" name=\"password\"></form></div>")
-
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</h1><div id=\"login-error\" class=\"md\"></div><form hx-post=\"/login/verify\" hx-target=\"#login-error\" class=\"account-form\"><label for=\"email\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
@@ -107,7 +104,6 @@ func Login() templ.Component {
 				return templ_7745c5c3_Err
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</h4></button></a></div>")
-
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

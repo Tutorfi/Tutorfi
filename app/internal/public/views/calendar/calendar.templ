@@ -2,16 +2,14 @@ package calendartempl
 
 import "app/internal/public/templates"
 
-templ Calendar() {
-    @templates.Base() {
+templ Calendar(cssDir []string) {
+    @templates.Base([]string{}) {
         <div>
             <h1> Calendar </h1>
             <form action="/calendar" method="post">
-                <button type="button" onclick="document.getElemendById("display").innerHTML=Date()">
-                Date and Time </button>
-                now
-                // <p id = "display"> </p>
+                <button type="button" hx-target="#display">Date and Time </button>
             </form>
+            <p id="display"></p>
         </div>
     }
 }

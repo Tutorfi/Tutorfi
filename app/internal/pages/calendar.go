@@ -9,7 +9,7 @@ import (
 )
 
 func calendar (c echo.Context) error {
-	err := utils.RenderPages(c, http.StatusOK, calendartempl.Calendar())
+	err := utils.RenderPages(c, http.StatusOK, calendartempl.Calendar([]string{"account/account.css"}))
 	if err != nil {
 		return err
 	}
