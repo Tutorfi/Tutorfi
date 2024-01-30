@@ -4,19 +4,19 @@ Contains the base handlers for creating and authenticating accounts.
 package accounthandler
 
 import (
+	"app/internal/public/views/login"
 	"app/internal/storage"
+	"app/internal/utils"
+	"database/sql"
+	"errors"
 	"fmt"
-	"net/http"
+	"github.com/google/uuid"
 	"github.com/labstack/echo/v4"
 	"golang.org/x/crypto/bcrypt"
-	"unicode/utf8"
-	"time"
-	"database/sql"
-	"github.com/google/uuid"
-	"app/internal/public/views/login"
-	"app/internal/utils"
+	"net/http"
 	"regexp"
-	"errors"
+	"time"
+	"unicode/utf8"
 )
 
 type AccountHandler struct {
@@ -29,16 +29,16 @@ func New(store storage.Storage) *AccountHandler {
 	}
 }
 
-func checkFormValue(expression, val string) (error){
+func checkFormValue(expression, val string) error {
 	regex := expression
 	matcher, err := regexp.Compile(regex)
-	if err != nil{
-		fmt.Println("regex failed")//What to do here?
+	if err != nil {
+		fmt.Println("regex failed") //What to do here?
 		//Maybe use mustcompile?
 	}
 	matched := matcher.MatchString(val)
-	if !matched{
-		return errors.New("Invalid form input")//In the future insert an error in here
+	if !matched {
+		return errors.New("Invalid form input") //In the future insert an error in here
 	}
 	return nil
 }
@@ -47,14 +47,14 @@ func (handle *AccountHandler) CreateAccount(c echo.Context) error {
 	email := c.FormValue("email")
 	emailRegex := `^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$`
 	err := checkFormValue(emailRegex, email)
-	if err != nil{
+	if err != nil {
 		fmt.Println("Invalid email")
 		fmt.Println(email)
 		return utils.RenderComponents(c, 200, logintempl.Error("Invalid email"), nil)
 	}
 
 	_, err = handle.store.GetAccount(email)
-	if err != sql.ErrNoRows{
+	if err != sql.ErrNoRows {
 		fmt.Println("Account already exists")
 		fmt.Println(err)
 		return utils.RenderComponents(c, 200, logintempl.Error(err.Error()), nil)
@@ -63,11 +63,11 @@ func (handle *AccountHandler) CreateAccount(c echo.Context) error {
 	fname := c.FormValue("fname")
 	lname := c.FormValue("lname")
 	err = checkFormValue(nameRegex, fname)
-	if err != nil{
+	if err != nil {
 		return utils.RenderComponents(c, 200, logintempl.Error("Invalid first name"), nil)
 	}
 	err = checkFormValue(nameRegex, lname)
-	if err != nil{
+	if err != nil {
 		return utils.RenderComponents(c, 200, logintempl.Error("Invalid last name"), nil)
 	}
 	//Check and hash the password
@@ -75,34 +75,34 @@ func (handle *AccountHandler) CreateAccount(c echo.Context) error {
 	//For the future when we figure out error handeling better
 	//https://stackoverflow.com/questions/19605150/regex-for-password-must-contain-at-least-eight-characters-at-least-one-number-a
 
-	if utf8.RuneCountInString(password) < 8{
+	if utf8.RuneCountInString(password) < 8 {
 		fmt.Println("Password too short")
 		return utils.RenderComponents(c, 200, logintempl.Error("Password must be longer than 8 characters"), nil)
 	}
 	//In the future we may need a restriction on passwords too long
 	//Create a new account
-	
+
 	hash, err := bcrypt.GenerateFromPassword([]byte(password), 0)
-	if err != nil{
-		fmt.Println("password hasing failed")//Don't know when this will happen
+	if err != nil {
+		fmt.Println("password hasing failed") //Don't know when this will happen
 		fmt.Println(err)
 		return utils.RenderComponents(c, 200, logintempl.Error(err.Error()), nil)
 	}
-	
+
 	err = handle.store.CreateAccount(fname, lname, email, string(hash))
-	if err != nil{
+	if err != nil {
 		fmt.Println(err)
 		return utils.RenderComponents(c, 200, logintempl.Error(err.Error()), nil)
 	}
 	//For now we allow all kinds of names, this may change in the future
 	//https://stackoverflow.com/questions/2385701/regular-expression-for-first-and-last-name
 	//https://andrewwoods.net/blog/2018/name-validation-regex/
-	
+
 	fmt.Println("account created successfully")
 	c.Response().Header().Set("HX-Redirect", "/login")
 	return utils.RenderComponents(c, 201, logintempl.Error("Account Created"), nil)
 }
-func createCookie(sessionid string) *http.Cookie{
+func createCookie(sessionid string) *http.Cookie {
 	var cookie = new(http.Cookie)
 	cookie.Name = "UUID"
 	cookie.Value = sessionid
@@ -116,25 +116,25 @@ func (handle *AccountHandler) Verification(c echo.Context) error {
 	email := c.FormValue("email")
 	password := c.FormValue("password")
 	err := checkFormValue(`^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$`, email)
-	if err != nil{
+	if err != nil {
 		return utils.RenderComponents(c, 200, logintempl.Error("Invalid email"), nil)
 	}
 	fmt.Println("Login request")
 	account, err := handle.store.GetAccount(email)
-	
-	if err != nil{
+
+	if err != nil {
 		fmt.Println(err)
 		fmt.Println("No account found")
 		return utils.RenderComponents(c, 200, logintempl.Error(err.Error()), nil)
 	}
-	hash := []byte (account.Password)
-	if bcrypt.CompareHashAndPassword(hash, []byte (password)) == nil{
+	hash := []byte(account.Password)
+	if bcrypt.CompareHashAndPassword(hash, []byte(password)) == nil {
 		//Create a new session id, set this session id in the database and make a cookie for it
 		sessionid := uuid.New()
 		cookie := createCookie(sessionid.String())
 		c.SetCookie(cookie)
 		err := handle.store.SetSessionID(email, sessionid.String())
-		if err != nil{//What to do here?
+		if err != nil { //What to do here?
 			fmt.Println("cookie error")
 			fmt.Println(err)
 			return utils.RenderComponents(c, 200, logintempl.Error(err.Error()), nil)
