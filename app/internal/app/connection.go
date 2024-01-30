@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 	"database/sql"
-	_ "github.com/lib/pq"
+	_ "github.com/lib/pqx"
 )
 
 func ConnectPgsql() (*sql.DB, error) {
@@ -14,7 +14,7 @@ func ConnectPgsql() (*sql.DB, error) {
 	dbName := os.Getenv("POSTGRES_DB")
 	password := os.Getenv("POSTGRES_PASSWORD")
 	psqlconn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s sslmode=disable", host, user, password, dbName)
-	db, err := sql.Open("postgres", psqlconn)
+	db, err := sql.Open("pgx", psqlconn)
 	if err != nil {
 		return nil, err
 	}
@@ -23,3 +23,13 @@ func ConnectPgsql() (*sql.DB, error) {
 	return db, err
 }
 
+func ConnectPgsqlTest() (*sql.DB, error){
+	psqlconn := fmt.Sprintf("host=pgsqlTest://localhost/test?user=test&password=password")
+	db, err := sql.Open("pgx", psqlconn)
+	if err != nil{
+		return nil, err
+	}
+	err = db.Ping()
+
+	return db, err
+}

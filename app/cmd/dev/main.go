@@ -19,7 +19,7 @@ func main() {
     }
     postgresStorage := storage.NewPostgresStorage(db)
     
-    build := flag.Bool("build", false, "ReBuild the database")
+    build := flag.Bool("build", false, "Rebuild the database")
     flag.Parse()
     fmt.Println("Build:", *build)
 

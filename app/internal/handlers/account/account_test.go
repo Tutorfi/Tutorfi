@@ -7,6 +7,7 @@ import (
 	"testing"
 	//"fmt"
 	//"errors"
+	"github.com/ory/dockertest/v3"
 )
 //Ok most of this is invalid bc of a change that I made, but i'm keeping it around for integration tests
 func TestEmail(t *testing.T){
@@ -74,7 +75,16 @@ func TestName(t *testing.T){
 	}
 	t.Logf("Name test completed")
 }
-func TestAccountCreation (t *testing.T){
+func TestAccount (m *testing.M){
+	
+	m := M.run()
+	TestAccountCreation()
+	TestAccountLogin()
+}
+func TestAccountCreation(t *testing.T){
+
+}
+func TestAccountLogin(t *testing.T){
 
 }
 // func TestFormValid(t *testing.T){
