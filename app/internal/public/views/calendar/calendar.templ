@@ -7,11 +7,10 @@ templ Calendar() {
         <div>
             <h1> Calendar </h1>
             <form action="/calendar" method="post">
-                <label for="email">Email</label>
-                <input type="text" name="email" />
-                <label for="password">Password</label>
-                <input type="text" name="password" />
-                <button type="submit">Submit</button>
+                <button type="button" onclick="document.getElemendById("display").innerHTML=Date()">
+                Date and Time </button>
+                now
+                // <p id = "display"> </p>
             </form>
         </div>
     }
