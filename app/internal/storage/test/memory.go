@@ -2,10 +2,9 @@ package storage
 
 import (
 	"app/internal/models"
-
 )
 
-type MemoryStorage struct {}
+type MemoryStorage struct{}
 
 func NewMemoryStorage() *MemoryStorage {
 	return &MemoryStorage{}

@@ -1,9 +1,9 @@
 package utils
 
 import (
-    "os"
+	"os"
 )
 
-func GetEnv() string{
-    return os.Getenv("APP_ENV")
+func GetEnv() string {
+	return os.Getenv("APP_ENV")
 }
