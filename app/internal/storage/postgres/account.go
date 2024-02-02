@@ -19,7 +19,7 @@ func (s *PostgresStorage) GetAccount(email string) (*models.Account, error) {
 //Inserts an account into the database, does not return the created account.
 func (s *PostgresStorage) CreateAccount(fname, lname, email, password string) error {
 	//var acc models.Account
-	res := s.db.QueryRow("INSERT INTO account VALUES (DEFAULT, null, $1, $2, $3, $4)", fname, lname, email, password)
+	res := s.db.QueryRow("INSERT INTO account VALUES (DEFAULT, null, null, $1, $2, $3, $4, null)", fname, lname, email, password)
 	return res.Err()
 }
 
