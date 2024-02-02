@@ -1,0 +1,20 @@
+linters-settings:
+  gofmt:
+    # Simplify code: gofmt with `-s` option.
+    # Default: true
+    simplify: false
+    # Apply the rewrite rules to the source before reformatting.
+    # https://pkg.go.dev/cmd/gofmt
+    # Default: []
+    rewrite-rules:
+      - pattern: 'interface{}'
+        replacement: 'any'
+      - pattern: 'a[b:len(a)]'
+        replacement: 'a[b:]'
+  whitespace:
+    # Enforces newlines (or comments) after every multi-line if statement.
+    # Default: false
+    multi-if: true
+    # Enforces newlines (or comments) after every multi-line function signature.
+    # Default: false
+    multi-func: true
