@@ -5,7 +5,7 @@ import "app/internal/public/components"
 
 
 templ Home() {
-	@templates.Base() {
+	@templates.Base([]string{}) {
 		<div>
 			@components.HeaderNotLoggedIn()
 			<h1>Home</h1>

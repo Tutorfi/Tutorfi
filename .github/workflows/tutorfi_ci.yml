@@ -1,4 +1,4 @@
-name: Linter
+name: tutorfi_ci
 
 on:   
   push:

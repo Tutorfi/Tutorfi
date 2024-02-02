@@ -1,0 +1,9 @@
+.account-container{
+    margin-left: 30vw;
+    margin-right: 30vw;
+    border: .1em solid black;
+    border-color: inherit;
+}
+.account-form{
+    width: 80%;
+}

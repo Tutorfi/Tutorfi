@@ -1,35 +1,29 @@
 :root {
-  --background-color: #f5f5f5;
   color-scheme: light;
+  --background-color: #c7c7c7;
+  --navbar-background-color: #e4e4e4;
+  --navbar-text-color: #2f2f2f;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background-color: #121212;
     color-scheme: dark;
+    --background-color: #9a9a9a;
+    --navbar-background-color: #434343;
+    --navbar-text-color: #e4e4e4;
   }
 }
 
+@property --my-color {
+  syntax: "<color>";
+  inherits: false;
+  initial-value: #c0ffee;
+}
+
 .red {
-  color: #723543; /*rgb(114,53,67)*/
+  background-color: red;
 }
 
-.light-brown {
-  color: #bd9c81; /*rgb(189,156,129)*/
-}
-
-.dark-gray {
-  color: #555454; /*rgb(85,84,84)*/
-}
-
-.light-pastel-gray {
-  color: #dbcdcc; /*rgb(219,205,204)*/
-}
-
-.faint-gray {
-  color: #f8f5f0; /*rgb(248,245,240)*/
-}
-
-.background-faint-gray {
-  color: #f8f5f0; /*rgb(248,245,240)*/
+.error-message {
+  color: red;
 }
