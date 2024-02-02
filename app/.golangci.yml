@@ -11,3 +11,11 @@ linters-settings:
         replacement: 'any'
       - pattern: 'a[b:len(a)]'
         replacement: 'a[b:]'
+linters-settings:
+  whitespace:
+    # Enforces newlines (or comments) after every multi-line if statement.
+    # Default: false
+    multi-if: true
+    # Enforces newlines (or comments) after every multi-line function signature.
+    # Default: false
+    multi-func: true
