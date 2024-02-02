@@ -20,13 +20,14 @@ css header(){
     justify-content: space-between;
     padding: 10px;
     font-weight: 500;
-    background-color: {faintGray};
+    color: var(--navbar-text-color);
+    background-color: var(--navbar-background-color);
 }
 
 css buttons(){
     display: flex;
     gap: 15px;
-    color: {darkGray};
+    overflow: hidden;
 }
 
 
@@ -53,10 +54,8 @@ templ HeaderNotLoggedIn() {
     <div class={header()}>
       <img alt="Logo"/>
       <div class={buttons()}>
-        <a class={buttonStyle(), "navbarButton"}>Subscriptions</a>
-        <a class={buttonStyle(), "navbarButton"}>About</a>
-        <a class={buttonStyle(), "navbarButton"}>Log in</a>
-        <a class={buttonStyle(), "navbarButton","sign-up"}>Create an account</a>
+        <a class={buttonStyle(), "navbarButton"} href='/about'>About</a>
+        <a class={buttonStyle(), "navbarButton"} href='/login'>Log in</a>
       </div>
     </div>
 }
