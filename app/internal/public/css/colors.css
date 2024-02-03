@@ -1,15 +1,30 @@
 :root {
     --background-color: #f5f5f5;
+    --color-font: #121212;
     color-scheme: light;
+    --surface-1: #181818;
+    --text-input: #a0a0a01f;
+    --btn-color: #272727;
+    --btn-hover-color: #313131;
+    --link-hover-color: #d6d6d6;
 }
 
 @media (prefers-color-scheme: dark) {
     :root {
         --background-color: #121212;
+        --color-font: #ffffff;
         color-scheme: dark;
+        --surface-1: #181818;
+        --text-input: #a0a0a01f;
+        --btn-color: #272727;
+        --btn-hover-color: #313131;
+        --link-hover-color: #d6d6d6;
+        --navbar-color: #1b1b1b;
+        --sidebar-color: #1d1d1d;
+        --dropdown-outline: #2c2c2c;
     }
 }
 
-.error-message{
+.error-message {
     color: red;
 }
