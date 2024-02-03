@@ -7,3 +7,6 @@
 .account-form{
     width: 80%;
 }
+.login-error-text{
+    color: red;
+}
