@@ -4,19 +4,21 @@ Contains the base handlers for creating and authenticating accounts.
 package accounthandler
 
 import (
+	"app/internal/public/views/createAccount"
 	"app/internal/public/views/login"
 	"app/internal/storage"
 	"app/internal/utils"
 	"database/sql"
 	"errors"
 	"fmt"
-	"github.com/google/uuid"
-	"github.com/labstack/echo/v4"
-	"golang.org/x/crypto/bcrypt"
 	"net/http"
 	"regexp"
 	"time"
 	"unicode/utf8"
+
+	"github.com/google/uuid"
+	"github.com/labstack/echo/v4"
+	"golang.org/x/crypto/bcrypt"
 )
 
 type AccountHandler struct {
@@ -44,57 +46,61 @@ func checkFormValue(expression, val string) error {
 }
 func (handle *AccountHandler) CreateAccount(c echo.Context) error {
 	//Get and check the email to see if the account exists
-	email := c.FormValue("email")
+    form := createAccountTempl.AccountForm{}
+    
+    form.Email = c.FormValue("email")
+    form.Fname = c.FormValue("first_name")
+    form.Lname = c.FormValue("last_name")
+    form.Password = c.FormValue("password")
+
 	emailRegex := `^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$`
-	err := checkFormValue(emailRegex, email)
-	if err != nil {
-		fmt.Println("Invalid email")
-		fmt.Println(email)
-		return utils.RenderComponents(c, 200, logintempl.Error("Invalid email or password"), nil)
+	err := checkFormValue(emailRegex, form.Email)
+	if err != nil { 
+		return utils.RenderComponents(c, 200, createAccountTempl.CreateAccountForm(form,
+                                                         "Invalid email", true), nil)
 	}
 
-	_, err = handle.store.GetAccount(email)
+	_, err = handle.store.GetAccount(form.Email)
 	if err != sql.ErrNoRows {
-		return utils.RenderComponents(c, 200, logintempl.Error(err.Error()), nil)
+		return utils.RenderComponents(c, 200, createAccountTempl.CreateAccountForm(form, "Email already exists", true), nil)
 	}
 
 	if err != nil {
 		fmt.Println(err)
-		return utils.RenderComponents(c, 200, logintempl.Error(err.Error()), nil)
+        // Future: Change this to show server error and on dev show server error
+		return utils.RenderComponents(c, 200, createAccountTempl.CreateAccountForm(form, "Invalid email or password", true), nil)
 	}
 
 	nameRegex := `^[A-Za-z\x{00C0}-\x{00FF}][A-Za-z\x{00C0}-\x{00FF}\'\-]+([\ A-Za-z\x{00C0}-\x{00FF}][A-Za-z\x{00C0}-\x{00FF}\'\-]+)*`
-	fname := c.FormValue("fname")
-	lname := c.FormValue("lname")
-	err = checkFormValue(nameRegex, fname)
+    err = checkFormValue(nameRegex, form.Fname)
 	if err != nil {
-		return utils.RenderComponents(c, 200, logintempl.Error("Invalid first name"), nil)
+        // Future: Change this to show server error and on dev show server error
+		return utils.RenderComponents(c, 200, createAccountTempl.CreateAccountForm(form, "Invalid email or password", true), nil)
 	}
 
-	err = checkFormValue(nameRegex, lname)
+	err = checkFormValue(nameRegex, form.Lname)
 	if err != nil {
-		return utils.RenderComponents(c, 200, logintempl.Error("Invalid last name"), nil)
+		return utils.RenderComponents(c, 200, createAccountTempl.CreateAccountForm(form, "Invalid email or password", true), nil)
 	}
 
 	//Check and hash the password
-	password := c.FormValue("password")
 	//For the future when we figure out error handeling better
 	//https://stackoverflow.com/questions/19605150/regex-for-password-must-contain-at-least-eight-characters-at-least-one-number-a
 
-	if utf8.RuneCountInString(password) < 8 {
-		return utils.RenderComponents(c, 200, logintempl.Error("Password must be longer than 8 characters"), nil)
+	if utf8.RuneCountInString(form.Password) < 8 {
+		return utils.RenderComponents(c, 200, createAccountTempl.CreateAccountForm(form, "The password must be greater then 8", true), nil)
 	}
 	//In the future we may need a restriction on passwords too long
 	//Create a new account
 
-	hash, err := bcrypt.GenerateFromPassword([]byte(password), 0)
+	hash, err := bcrypt.GenerateFromPassword([]byte(form.Password), 0)
 	if err != nil {
-		fmt.Println("password hasing failed") //Don't know when this will happen
-		fmt.Println(err)
-		return utils.RenderComponents(c, 200, logintempl.Error(err.Error()), nil)
+		fmt.Println("password hasing failed")
+        fmt.Println(err)
+		return utils.RenderComponents(c, 200, createAccountTempl.CreateAccountForm(form, "Invalid email or password", true), nil)
 	}
 
-	err = handle.store.CreateAccount(fname, lname, email, string(hash))
+	err = handle.store.CreateAccount(form.Fname, form.Lname, form.Email, string(hash))
 	if err != nil {
 		fmt.Println(err)
 		return utils.RenderComponents(c, 200, logintempl.Error(err.Error()), nil)
@@ -152,5 +158,5 @@ func (handle *AccountHandler) Verification(c echo.Context) error {
 		return utils.RenderComponents(c, 200, logintempl.Error(err.Error()), nil)
 	}
 	c.Response().Header().Set("HX-Redirect", "/")
-	return utils.RenderComponents(c, 200, logintempl.Login("", "Logging in", false), nil)
+    return utils.RenderComponents(c, 200, logintempl.Login("", "Logging in", false), nil)
 }
