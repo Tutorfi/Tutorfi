@@ -14,4 +14,3 @@ func NewPostgresStorage(db *sql.DB) *PostgresStorage {
 		db: db,
 	}
 }
-

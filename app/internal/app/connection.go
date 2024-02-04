@@ -1,10 +1,10 @@
 package app
 
 import (
-	"fmt"
-	"os"
 	"database/sql"
+	"fmt"
 	_ "github.com/lib/pq"
+	"os"
 )
 
 func ConnectPgsql() (*sql.DB, error) {
@@ -19,7 +19,6 @@ func ConnectPgsql() (*sql.DB, error) {
 		return nil, err
 	}
 	err = db.Ping()
-	
+
 	return db, err
 }
-
