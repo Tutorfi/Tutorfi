@@ -36,6 +36,3 @@ func AddPagesRoutes(e *echo.Echo) {
 	e.GET("/calendar", calendar)
 }
 
-
-}
-
