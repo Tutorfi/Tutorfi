@@ -8,8 +8,10 @@ templ Calendar(cssDir []string) {
             <h1> Calendar </h1>
             <form action="/calendar" method="post">
                 <button type="button" hx-target="#display">Date and Time </button>
+                now
+                <p id="display"></p>
             </form>
-            <p id="display"></p>
+            // <p id="display"></p>
         </div>
     }
 }

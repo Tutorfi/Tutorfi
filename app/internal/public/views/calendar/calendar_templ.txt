@@ -1,0 +1,1 @@
+<div><h1>Calendar </h1><form action=\"/calendar\" method=\"post\"><button type=\"button\" hx-target=\"#display\">Date and Time </button> now\r<p id=\"display\"></p></form></div>
