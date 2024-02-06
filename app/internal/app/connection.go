@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 	"database/sql"
-	_ "github.com/lib/pqx"
+	_ "github.com/jackc/pgx/v5"
 )
 
 func ConnectPgsql() (*sql.DB, error) {
