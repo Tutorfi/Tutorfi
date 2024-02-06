@@ -5,9 +5,10 @@ import (
 	//"database/sql"
 	//_ "github.com/lib/pq"
 	"app/internal/app"
-	"app/internal/storage"
+	"app/internal/storage/postgres"
 	"net/http"
 	"net/http/httptest"
+	"net/url"
 	"strings"
 	"testing"
 
@@ -18,7 +19,6 @@ import (
 	"database/sql"
 
 	"github.com/ory/dockertest/v3"
-	
 )
 
 //Ok most of this is invalid bc of a change that I made, but i'm keeping it around for integration tests
@@ -94,22 +94,24 @@ func TestName(t *testing.T){
 func TestAccountCreation(t *testing.T){
 	db, err := app.ConnectPgsqlTest()
 	pgstore := storage.NewPostgresStorage(db)
-	SampleUsers := `{
-		"User1": {
-			"Firstname":"Test",
-			"Lastname":"Test",
-			"Email":"asdf@gmail.com",
-			"Password":"password123"
-		}
-	}`
+	SampleUsers := [][]string{
+		{"Test, Test, asdf@gmail.com, password123"},
+		{"", "", "", ""},
+	} 
+	f := make(url.Values)
 	e := echo.New()
-	req := httptest.NewRequest(http.MethodPost, "/create-account", strings.NewReader(SampleUsers))
-	req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
-	rec := httptest.NewRecorder()
-	c := e.NewContext(req, rec)
-	accHandler := accounthandler.New(pgstore)
-	if err = accHandler.CreateAccount(c); err != nil{
-		t.Errorf("Account creation test failed: %s", err.Error())
+	for _, element := range SampleUsers{
+		f.Set("fname", element[0])
+		f.Set("lname", element[1])
+		f.Set("email", element[2])
+		f.Set("password", element[3])
+		req := httptest.NewRequest(http.MethodPost, "/create-account", strings.NewReader(f.Encode()))
+		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
+		rec := httptest.NewRecorder()
+		c := e.NewContext(req, rec)
+		if err = CreateAccount(c); err != nil{
+			t.Errorf("Account creation test failed: %s", err.Error())
+		}
 	}
 	t.Logf("Account creation test completed")
 }
