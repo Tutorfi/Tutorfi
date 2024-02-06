@@ -3,6 +3,7 @@
   --background-color: #c7c7c7;
   --navbar-background-color: #e4e4e4;
   --navbar-text-color: #2f2f2f;
+  --footer-github-color: #24292f;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -11,6 +12,7 @@
     --background-color: #9a9a9a;
     --navbar-background-color: #434343;
     --navbar-text-color: #e4e4e4;
+    --footer-github-color: #fff;
   }
 }
 
