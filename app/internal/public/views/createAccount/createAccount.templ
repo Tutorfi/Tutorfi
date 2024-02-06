@@ -2,7 +2,7 @@ package createtempl
 
 import "app/internal/public/templates"
 
-templ Create() {
+templ Create(cssDir []string) {
 	@templates.Base([]string{"account/account.css"}) {
 		<div class="center-screen container account-container">
             <div>

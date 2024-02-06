@@ -9,7 +9,8 @@ import (
 )
 
 func createAccount (c echo.Context) error {
-	err := utils.RenderPages(c, http.StatusOK, createtempl.Create())
+    cssDir := []string{"account/account.css"}
+    err := utils.RenderPages(c, http.StatusOK, createtempl.Create(cssDir))
 	if err != nil {
 		return err
 	}

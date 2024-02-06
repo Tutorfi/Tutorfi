@@ -1,0 +1,14 @@
+package abouttempl
+
+import "app/internal/public/templates"
+import "app/internal/public/components"
+
+
+templ About() {
+	@templates.Base([]string{}) {
+		<div>
+			@components.HeaderNotLoggedIn()
+			<h1>About</h1>
+		</div>
+	}
+}
