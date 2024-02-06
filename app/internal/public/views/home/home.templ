@@ -8,10 +8,6 @@ templ Home() {
 	@templates.Base([]string{}) {
 		<div>
 			@components.HeaderNotLoggedIn()
-			<h1>Home</h1>
-			<p>Home page</p>
-            <a href="/login"><button>Login</button></a>
-            <a href="/create-account"><button>Create Account</button></a>
 			@components.HomepageBody()
 			@components.Footer()
 		</div>

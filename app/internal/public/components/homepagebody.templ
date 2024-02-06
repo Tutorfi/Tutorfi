@@ -9,6 +9,8 @@ css bodyImage(){
 css features(){
     display: flex;
     flex-direction: column;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 
 css feature(){
@@ -36,13 +38,40 @@ css featureDetail(){
 
 }
 
+css bodyImageContainer(){
+    position: relative;
+}
+
+css mainBodyImage(){
+    height: 90vh;
+    width: 100%;
+    background-color: #ff00ff;
+}
+
+css overlayText(){
+    position: absolute;
+    bottom: 60px;
+    left: 10vw;
+}
+
+css imageTitle(){
+    font-size: 60px;
+    margin: 0;
+    padding: 0;
+}
+
+css imageDescription(){
+    font-size: 30px;
+    max-width: 45vw;
+}
+
 templ HomepageBody(){
-    <div class="bodyImageContainer">
-        <img/>
-        <div class="overlayText">
-            <h1></h1>
-            <h1></h1>
-            <p></p>
+    <div class={bodyImageContainer()}>
+        <img class={mainBodyImage()}/>
+        <div class={overlayText()}>
+            <h1 class={imageTitle()}>Tutor Management</h1>
+            <h1 class={imageTitle()}>Made Easy</h1>
+            <p class={imageDescription()}>Creating easy tutor management for organizations while also reducing the complexity of getting a tutor for students</p>
             <a class="signupbutton"></a>
         </div>
     </div>

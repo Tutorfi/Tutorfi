@@ -9,7 +9,7 @@
 @media (prefers-color-scheme: dark) {
   :root {
     color-scheme: dark;
-    --background-color: #9a9a9a;
+    --background-color: #333333;
     --navbar-background-color: #434343;
     --navbar-text-color: #e4e4e4;
     --footer-github-color: #fff;
