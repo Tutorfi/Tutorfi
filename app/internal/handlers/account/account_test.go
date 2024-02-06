@@ -4,11 +4,23 @@ import (
 	//"app/internal/models"
 	//"database/sql"
 	//_ "github.com/lib/pq"
+	"app/internal/app"
+	"app/internal/storage"
+	"net/http"
+	"net/http/httptest"
+	"strings"
 	"testing"
+
+	"github.com/labstack/echo/v4"
+
 	//"fmt"
 	//"errors"
+	"database/sql"
+
 	"github.com/ory/dockertest/v3"
+	
 )
+
 //Ok most of this is invalid bc of a change that I made, but i'm keeping it around for integration tests
 func TestEmail(t *testing.T){
 	//https://gist.github.com/cjaoude/fd9910626629b53c4d25
@@ -75,14 +87,31 @@ func TestName(t *testing.T){
 	}
 	t.Logf("Name test completed")
 }
-func TestAccount (m *testing.M){
-	
-	m := M.run()
-	TestAccountCreation()
-	TestAccountLogin()
-}
-func TestAccountCreation(t *testing.T){
+//Options - create a new docker image in every main testing file.
+//Pass down the same docker container (which is what I want to do)
+//Ok nvm we can just connect to the database each time.
 
+func TestAccountCreation(t *testing.T){
+	db, err := app.ConnectPgsqlTest()
+	pgstore := storage.NewPostgresStorage(db)
+	SampleUsers := `{
+		"User1": {
+			"Firstname":"Test",
+			"Lastname":"Test",
+			"Email":"asdf@gmail.com",
+			"Password":"password123"
+		}
+	}`
+	e := echo.New()
+	req := httptest.NewRequest(http.MethodPost, "/create-account", strings.NewReader(SampleUsers))
+	req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
+	rec := httptest.NewRecorder()
+	c := e.NewContext(req, rec)
+	accHandler := accounthandler.New(pgstore)
+	if err = accHandler.CreateAccount(c); err != nil{
+		t.Errorf("Account creation test failed: %s", err.Error())
+	}
+	t.Logf("Account creation test completed")
 }
 func TestAccountLogin(t *testing.T){
 
