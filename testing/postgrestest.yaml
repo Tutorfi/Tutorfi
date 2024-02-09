@@ -17,7 +17,7 @@ jobs:
         - name: Install dependencies
           run: go mod tidy
         - name: Build database
-          run: ./app/internal/storage/postgres/build.go
+          run: ./app/internal/app/buildtestdb.go
         env:
           POSTGRES_HOST: postgres
         ports:
