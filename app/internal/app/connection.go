@@ -24,7 +24,7 @@ func ConnectPgsql() (*sql.DB, error) {
 }
 
 func ConnectPgsqlTest() (*sql.DB, error){
-	psqlconn := fmt.Sprintf("host=pgsqlTest://localhost/test?user=test&password=password")
+	psqlconn := fmt.Sprintf("host=pgsqlTest://localhost/test?user=user&password=postgres")
 	db, err := sql.Open("pgx", psqlconn)
 	if err != nil{
 		return nil, err
