@@ -26,6 +26,15 @@ func (s *PostgresStorage) BuildDevDB() {
       password varchar NOT NULL,
       created_at timestamp
     );
+
+    CREATE TABLE events (
+      id uuid DEFAULT gen_random_uuid () PRIMARY KEY UNIQUE,
+      user_id uuid NOT NULL,
+      title varchar NOT NULL,
+      details varchar NOT NULL,
+      start_time TIMESTAMPTZ NOT NULL,
+      end_time TIMESTAMPTZ
+    )
     
     CREATE TABLE schedule (
       id integer PRIMARY KEY UNIQUE,
