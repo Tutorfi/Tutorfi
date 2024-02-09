@@ -2,7 +2,7 @@ name: postgres test container
 on: push
 jobs:
   container-job:
-    runs-on: ubunutu-20.11
+    runs-on: ubuntu-latest
     container: golang:1.21.5-alpine3.18
     services:
       postgres:
