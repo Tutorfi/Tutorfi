@@ -16,6 +16,9 @@ jobs:
       - name: Check out repo
         uses: actions/checkout@v4
 
+      - name: Go to app
+        run: cd /app
+        
       - name: Install dependencies
         run: go mod tidy
 
