@@ -4,14 +4,16 @@ import "app/internal/public/templates"
 
 templ Calendar(cssDir []string) {
     @templates.Base([]string{}) {
+        <h1> Calendar </h1>
+        <style>
+        .wrapper {
+            display:grid;
+            grid-template-columns: 70%, 30%;
+        }
+        </style>
         <div>
-            <h1> Calendar </h1>
-            <form action="/calendar" method="post">
-                <button type="button" hx-target="#display">Date and Time </button>
-                now
-                <p id="display"></p>
-            </form>
-            // <p id="display"></p>
+            kskld klj dksajdkl asjkld jaslkd jsalkj lk
         </div>
-    }
+
+            // <p id="display"></p>
 }
