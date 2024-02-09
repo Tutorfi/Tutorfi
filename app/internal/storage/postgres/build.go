@@ -34,7 +34,7 @@ func (s *PostgresStorage) BuildDevDB() {
       details varchar NOT NULL,
       start_time TIMESTAMPTZ NOT NULL,
       end_time TIMESTAMPTZ
-    )
+    );
     
     CREATE TABLE schedule (
       id integer PRIMARY KEY UNIQUE,
