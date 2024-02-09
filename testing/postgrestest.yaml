@@ -1,0 +1,25 @@
+name: postgres test container
+on: push
+jobs:
+  container-job:
+    runs-on: ubunutu-20.11
+    container: golang:1.21.5-alpine3.18
+    services:
+      postgres:
+        image: postgres
+        env:
+          POSTGRES_PASSWORD:postgres
+        ports:
+          - 5432:5432
+      steps:
+        - name: Check out repo
+          uses: actions/checkout@v4
+        - name: Install dependencies
+          run: go mod tidy
+        - name: Build database
+          run: ./app/internal/storage/postgres/build.go
+        env:
+          POSTGRES_HOST: postgres
+        ports:
+          POSTGRES_PORT: 5432
+        
