@@ -2,8 +2,8 @@ package logintempl
 
 import "app/internal/public/templates"
 
-templ Login() {
-	@templates.Base([]string{"account/account.css"}) {
+templ Login(cssDir []string) {
+	@templates.Base(cssDir) {
 		<div class="center-screen account-container">
 			<div>
 				<a href="/"><p>Tutorfi</p></a> <!--In the future insert logo here-->

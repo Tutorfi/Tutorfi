@@ -71,5 +71,5 @@ func (s *PostgresStorage) BuildDevDB() {
 		fmt.Println("unable to insert values into test database")
 		fmt.Println(err)
 	}
-    fmt.Println("Finished building db")
+	fmt.Println("Finished building db")
 }
