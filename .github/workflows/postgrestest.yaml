@@ -11,15 +11,17 @@ jobs:
           POSTGRES_PASSWORD:postgres
         ports:
           - 5432:5432
-      steps:
-        - name: Check out repo
-          uses: actions/checkout@v4
-        - name: Install dependencies
-          run: go mod tidy
-        - name: Build database
-          run: ./app/internal/app/buildtestdb.go
-        env:
-          POSTGRES_HOST: postgres
-        ports:
-          POSTGRES_PORT: 5432
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v4
+      - name: Install dependencies
+        run: go mod tidy
+      - name: Build database
+        run: ./app/internal/app/buildtestdb.go
+      - name: Run tests
+        run: go test ./..
+      env:
+        POSTGRES_HOST: postgres
+      ports:
+        POSTGRES_PORT: 5432
         
