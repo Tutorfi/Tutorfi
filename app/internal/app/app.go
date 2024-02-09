@@ -8,8 +8,8 @@ import (
 	"app/internal/storage"
 
 	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 )
-
 type App struct {
 	listenAddr string
 	store      storage.Storage
