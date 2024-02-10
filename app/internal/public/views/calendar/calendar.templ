@@ -4,94 +4,75 @@ import "app/internal/public/templates"
 
 templ Calendar(cssDir []string) {
     @templates.Base([]string{}) {
+        <head>
         <h1> Calendar </h1>
-        // <style>
-        // .wrapper {
-        //     display:grid;
-        //     grid-template-columns: 30%, 30%;
-        // }
-        // .wrapper > div {
-        //     background:#eee;
-        // }
-        // .wrapper > div:nth-child(odd){
-        //     background:#ddd;
-        // }
-        // </style>
-        <style>
-            table, td, th {
-            border: 1px solid black;
-            }
+        <link href="calendar.css" rel="stylesheet" type="text/css" />
+        </head>
+        
+        <body>
+            <div class="grid">
+                <table>
+                    <tr>
+                        <th>Sunday</th>
+                        <th>Monday</th>
+                        <th>Tuesday</th>
+                        <th>Wednesday</th>
+                        <th>Thursday</th>
+                        <th>Friday</th>
+                        <th>Saturday</th>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>3</td>
+                        <td></td>
+                        <td></td>
+                        <td>5</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
 
-            table {
-            // border-collapse: collapse;
-            width: 50%;
-            }
+                    <tr>
+                        <td></td>
+                        <td>3</td>
+                        <td></td>
+                        <td>2</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
 
-            td {
-                width: 70px;
-                height: 70px;
-            }
-        </style>
-        <table>
-            <tr>
-                <th>Sunday</th>
-                <th>Monday</th>
-                <th>Tuesday</th>
-                <th>Wednesday</th>
-                <th>Thursday</th>
-                <th>Friday</th>
-                <th>Saturday</th>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td>4</td>
+                        <td></td>
+                        <td>7</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
 
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
+                    <tr>
+                        <td></td>
+                        <td>423</td>
+                        <td></td>
+                        <td></td>
+                        <td>643</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
 
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-        </table>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td>324</td>
+                        <td></td>
+                        <td></td>
+                        <td>5345</td>
+                        <td>543</td>
+                    </tr>
+                </table>
+            </div>
+        </body>
             // <p id="display"></p>
     }
 }

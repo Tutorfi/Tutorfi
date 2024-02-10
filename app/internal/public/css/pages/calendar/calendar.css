@@ -1,0 +1,17 @@
+.grid {
+    padding-left: 20px;
+}
+
+.grid > table {
+    border: 1px solid black;
+}
+
+.grid > table {
+    border-collapse: collapse;
+    width: 50%;
+}
+
+.grid > td {
+    width: 70px;
+    height: 70px;
+}
