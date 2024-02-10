@@ -5,15 +5,93 @@ import "app/internal/public/templates"
 templ Calendar(cssDir []string) {
     @templates.Base([]string{}) {
         <h1> Calendar </h1>
+        // <style>
+        // .wrapper {
+        //     display:grid;
+        //     grid-template-columns: 30%, 30%;
+        // }
+        // .wrapper > div {
+        //     background:#eee;
+        // }
+        // .wrapper > div:nth-child(odd){
+        //     background:#ddd;
+        // }
+        // </style>
         <style>
-        .wrapper {
-            display:grid;
-            grid-template-columns: 70%, 30%;
-        }
-        </style>
-        <div>
-            kskld klj dksajdkl asjkld jaslkd jsalkj lk
-        </div>
+            table, td, th {
+            border: 1px solid black;
+            }
 
+            table {
+            // border-collapse: collapse;
+            width: 50%;
+            }
+
+            td {
+                width: 70px;
+                height: 70px;
+            }
+        </style>
+        <table>
+            <tr>
+                <th>Sunday</th>
+                <th>Monday</th>
+                <th>Tuesday</th>
+                <th>Wednesday</th>
+                <th>Thursday</th>
+                <th>Friday</th>
+                <th>Saturday</th>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </table>
             // <p id="display"></p>
+    }
 }
