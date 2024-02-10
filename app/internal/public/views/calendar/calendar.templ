@@ -3,16 +3,15 @@ package calendartempl
 import "app/internal/public/templates"
 
 templ Calendar(cssDir []string) {
-    @templates.Base([]string{}) {
-        <head>
-        <h1> Calendar </h1>
-        <link href="calendar.css" rel="stylesheet" type="text/css" />
-        </head>
+    @templates.Base(cssDir) {
+        // <head>
+            <h1> Calendar </h1>
+        // </head>
         
-        <body>
-            <div class="grid">
+        // <body>
+            <div class="calendar">
                 <table>
-                    <tr>
+                    <tr class="calendar_contents">
                         <th>Sunday</th>
                         <th>Monday</th>
                         <th>Tuesday</th>
@@ -21,58 +20,59 @@ templ Calendar(cssDir []string) {
                         <th>Friday</th>
                         <th>Saturday</th>
                     </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>3</td>
-                        <td></td>
-                        <td></td>
-                        <td>5</td>
-                        <td></td>
-                        <td></td>
-                    </tr>
 
-                    <tr>
+                    <tr class="calendar_contents">
                         <td></td>
-                        <td>3</td>
                         <td></td>
-                        <td>2</td>
+                        <td></td>
+                        <td></td>
                         <td></td>
                         <td></td>
                         <td></td>
                     </tr>
 
-                    <tr>
+                    <tr class="calendar_contents">
                         <td></td>
                         <td></td>
-                        <td>4</td>
-                        <td></td>
-                        <td>7</td>
                         <td></td>
                         <td></td>
-                    </tr>
-
-                    <tr>
                         <td></td>
-                        <td>423</td>
-                        <td></td>
-                        <td></td>
-                        <td>643</td>
                         <td></td>
                         <td></td>
                     </tr>
 
-                    <tr>
+                    <tr class="calendar_contents">
                         <td></td>
                         <td></td>
-                        <td>324</td>
                         <td></td>
                         <td></td>
-                        <td>5345</td>
-                        <td>543</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                    <tr class="calendar_contents">
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                    <tr class="calendar_contents">
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
                     </tr>
                 </table>
             </div>
-        </body>
+        // </body>
             // <p id="display"></p>
     }
 }

@@ -1,17 +1,18 @@
-.grid {
-    padding-left: 20px;
+.calendar {
+    padding-left: 15%;
 }
 
-.grid > table {
+.calendar > table, td, th {
     border: 1px solid black;
 }
 
-.grid > table {
+.calendar > table {
+    table-layout: fixed ;
     border-collapse: collapse;
-    width: 50%;
+    width: 80%;
 }
 
-.grid > td {
-    width: 70px;
-    height: 70px;
+.calendar_contents {
+    width: 100px;
+    height: 100px;
 }
