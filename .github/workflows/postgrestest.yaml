@@ -1,15 +1,16 @@
 name: postgres test container
 on: push
 jobs:
-  container-job:
+  container-test:
     runs-on: ubuntu-latest
     container: golang:1.21.5-alpine3.18
     services:
       postgres:
-        image: postgres
+        image: postgres:16-alpine
         env:
           POSTGRES_PASSWORD: postgres
           POSTGRES_USER: user
+          POSTGRES_DB: test
         ports:
           - 5432:5432
     steps:

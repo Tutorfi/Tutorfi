@@ -1,6 +1,6 @@
 package app
 import(
-	"app/internal/storage"
+	"app/internal/storage/postgres"
 	"log"
 )
 func buildTestDB(){
