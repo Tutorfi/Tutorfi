@@ -1,13 +1,19 @@
 package app
+
 import(
 	"app/internal/storage/postgres"
 	"log"
 )
-func buildTestDB(){
+
+func BuildTestDB() (*storage.PostgresStorage, error){
 	db, err := ConnectPgsqlTest()
 	if err != nil{
-		log.Fatalf(err.Error())
+		log.Println(err.Error())
 	}
-	var poststore = storage.NewPostgresStorage(db)
-	poststore.BuildDevDB()
+	poststore := storage.NewPostgresStorage(db)
+	err = poststore.BuildDevDB()
+	if err != nil{
+		return nil, err
+	}
+	return poststore, nil
 }

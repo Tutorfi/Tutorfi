@@ -16,9 +16,7 @@ import (
 
 	//"fmt"
 	//"errors"
-	"database/sql"
 
-	"github.com/ory/dockertest/v3"
 )
 
 //Ok most of this is invalid bc of a change that I made, but i'm keeping it around for integration tests

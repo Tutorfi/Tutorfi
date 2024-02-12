@@ -1,4 +1,4 @@
-name: postgres test container
+name: integration tests
 on: push
 jobs:
   container-test:
@@ -22,7 +22,7 @@ jobs:
         run: go mod tidy
 
       - name: Build database
-        run: ./app/internal/app/buildtestdb.go
+        run: go run app/internal/app/buildtestdb.go
         env:
           POSTGRES_HOST: pgsqlTest
           POSTGRES_PORT: 5432
