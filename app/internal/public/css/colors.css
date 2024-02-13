@@ -4,6 +4,12 @@
   --navbar-background-color: #e4e4e4;
   --navbar-text-color: #2f2f2f;
   --footer-github-color: #24292f;
+  --color-font: #121212;
+  --surface-1: #181818;
+  --text-input: #a0a0a01f;
+  --btn-color: #272727;
+  --btn-hover-color: #313131;
+  --link-hover-color: #d6d6d6;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -13,6 +19,14 @@
     --navbar-background-color: #434343;
     --navbar-text-color: #e4e4e4;
     --footer-github-color: #fff;
+    --color-font: #ffffff;
+    --surface-1: #181818;
+    --text-input: #a0a0a01f;
+    --btn-color: #272727;
+    --btn-hover-color: #313131;
+    --link-hover-color: #d6d6d6;
+    --sidebar-color: #1d1d1d;
+    --dropdown-outline: #2c2c2c;
   }
 }
 
@@ -26,6 +40,3 @@
   background-color: red;
 }
 
-.error-message {
-  color: red;
-}
