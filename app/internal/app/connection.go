@@ -3,6 +3,8 @@ package app
 import (
 	"database/sql"
 	_ "github.com/jackc/pgx/v5/stdlib"
+	"os"
+	"fmt"
 )
 
 func ConnectPgsql() (*sql.DB, error) {
@@ -23,7 +25,7 @@ func ConnectPgsql() (*sql.DB, error) {
 }
 
 func ConnectPgsqlTest() (*sql.DB, error){
-	psqlconn := fmt.Sprintf("host=pgsqlTest user=user password=postgres dbname=test port=5432")
+	psqlconn := fmt.Sprintf("host=pgsqlTest user=user password=postgres dbname=master")
 	db, err := sql.Open("pgx", psqlconn)
 	if err != nil{
 		return nil, err

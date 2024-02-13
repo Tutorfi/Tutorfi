@@ -9,7 +9,6 @@ import (
 	"app/internal/storage"
 	"app/internal/utils"
 	"database/sql"
-	"errors"
 	"fmt"
 	"net/http"
 	"regexp"
@@ -19,13 +18,6 @@ import (
 	"github.com/google/uuid"
 	"github.com/labstack/echo/v4"
 	"golang.org/x/crypto/bcrypt"
-	"unicode/utf8"
-	"time"
-	"database/sql"
-	"github.com/google/uuid"
-	"app/internal/public/views/login"
-	"app/internal/utils"
-	"regexp"
 	"net/mail"
 )
 
@@ -54,14 +46,19 @@ func checkFormValue(expression, val string) error {
 }
 func (handle *AccountHandler) CreateAccount(c echo.Context) error {
 	//Get and check the email to see if the account exists
-	email := c.FormValue("email")
-	_, err := mail.ParseAddress(email)
+	form := createAccountTempl.AccountForm{}
+	
+	form.Email = c.FormValue("email")
+	form.Fname = c.FormValue("fname")
+	form.Lname = c.FormValue("lname")
+	form.Password = c.FormValue("password")
+	_, err := mail.ParseAddress(form.Email)
 	if err != nil{
 		fmt.Println("Invalid email")
-		fmt.Println(email)
+		fmt.Println(form.Email)
 		return utils.RenderComponents(c, 200, logintempl.Error(err.Error()), nil)
 	}
-	_, err = handle.store.GetAccount(email)
+	_, err = handle.store.GetAccount(form.Email)
 	if err != sql.ErrNoRows{
 		fmt.Println("Account already exists")
 		fmt.Println(err)
@@ -70,13 +67,12 @@ func (handle *AccountHandler) CreateAccount(c echo.Context) error {
 	}
 
 	nameRegex := `^[A-Za-z\x{00C0}-\x{00FF}][A-Za-z\x{00C0}-\x{00FF}\'\-]+([\ A-Za-z\x{00C0}-\x{00FF}][A-Za-z\x{00C0}-\x{00FF}\'\-]+)*`
-	fname := c.FormValue("fname")
-	lname := c.FormValue("lname")
-	err = checkFormValue(nameRegex, fname)
+	
+	err = checkFormValue(nameRegex, form.Fname)
 	if err != nil{
 		return utils.RenderComponents(c, 200, logintempl.Error(err.Error()), nil)
 	}
-	err = checkFormValue(nameRegex, lname)
+	err = checkFormValue(nameRegex, form.Lname)
 	if err != nil{
 		return utils.RenderComponents(c, 200, logintempl.Error(err.Error()), nil)
 	}
@@ -84,8 +80,7 @@ func (handle *AccountHandler) CreateAccount(c echo.Context) error {
 	//Check and hash the password
 	//For the future when we figure out error handeling better
 	//https://stackoverflow.com/questions/19605150/regex-for-password-must-contain-at-least-eight-characters-at-least-one-number-a
-
-	if utf8.RuneCountInString(password) < 8{
+	if utf8.RuneCountInString(form.Password) < 8{
 		fmt.Println("Password too short")
 		err := &AccountError{msg: fmt.Sprintf("Password must be longer than 8 characters")}
 		return utils.RenderComponents(c, 200, logintempl.Error(err.Error()), nil)

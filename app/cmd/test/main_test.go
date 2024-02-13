@@ -1,18 +1,16 @@
 package main
 
 import (
-	"log"
 	"testing"
 	_ "github.com/jackc/pgx/v5"
 	"app/internal/app"
 )
 
-func TestMain(m *testing.M) {
-	// uses a sensible default on windows (tcp/http) and linux/osx (socket)
-	log.Println("works")
+func TestMain(t *testing.T) {
+	t.Logf("works")
 	_, err := app.BuildTestDB()
 	if err != nil{
-		log.Println("stuff")
+		t.Fatalf(err.Error())
 	}
 }
 
