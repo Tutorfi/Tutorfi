@@ -48,7 +48,7 @@ func (s *PostgresStorage) BuildDevDB() {
       "id" integer UNIQUE PRIMARY KEY,
       "account_id" uuid UNIQUE NOT NULL,
       "permissions" jsonb,
-      FOERIGN KEY ("account_id") REFERENCES "account"("id") ON DELETE CASCADE
+      FOREIGN KEY ("account_id") REFERENCES "account"("id") ON DELETE CASCADE
     );
     `
 	_, err := s.db.Exec(val)
