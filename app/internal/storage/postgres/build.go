@@ -64,6 +64,27 @@ func (s *PostgresStorage) BuildDevDB() error {
 		fmt.Println(err)
         return err;
 	}
+	hash, _ = bcrypt.GenerateFromPassword([]byte("passwordthing"), 0)
+	_, err = s.db.Exec("INSERT INTO account (firstname,lastname,email,password) VALUES ('Jane', 'Lin', 'JaneLin@gmail.com', $1)", hash)
+	if err != nil {
+		fmt.Println("unable to insert values into test database")
+		fmt.Println(err)
+        return err;
+	}
+	hash, _ = bcrypt.GenerateFromPassword([]byte("passwordthing"), 0)
+	_, err = s.db.Exec("INSERT INTO account (firstname,lastname,email,password) VALUES ('Me', 'Bulmaro', 'Bulmaro@gmail.com', $1)", hash)
+	if err != nil {
+		fmt.Println("unable to insert values into test database")
+		fmt.Println(err)
+        return err;
+	}
+	hash, _ = bcrypt.GenerateFromPassword([]byte("passwordthing"), 0)
+	_, err = s.db.Exec("INSERT INTO account (firstname,lastname,email,password) VALUES ('John', 'Doe', 'JohnDoe@gmail.com', $1)", hash)
+	if err != nil {
+		fmt.Println("unable to insert values into test database")
+		fmt.Println(err)
+        return err;
+	}
 	fmt.Println("Finished building db")
     return nil;
 }
