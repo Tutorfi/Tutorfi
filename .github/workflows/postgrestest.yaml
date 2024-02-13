@@ -25,6 +25,6 @@ jobs:
           POSTGRES_PORT: 5432
 
       - name: Run tests
-        run: ls -la & go test .
+        run: ls -la & pwd & go test .
         
         
