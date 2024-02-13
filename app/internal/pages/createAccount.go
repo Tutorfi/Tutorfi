@@ -8,8 +8,9 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func createAccount (c echo.Context) error {
-	err := utils.RenderPages(c, http.StatusOK, createtempl.Create())
+func createAccount(c echo.Context) error {
+	cssDir := []string{"account/account.css"}
+	err := utils.RenderPages(c, http.StatusOK, createAccountTempl.CreateAccountPage(cssDir))
 	if err != nil {
 		return err
 	}

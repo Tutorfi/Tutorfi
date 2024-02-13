@@ -1,0 +1,24 @@
+package app
+
+import (
+	"app/internal/handlers/account"
+    "app/internal/handlers/scheduler"
+
+	"github.com/labstack/echo/v4"
+    "github.com/labstack/echo/v4/middleware"
+)
+
+func addRoutes(e *echo.Echo, a *App) {
+
+	accountFunctions := accounthandler.New(a.store)
+	schedulerFunctions := schedulerhandler.New(a.store)
+
+	e.POST("/login/verify", accountFunctions.Verification)
+	e.GET("/schedule/date", schedulerFunctions.Schedule)
+	e.POST("/create-account/create", accountFunctions.CreateAccount)
+
+	e.Static("/css", "/app/internal/public/css")
+	e.Static("/js", "/app/internal/public/js")
+	e.Use(middleware.CORS(), middleware.Logger(), middleware.Recover())
+	e.Use(middleware.GzipWithConfig(middleware.GzipConfig{Level: 6}))
+}

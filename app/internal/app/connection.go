@@ -1,8 +1,6 @@
 package app
 
 import (
-	"fmt"
-	"os"
 	"database/sql"
 	_ "github.com/jackc/pgx/v5/stdlib"
 )
@@ -20,7 +18,7 @@ func ConnectPgsql() (*sql.DB, error) {
 		return nil, err
 	}
 	err = db.Ping()
-	
+
 	return db, err
 }
 

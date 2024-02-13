@@ -39,10 +39,8 @@ func main() {
 		fmt.Println("WARNING: Running in production mode")
 	}
 
-
-
 	// postgresStorage.BuildDevDB()
-	server := app.NewApp("0.0.0.0:8000",postgresStorage) 
+	server := app.NewApp("0.0.0.0:8000", postgresStorage)
 	err = server.Start(e)
 
 	e.Logger.Fatal(err)
