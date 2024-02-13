@@ -1,9 +1,16 @@
-.account-container{
-    margin-left: 30vw;
-    margin-right: 30vw;
-    border: .1em solid black;
-    border-color: inherit;
+.login-error-text{
+    color: red;
 }
-.account-form{
-    width: 80%;
+
+.login-submit {
+  width: 190px;
+  height: 30px;
+  text-align: center;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
+
+.account-form {
+    width: 190px;
+}
+
