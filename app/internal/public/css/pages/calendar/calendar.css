@@ -4,24 +4,43 @@ body{
     background: lightblue;
 }
 
-.calendar {
-    padding-left: 15%;
+/* displays desktop */
+@media all and (min-width: 501px){
+    .mobile{
+        display: none;
+    }
+    .desktop{
+        display: block;
+    }
+    .calendar {
+        padding-left: 15%;
+    }
+    
+    .calendar > table, th, td {
+        border: 1px solid black;
+    }
+    
+    .calendar > table {
+        table-layout: fixed;
+        border-collapse: separate;
+        border-spacing: 0;
+        border-radius: 15px;
+        border: 3px solid black;
+        width: 80%;
+    }
+    
+    .calendar_contents {
+        width: 100px;
+        height: 100px;
+    }
 }
 
-.calendar > table, th, td {
-    border: 1px solid black;
-}
-
-.calendar > table {
-    table-layout: fixed;
-    border-collapse: separate;
-    border-spacing: 0;
-    border-radius: 15px;
-    border: 3px solid black;
-    width: 80%;
-}
-
-.calendar_contents {
-    width: 100px;
-    height: 100px;
+/* displays mobile */
+@media all and (max-width: 500px) {
+    .mobile{
+        display: block;
+    }
+    .desktop{
+        display: none;
+    }
 }
