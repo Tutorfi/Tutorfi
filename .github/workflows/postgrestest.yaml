@@ -8,14 +8,15 @@ jobs:
       run: 
         working-directory: ./app
     services:
-      postgres:
+      pgsqlTest:
         image: postgres:16-bullseye
         env:
           POSTGRES_PASSWORD: postgres
           POSTGRES_USER: user
           POSTGRES_DB: master
+          
         ports:
-          - 5431:5432
+          - 5432:5432
     steps:
       - name: Check out repo
         uses: actions/checkout@v4
@@ -23,5 +24,8 @@ jobs:
         run: go mod tidy
       - name: Run tests
         run: go test ./cmd/test
+        env:
+          POSTGRES_HOST: pgsqlTest
+          POSTGRES_PORT: 5432
         
         

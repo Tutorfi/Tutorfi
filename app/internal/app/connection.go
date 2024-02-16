@@ -2,9 +2,9 @@ package app
 
 import (
 	"database/sql"
+	"fmt"
 	_ "github.com/jackc/pgx/v5/stdlib"
 	"os"
-	"fmt"
 )
 
 func ConnectPgsql() (*sql.DB, error) {
@@ -24,10 +24,10 @@ func ConnectPgsql() (*sql.DB, error) {
 	return db, err
 }
 
-func ConnectPgsqlTest() (*sql.DB, error){
-	psqlconn := fmt.Sprintf("host=pgsqlTest user=user password=postgres dbname=master")
+func ConnectPgsqlTest() (*sql.DB, error) {
+	psqlconn := fmt.Sprintf("host=pgsqlTest user=user password=postgres dbname=master sslmode=disable port=5432")
 	db, err := sql.Open("pgx", psqlconn)
-	if err != nil{
+	if err != nil {
 		return nil, err
 	}
 	err = db.Ping()
