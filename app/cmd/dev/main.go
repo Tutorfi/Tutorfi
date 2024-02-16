@@ -13,7 +13,7 @@ import (
 )
 
 func main() {
-    db, err := app.ConnectPgsql()
+    db, err := storage.ConnectPgsql()
     if err != nil {
         fmt.Println(err)
     }

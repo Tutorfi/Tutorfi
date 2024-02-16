@@ -6,10 +6,7 @@ import (
 	"testing"
 )
 
-func TestMain(t *testing.T) {
-	t.Logf("works")
-	_, err := app.BuildTestDB()
-	if err != nil {
-		t.Fatal(err)
-	}
+func TestMain(t *testing.M) {
+	app.BuildTestDB()
+	t.Run()
 }

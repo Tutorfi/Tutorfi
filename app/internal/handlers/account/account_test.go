@@ -4,7 +4,6 @@ import (
 	//"app/internal/models"
 	//"database/sql"
 	//_ "github.com/lib/pq"
-	"app/internal/app"
 	"app/internal/storage/postgres"
 	"net/http"
 	"net/http/httptest"
@@ -90,7 +89,7 @@ func TestName(t *testing.T){
 //Ok nvm we can just connect to the database each time.
 
 func TestAccountCreation(t *testing.T){
-	db, err := app.ConnectPgsqlTest()
+	db, err := storage.ConnectPgsqlTest()
 	pgstore := storage.NewPostgresStorage(db)
 	SampleUsers := [][]string{
 		{"Test, Test, asdf@gmail.com, password123"},

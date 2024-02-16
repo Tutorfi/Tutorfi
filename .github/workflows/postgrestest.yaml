@@ -23,7 +23,7 @@ jobs:
       - name: Install dependencies
         run: go mod tidy
       - name: Run tests
-        run: go test ./cmd/test
+        run: go test ./...
         env:
           POSTGRES_HOST: pgsqlTest
           POSTGRES_PORT: 5432
