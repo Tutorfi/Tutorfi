@@ -9,7 +9,7 @@ import (
 )
 
 func login(c echo.Context) error {
-	err := utils.RenderPages(c, http.StatusOK, logintempl.Login([]string{"account/account.css"}))
+	err := utils.RenderPages(c, http.StatusOK, logintempl.LoginPage([]string{"account/account.css"}))
 	if err != nil {
 		return err
 	}
