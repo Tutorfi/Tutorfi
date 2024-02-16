@@ -30,7 +30,7 @@ func (s *PostgresStorage) BuildDevDB() {
     CREATE TABLE events (
       id uuid DEFAULT gen_random_uuid () PRIMARY KEY UNIQUE,
       user_id uuid NOT NULL,
-      title varchar NOT NULL,
+      event_title varchar NOT NULL,
       details varchar NOT NULL,
       start_time TIMESTAMPTZ NOT NULL,
       end_time TIMESTAMPTZ
