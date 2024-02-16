@@ -1,0 +1,3 @@
+cd ..
+docker compose -f ./deployments/docker-compose.test.yml up
+docker exec -d app go test ./...
