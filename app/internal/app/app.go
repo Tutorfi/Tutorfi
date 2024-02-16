@@ -1,15 +1,15 @@
 package app
 
 import (
-	accounthandler "app/internal/handlers/account"
-	schedulerhandler "app/internal/handlers/scheduler"
-
+	"app/internal/handlers/account"
+	"app/internal/handlers/scheduler"
 	"app/internal/pages"
 	"app/internal/storage"
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 )
+
 type App struct {
 	listenAddr string
 	store      storage.Storage
@@ -24,20 +24,17 @@ func NewApp(listenAddr string, store storage.Storage) *App {
 
 func (a *App) Start(e *echo.Echo) error {
 	pages.AddPagesRoutes(e)
-    addRoutes(e,a)
 
 	accountFunctions := accounthandler.New(a.store)
 	schedulerFunctions := schedulerhandler.New(a.store)
-	
+
 	e.POST("/login/verify", accountFunctions.Verification)
 	e.GET("/schedule/date", schedulerFunctions.Schedule)
 	e.POST("/create-account/create", accountFunctions.CreateAccount)
 
-	e.Static("/assets", "/app/internal/public/assets/")
 	e.Static("/css", "/app/internal/public/css")
 	e.Static("/js", "/app/internal/public/js")
 	e.Use(middleware.CORS(), middleware.Logger(), middleware.Recover())
-	e.Use(middleware.GzipWithConfig(middleware.GzipConfig{ Level: 6 }))
-
+	e.Use(middleware.GzipWithConfig(middleware.GzipConfig{Level: 4}))
 	return e.Start(a.listenAddr)
 }

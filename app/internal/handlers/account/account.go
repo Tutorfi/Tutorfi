@@ -46,18 +46,18 @@ func checkFormValue(expression, val string) error {
 }
 func (handle *AccountHandler) CreateAccount(c echo.Context) error {
 	//Get and check the email to see if the account exists
-    form := createAccountTempl.AccountForm{}
-    
-    form.Email = c.FormValue("email")
-    form.Fname = c.FormValue("first_name")
-    form.Lname = c.FormValue("last_name")
-    form.Password = c.FormValue("password")
+	form := createAccountTempl.AccountForm{}
+
+	form.Email = c.FormValue("email")
+	form.Fname = c.FormValue("first_name")
+	form.Lname = c.FormValue("last_name")
+	form.Password = c.FormValue("password")
 
 	emailRegex := `^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$`
 	err := checkFormValue(emailRegex, form.Email)
-	if err != nil { 
+	if err != nil {
 		return utils.RenderComponents(c, 200, createAccountTempl.CreateAccountForm(form,
-                                                         "Invalid email", true), nil)
+			"Invalid email", true), nil)
 	}
 
 	_, err = handle.store.GetAccount(form.Email)
@@ -67,14 +67,14 @@ func (handle *AccountHandler) CreateAccount(c echo.Context) error {
 
 	if err != nil {
 		fmt.Println(err)
-        // Future: Change this to show server error and on dev show server error
+		// Future: Change this to show server error and on dev show server error
 		return utils.RenderComponents(c, 200, createAccountTempl.CreateAccountForm(form, "Invalid email or password", true), nil)
 	}
 
 	nameRegex := `^[A-Za-z\x{00C0}-\x{00FF}][A-Za-z\x{00C0}-\x{00FF}\'\-]+([\ A-Za-z\x{00C0}-\x{00FF}][A-Za-z\x{00C0}-\x{00FF}\'\-]+)*`
-    err = checkFormValue(nameRegex, form.Fname)
+	err = checkFormValue(nameRegex, form.Fname)
 	if err != nil {
-        // Future: Change this to show server error and on dev show server error
+		// Future: Change this to show server error and on dev show server error
 		return utils.RenderComponents(c, 200, createAccountTempl.CreateAccountForm(form, "Invalid email or password", true), nil)
 	}
 
@@ -96,7 +96,7 @@ func (handle *AccountHandler) CreateAccount(c echo.Context) error {
 	hash, err := bcrypt.GenerateFromPassword([]byte(form.Password), 0)
 	if err != nil {
 		fmt.Println("password hasing failed")
-        fmt.Println(err)
+		fmt.Println(err)
 		return utils.RenderComponents(c, 200, createAccountTempl.CreateAccountForm(form, "Invalid email or password", true), nil)
 	}
 
@@ -144,7 +144,7 @@ func (handle *AccountHandler) Verification(c echo.Context) error {
 
 	err = bcrypt.CompareHashAndPassword(hash, []byte(password))
 	if err != nil {
-        return utils.RenderComponents(c, 200, logintempl.Login(email, "Invalid email or password", true), nil)
+		return utils.RenderComponents(c, 200, logintempl.Login(email, "Invalid email or password", true), nil)
 	}
 
 	//Create a new session id, set this session id in the database and make a cookie for it
@@ -158,5 +158,5 @@ func (handle *AccountHandler) Verification(c echo.Context) error {
 		return utils.RenderComponents(c, 200, logintempl.Error(err.Error()), nil)
 	}
 	c.Response().Header().Set("HX-Redirect", "/")
-    return utils.RenderComponents(c, 200, logintempl.Login("", "Logging in", false), nil)
+	return utils.RenderComponents(c, 200, logintempl.Login("", "Logging in", false), nil)
 }
