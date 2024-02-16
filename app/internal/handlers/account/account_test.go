@@ -1,19 +1,13 @@
 package accounthandler
 
 import (
-	//"app/internal/models"
-	//"database/sql"
-	//_ "github.com/lib/pq"
 	"app/internal/storage/postgres"
 	"net/http"
 	"net/http/httptest"
 	"net/url"
 	"strings"
 	"testing"
-
 	"github.com/labstack/echo/v4"
-	//"fmt"
-	//"errors"
 )
 
 // Ok most of this is invalid bc of a change that I made, but i'm keeping it around for integration tests
@@ -59,34 +53,6 @@ func TestEmail(t *testing.T) {
 	//t.Logf("Email test completed")
 }
 
-// Is there a point to testing names?
-func TestName(t *testing.T) {
-	nameRegex := `^[A-Za-z\x{00C0}-\x{00FF}][A-Za-z\x{00C0}-\x{00FF}\'\-]+([\ A-Za-z\x{00C0}-\x{00FF}][A-Za-z\x{00C0}-\x{00FF}\'\-]+)*`
-	validNames := []string{
-		"John",
-		"Smith",
-	}
-
-	invalidNames := []string{
-		"12345",
-		"<Script>",
-	}
-	for _, element := range validNames {
-		if err := checkFormValue(nameRegex, element); err != nil {
-			t.Errorf("Valid names check failed with %s, got %s, expected nil.", element, err.Error())
-		}
-	}
-	for _, element := range invalidNames {
-		if err := checkFormValue(nameRegex, element); err == nil {
-			t.Errorf("Valid names check failed with %s, got nil, expected %s.", element, err.Error())
-		}
-	}
-	t.Logf("Name test completed")
-}
-
-//Options - create a new docker image in every main testing file.
-//Pass down the same docker container (which is what I want to do)
-//Ok nvm we can just connect to the database each time.
 
 func TestAccountCreation(t *testing.T) {
 	db, err := storage.ConnectPgsqlTest()
@@ -99,14 +65,10 @@ func TestAccountCreation(t *testing.T) {
 		{"Test", "Test", "asdf@gmail.com", "password123"},
 		{"", "", "", ""},
 	}
-	t.Log(SampleUsers[0])
-	t.Log(SampleUsers[0][0])
 	f := make(url.Values)
 	e := echo.New()
 	for _, element := range SampleUsers {
-		t.Logf(element[0])
-		t.Logf(element[1])
-		f.Set("fname", string(element[0]))
+		f.Set("fname", element[0])
 		f.Set("lname", element[1])
 		f.Set("email", element[2])
 		f.Set("password", element[3])

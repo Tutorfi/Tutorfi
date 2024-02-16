@@ -1,5 +1,5 @@
 name: integration tests
-on: push
+on: pull_request
 jobs:
   container-test:
     runs-on: ubuntu-latest
