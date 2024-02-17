@@ -31,7 +31,7 @@ func Calendar(cssDir []string) templ.Component {
 				templ_7745c5c3_Buffer = templ.GetBuffer()
 				defer templ.ReleaseBuffer(templ_7745c5c3_Buffer)
 			}
-			templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 1)
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<head><h1>Calendar </h1></head><body><div class=\"desktop\"><div class=\"calendar\"><table><tr class=\"calendar_contents\"><th>Sunday</th><th>Monday</th><th>Tuesday</th><th>Wednesday</th><th>Thursday</th><th>Friday</th><th>Saturday</th></tr><tr class=\"calendar_contents\"><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr class=\"calendar_contents\"><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr class=\"calendar_contents\"><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr class=\"calendar_contents\"><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr class=\"calendar_contents\"><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr></table></div></div><div class=\"mobile\"></div></body>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
