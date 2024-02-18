@@ -6,6 +6,7 @@ import "golang.org/x/crypto/bcrypt"
 func (s *PostgresStorage) BuildDevDB() {
 	val := ` 
     DROP TABLE IF EXISTS "group";
+    DROP TABLE IF EXISTS "events";
     DROP TABLE IF EXISTS "schedule";
     DROP TABLE IF EXISTS "user_schedule";
     DROP TABLE IF EXISTS "permission";
@@ -37,13 +38,14 @@ func (s *PostgresStorage) BuildDevDB() {
       FOREIGN KEY ("organization_id") REFERENCES "organization"("id") ON DELETE CASCADE
     );
 
-    CREATE TABLE events (
-      id uuid DEFAULT gen_random_uuid () PRIMARY KEY UNIQUE,
-      user_id uuid NOT NULL,
-      event_title varchar NOT NULL,
-      details varchar NOT NULL,
-      start_time TIMESTAMPTZ NOT NULL,
-      end_time TIMESTAMPTZ
+    CREATE TABLE "events" (
+      "id" uuid UNIQUE PRIMARY KEY DEFAULT (gen_random_uuid()),
+      "account_id" uuid NOT NULL,
+      "event_title" varchar NOT NULL,
+      "details" varchar NOT NULL,
+      "start_time" TIMESTAMPTZ NOT NULL,
+      "end_time" TIMESTAMPTZ,
+      FOREIGN KEY ("account_id") REFERENCES "account"("id") ON DELETE CASCADE
     );
     
     CREATE TABLE "user_schedule" (
