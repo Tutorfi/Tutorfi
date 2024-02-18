@@ -31,7 +31,7 @@ func Login(cssDir []string) templ.Component {
 				templ_7745c5c3_Buffer = templ.GetBuffer()
 				defer templ.ReleaseBuffer(templ_7745c5c3_Buffer)
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"center-screen account-container\"><div><a href=\"/\"><p>Tutorfi</p></a><!--In the future insert logo here--></div><h1 class=\"md\">Sign in</h1><div id=\"login-error\" class=\"md\"></div><form hx-post=\"/login/verify\" hx-target=\"#login-error\" class=\"account-form\"><label for=\"email\">Email</label> <input type=\"text\" name=\"email\" id=\"email\" required> <label for=\"password\">Password</label> <a href=\"/\" class=\"right\"><button>Forgot password?</button></a> <input type=\"password\" name=\"password\" id=\"password\" required><div class=\"md\"><button type=\"submit\">Submit</button></div></form><a href=\"/create-account\"><button><h4>Create an account</h4></button></a></div>")
+			templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 1)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
