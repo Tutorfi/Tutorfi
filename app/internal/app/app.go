@@ -22,7 +22,7 @@ func NewApp(listenAddr string, store storage.Storage) *App {
 
 func (a *App) Start(e *echo.Echo) error {
 	pages.AddPagesRoutes(e)
-    addRoutes(e,a)
+	addRoutes(e, a)
 
 	e.Use(middleware.CORS(), middleware.Logger(), middleware.Recover())
 	e.Use(middleware.GzipWithConfig(middleware.GzipConfig{Level: 6}))
