@@ -115,7 +115,7 @@ func (handle *AccountHandler) CreateAccount(c echo.Context) error {
 }
 func createCookie(sessionid string) *http.Cookie {
 	var cookie = new(http.Cookie)
-	cookie.Name = "Tutorfi_Account"
+	cookie.Name = "UUID"
 	cookie.Value = sessionid
 	cookie.Expires = time.Now().Add(24 * time.Hour)
 	cookie.HttpOnly = true
@@ -128,26 +128,22 @@ func (handle *AccountHandler) Verification(c echo.Context) error {
 	password := c.FormValue("password")
 	err := checkFormValue(`^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$`, email)
 	if err != nil {
-		fmt.Println("email error")
 		return utils.RenderComponents(c, 200, logintempl.Login(email, "Invalid email or password", true), nil)
 	}
 
 	account, err := handle.store.GetAccount(email)
 
-	if err == sql.ErrNoRows {
-        fmt.Println(err)
+	if err != sql.ErrNoRows {
 		return utils.RenderComponents(c, 200, logintempl.Login(email, "Invalid email or password", true), nil)
 	}
 
 	if err != nil {
 		fmt.Println(err)
-        return utils.RenderComponents(c, 200, logintempl.Error("Sorry an Error occured please contact support"), nil)
 	}
 	hash := []byte(account.Password)
 
 	err = bcrypt.CompareHashAndPassword(hash, []byte(password))
 	if err != nil {
-		fmt.Println(err)
 		return utils.RenderComponents(c, 200, logintempl.Login(email, "Invalid email or password", true), nil)
 	}
 
@@ -159,7 +155,7 @@ func (handle *AccountHandler) Verification(c echo.Context) error {
 	if err != nil { //What to do here?
 		fmt.Println("cookie error")
 		fmt.Println(err)
-        return utils.RenderComponents(c, 200, logintempl.Error("Sorry an Error occured please contact support"), nil)
+		return utils.RenderComponents(c, 200, logintempl.Error(err.Error()), nil)
 	}
 	c.Response().Header().Set("HX-Redirect", "/")
 	return utils.RenderComponents(c, 200, logintempl.Login("", "Logging in", false), nil)
