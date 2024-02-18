@@ -1,6 +1,8 @@
 package hometempl
 
 import "app/internal/public/templates"
+import "app/internal/public/components"
+
 
 templ Home() {
 	@templates.Base([]string{}) {
@@ -12,6 +14,9 @@ templ Home() {
             <a href="/create-account"><button>Create Account</button></a>
 			<a href="/calendar"><button>Calendar</button></a>
 
+			@components.HeaderNotLoggedIn()
+			@components.HomepageBody()
+			@components.Footer()
 		</div>
 	}
 }

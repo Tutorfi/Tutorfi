@@ -10,7 +10,7 @@ import (
 
 func createAccount(c echo.Context) error {
 	cssDir := []string{"account/account.css"}
-	err := utils.RenderPages(c, http.StatusOK, createtempl.Create(cssDir))
+	err := utils.RenderPages(c, http.StatusOK, createAccountTempl.CreateAccountPage(cssDir))
 	if err != nil {
 		return err
 	}

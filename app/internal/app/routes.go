@@ -2,10 +2,10 @@ package app
 
 import (
 	"app/internal/handlers/account"
-    "app/internal/handlers/scheduler"
+	"app/internal/handlers/scheduler"
 
 	"github.com/labstack/echo/v4"
-    "github.com/labstack/echo/v4/middleware"
+	"github.com/labstack/echo/v4/middleware"
 )
 
 func addRoutes(e *echo.Echo, a *App) {
