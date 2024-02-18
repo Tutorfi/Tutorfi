@@ -7,13 +7,6 @@ import "app/internal/public/components"
 templ Home() {
 	@templates.Base([]string{}) {
 		<div>
-			<h1>Home</h1>
-			<p>Home page</p>
-
-            <a href="/login"><button>Login</button></a>
-            <a href="/create-account"><button>Create Account</button></a>
-			<a href="/calendar"><button>Calendar</button></a>
-
 			@components.HeaderNotLoggedIn()
 			@components.HomepageBody()
 			@components.Footer()
