@@ -5,7 +5,6 @@ import (
 	"app/internal/handlers/scheduler"
 
 	"github.com/labstack/echo/v4"
-	"github.com/labstack/echo/v4/middleware"
 )
 
 func addRoutes(e *echo.Echo, a *App) {
@@ -19,6 +18,4 @@ func addRoutes(e *echo.Echo, a *App) {
 
 	e.Static("/css", "/app/internal/public/css")
 	e.Static("/js", "/app/internal/public/js")
-	e.Use(middleware.CORS(), middleware.Logger(), middleware.Recover())
-	e.Use(middleware.GzipWithConfig(middleware.GzipConfig{Level: 6}))
 }
