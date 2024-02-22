@@ -4,7 +4,7 @@ services:
       container_name: pgsqlTest
       restart: always
       healthcheck:
-        test: ["CMD-SHELL", "sh -c 'pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}'"]
+        test: ["CMD-SHELL", "sh -c 'pg_isready -U user -d master'"]
         interval: 10s
         timeout: 3s
         retries: 3
