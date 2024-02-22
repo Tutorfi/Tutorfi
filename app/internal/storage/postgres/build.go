@@ -20,7 +20,7 @@ func (s *PostgresStorage) BuildDevDB() error{
 
     CREATE TABLE "account" (
       "id" uuid UNIQUE PRIMARY KEY DEFAULT (gen_random_uuid()),
-      "seesion_id" uuid UNIQUE,
+      "session_id" uuid UNIQUE,
       "organization_id" integer UNIQUE,
       "email" varchar UNIQUE NOT NULL,
       "firstname" varchar NOT NULL,
