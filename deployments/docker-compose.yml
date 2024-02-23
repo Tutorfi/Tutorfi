@@ -12,6 +12,15 @@ services:
       interval: 10s
       timeout: 3s
       retries: 3
+  pgsqlTest:
+    image: postgres:16-bullseye
+    container_name: pgsqlTest
+    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "sh -c 'pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}'"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
   app:
     container_name: app
     build: 
