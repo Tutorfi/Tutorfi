@@ -8,15 +8,25 @@ services:
     container_name: pgsql
     restart: always
     healthcheck:
-      test: ["CMD-SHELL", "sh -c 'pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}'"]
+      test:
+        [
+          "CMD-SHELL",
+          "sh -c 'pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}'",
+        ]
       interval: 10s
       timeout: 3s
       retries: 3
   app:
     container_name: app
-    build: 
+    build:
       context: ../app
     depends_on:
       pgsql:
         condition: service_healthy
-
+  fileserver:
+    container_name: fileserver
+    build:
+      context: ../app
+    depends_on:
+      pgsql:
+        condition: service_healthy
