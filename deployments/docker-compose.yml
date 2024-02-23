@@ -1,6 +1,6 @@
 #major.minor.patch
 version: "0.0.0"
-name: tutorixa
+name: tutorfi
 
 services:
   pgsql:
@@ -27,5 +27,7 @@ services:
       context: ../app
     depends_on:
       pgsql:
+        condition: service_healthy
+      pgsqlTest:
         condition: service_healthy
 
