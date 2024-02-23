@@ -8,12 +8,12 @@ import (
 
 func (s *PostgresStorage) BuildDevDB() {
 	val := ` 
-  DROP TABLE IF EXISTS "group";
-  DROP TABLE IF EXISTS "schedule";
   DROP TABLE IF EXISTS "user_schedule";
+  DROP TABLE IF EXISTS "files_group";
+  DROP TABLE IF EXISTS "schedule";
   DROP TABLE IF EXISTS "permission";
   DROP TABLE IF EXISTS "files";
-  DROP TABLE IF EXISTS "files_group";
+  DROP TABLE IF EXISTS "group";
   DROP TABLE IF EXISTS "account";
   DROP TABLE IF EXISTS "organization";
   
