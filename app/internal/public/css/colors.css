@@ -10,6 +10,7 @@
   --btn-color: #272727;
   --btn-hover-color: #313131;
   --link-hover-color: #d6d6d6;
+  --past-dates-color: lightgray;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -27,6 +28,7 @@
     --link-hover-color: #d6d6d6;
     --sidebar-color: #1d1d1d;
     --dropdown-outline: #2c2c2c;
+    --past-dates-color: rgb(104, 102, 102);
   }
 }
 
