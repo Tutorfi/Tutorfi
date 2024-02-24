@@ -1,56 +1,18 @@
-/* displays larger */
-@media all and (max-width: 5000px){
-    .larger{
-        display: block;
-        .calendar {
-            padding-left: 15%;
-        }
-        
-        .calendar > table, th, td {
-            border: 1px solid black;
-        }
-        
-        .calendar > table {
-            table-layout: fixed;
-            border-collapse: separate;
-            border-spacing: 0;
-            border-radius: 15px;
-            border: 3px solid rgb(207, 19, 19);
-            width: 80%;
-        }
-        
-        .calendar_contents {
-            width: 100px;
-            height: 100px;
-        }
-    }
-    .smaller{
-        display: none;
-    }
-    .mobile{
-        display: none;
-    }
+/* 
+.fc-day-other   - days that aren't part of the month
+.fc-day-past    - days that have past
+*/
+
+
+/* days that aren't part of the month */
+.fc-day-other {
+    background-color: lightgray;
 }
 
-/* displays smaller */
-@media all and (max-width: 950px) {
-    .smaller{
-        display: block;
-    }
-    .larger and .mobile{
-        display: none;
-    }
-}
-
-/* displays mobile */
-@media all and (max-width: 450px) {
-    .larger{
-        display: none;
-    }
-    .smaller{
-        display: none;
-    }
-    .mobile{
-        display: block;
-    }
+/* days of the week text */
+.fc .fc-col-header-cell-cushion {
+    display: inline-block;
+    padding: 2px 4px;
+    padding-top: 5px;
+    padding-bottom: 5px;
 }
