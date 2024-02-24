@@ -2,16 +2,23 @@ package storage
 
 import (
 	"app/internal/models"
-	_ "database/sql"
-	// "fmt"
-	_ "github.com/lib/pq"
+	"database/sql"
+	_ "github.com/jackc/pgx/v5"
 )
 
-func (s *PostgresStorage) GetMaterials() (*models.Account, error) {
+func (s *PostgresStorage) GetGroupsForUser() (*models.Account, error) {
+
+	err := s.db.Query("SELECT * FROM files")
+
+}
+func (s *PostgresStorage) GetMaterialsForUser() (*models.Account, error) {
 
 	err := s.db.QueryRow("SELECT * FROM files")
-	if err != nil {
-		return nil, nil
-	}
-	return nil, nil
+
+}
+
+func (s *PostgresStorage) GetFilePaths() (*models.Account, error) {
+
+	err := s.db.QueryRow("SELECT * FROM files")
+
 }
