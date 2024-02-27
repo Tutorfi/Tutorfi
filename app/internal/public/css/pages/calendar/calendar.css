@@ -5,6 +5,9 @@
 .fc-day-past     - days that have past
 */
 
+::-webkit-scrollbar {
+    width: 1px;
+}
 
 .fc-media-screen {
     width: 80%;

@@ -31,7 +31,7 @@ func Calendar(cssDir []string) templ.Component {
 				templ_7745c5c3_Buffer = templ.GetBuffer()
 				defer templ.ReleaseBuffer(templ_7745c5c3_Buffer)
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<h1>Calendar </h1><script src=\"https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js\"></script> <script>\r\n\r\n        document.addEventListener('DOMContentLoaded', function() {\r\n            var calendarEl = document.getElementById('calendar');\r\n            var calendar = new FullCalendar.Calendar(calendarEl, {\r\n            initialView: 'dayGridMonth'\r\n            });\r\n            calendar.render();\r\n        });\r\n\r\n        </script> <div id=\"calendar\"></div>")
+			templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 1)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
