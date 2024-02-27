@@ -18,7 +18,7 @@ func (s *PostgresStorage) BuildDevDB() {
   DROP TABLE IF EXISTS "organization";
   
   CREATE TABLE "organization" (
-      "id" integer UNIQUE PRIMARY KEY,
+      "id" SERIAL UNIQUE PRIMARY KEY,
       "setting" varchar
   );
 
@@ -28,7 +28,7 @@ func (s *PostgresStorage) BuildDevDB() {
     CREATE TABLE "account" (
       "id" uuid UNIQUE PRIMARY KEY DEFAULT (gen_random_uuid()),
       "session_id" uuid UNIQUE,
-      "organization_id" integer UNIQUE,
+      "organization_id" SERIAL UNIQUE,
       "email" varchar UNIQUE NOT NULL,
       "firstname" varchar NOT NULL,
       "lastname" varchar NOT NULL,
@@ -38,45 +38,45 @@ func (s *PostgresStorage) BuildDevDB() {
     );
     
     CREATE TABLE "group" (
-      "id" integer UNIQUE PRIMARY KEY,
-      "organization_id" integer,
+      "id" SERIAL UNIQUE PRIMARY KEY,
+      "organization_id" SERIAL,
       "name" varchar UNIQUE NOT NULL,
       "data" jsonb,
       FOREIGN KEY ("organization_id") REFERENCES "organization"("id") ON DELETE CASCADE
     );
 
     CREATE TABLE "group_account" (
-	    "id" integer,
-	    "group_id" integer,
+	    "id" SERIAL UNIQUE PRIMARY KEY,
+	    "group_id" SERIAL,
 	    "account_id" uuid,
 	    FOREIGN KEY ("group_id") REFERENCES "group"("id") ON DELETE CASCADE,
 	    FOREIGN KEY ("account_id") REFERENCES "account"("id") ON DELETE CASCADE
     );
     
     CREATE TABLE "user_schedule" (
-      "id" integer UNIQUE PRIMARY KEY,
+      "id" SERIAL UNIQUE PRIMARY KEY,
       "account_id" uuid UNIQUE NOT NULL,
       "data" jsonb,
       FOREIGN KEY ("account_id") REFERENCES "account"("id") ON DELETE CASCADE
     );
     
     CREATE TABLE "permission" (
-      "id" integer UNIQUE PRIMARY KEY,
+      "id" SERIAL UNIQUE PRIMARY KEY,
       "account_id" uuid UNIQUE NOT NULL,
       "permissions" jsonb,
       FOREIGN KEY ("account_id") REFERENCES "account"("id") ON DELETE CASCADE
     );
     CREATE TABLE "files" (
-      "id" integer UNIQUE PRIMARY KEY,
+      "id" SERIAL UNIQUE PRIMARY KEY,
       "account_id" uuid,
       "filedir" varchar,
       FOREIGN KEY ("account_id") REFERENCES "account"("id") ON DELETE CASCADE
     );
   
     CREATE TABLE "files_group" (
-      "id" integer UNIQUE PRIMARY KEY,
-      "files_id" integer,
-      "group_id" integer,
+      "id" SERIAL UNIQUE PRIMARY KEY,
+      "files_id" SERIAL,
+      "group_id" SERIAL,
       FOREIGN KEY ("files_id") REFERENCES "files"("id") ON DELETE CASCADE,
       FOREIGN KEY ("group_id") REFERENCES "group"("id") ON DELETE CASCADE
     );
