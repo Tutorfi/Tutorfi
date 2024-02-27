@@ -23,7 +23,14 @@ func (s *PostgresStorage) BuildDevDB() {
   );
 
   CREATE TABLE "materials"(
-    "id" SERIAL UNIQUE PRIMARY KEY
+    "id" SERIAL UNIQUE PRIMARY KEY,
+    "author" SERIAL,
+    "owner" SERIAL,
+    "group" SERIAL,
+    "data" jsonb
+  );
+  CREATE TABLE ""(
+
   );
     CREATE TABLE "account" (
       "id" uuid UNIQUE PRIMARY KEY DEFAULT (gen_random_uuid()),

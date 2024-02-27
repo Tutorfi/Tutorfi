@@ -6,11 +6,6 @@ import (
 	_ "github.com/jackc/pgx/v5"
 )
 
-func (s *PostgresStorage) GetGroupsForUser() (*models.Account, error) {
-
-	err := s.db.Query("SELECT * FROM files")
-
-}
 func (s *PostgresStorage) GetMaterialsForUser() (*models.Account, error) {
 
 	err := s.db.QueryRow("SELECT * FROM files")
