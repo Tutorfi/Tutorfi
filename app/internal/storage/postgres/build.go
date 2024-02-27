@@ -22,8 +22,9 @@ func (s *PostgresStorage) BuildDevDB() {
       "setting" varchar
   );
 
-
-
+  CREATE TABLE "materials"(
+    "id" SERIAL UNIQUE PRIMARY KEY
+  );
     CREATE TABLE "account" (
       "id" uuid UNIQUE PRIMARY KEY DEFAULT (gen_random_uuid()),
       "session_id" uuid UNIQUE,
@@ -42,6 +43,14 @@ func (s *PostgresStorage) BuildDevDB() {
       "name" varchar UNIQUE NOT NULL,
       "data" jsonb,
       FOREIGN KEY ("organization_id") REFERENCES "organization"("id") ON DELETE CASCADE
+    );
+
+    CREATE TABLE "group_account" (
+	    "id" integer,
+	    "group_id" integer,
+	    "account_id" uuid,
+	    FOREIGN KEY ("group_id") REFERENCES "group"("id") ON DELETE CASCADE,
+	    FOREIGN KEY ("account_id") REFERENCES "account"("id") ON DELETE CASCADE
     );
     
     CREATE TABLE "user_schedule" (
