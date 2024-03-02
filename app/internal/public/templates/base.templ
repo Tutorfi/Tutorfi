@@ -1,7 +1,7 @@
 package templates
 
 
-templ Base(cssDirectories []string) {
+templ Base(cssDirectories []string, jsDirectories []string) {
 	<!DOCTYPE html>
 	<html lang="en">
 		<head>
@@ -19,6 +19,9 @@ templ Base(cssDirectories []string) {
             <div class="error"></div>
 			{ children... }
 			<script src="https://unpkg.com/htmx.org@1.9.9" integrity="sha384-QFjmbokDn2DjBjq+fM+8LUIVrAgqcNW2s0PjAxHETgRn9l4fvX31ZxDxvwQnyMOX" crossorigin="anonymous"></script>
-		</body>
+		    for _, jsDirectory := range jsDirectories {
+                <script src={ "/js/pages/" + jsDirectory }></script>
+            }
+        </body>
 	</html>
 }
