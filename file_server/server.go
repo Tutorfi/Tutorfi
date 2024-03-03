@@ -41,8 +41,8 @@ func Provisions(responseWriter http.ResponseWriter, request *http.Request){
 		fmt.Println(file.Name())
 	 }
     fmt.Println(`id := `, id)
-	// fs := http.FileServer((http.Dir("./data/"+id)))
-	// http.Handle("/", fs)
+	fs := http.FileServer((http.Dir("./data/"+id)))
+	http.Handle("/", fs)
 	// fmt.Fprintf(responseWriter, id)
 }
 
