@@ -3,7 +3,7 @@ package logintempl
 import "app/internal/public/templates"
 
 templ LoginPage(cssDir []string) {
-	@templates.Base(cssDir) {
+	@templates.Base(cssDir, []string{}) {
 		<div class="center-screen">
 			<div>
 				<a href="/"><p>Tutorfi</p></a> <!--In the future insert logo here-->
