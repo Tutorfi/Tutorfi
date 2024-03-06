@@ -41,7 +41,7 @@ jobs:
         with:
           working-directory: ./app/
           version: v1.54
-  stylelint:
+  csslint:
     runs-on: ubuntu-latest
     strategy:
       matrix:
