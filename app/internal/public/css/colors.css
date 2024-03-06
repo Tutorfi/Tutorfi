@@ -1,5 +1,6 @@
 :root {
   color-scheme: light;
+
   --background-color: #c7c7c7;
   --navbar-background-color: #e4e4e4;
   --navbar-text-color: #2f2f2f;
@@ -15,11 +16,12 @@
 @media (prefers-color-scheme: dark) {
   :root {
     color-scheme: dark;
-    --background-color: #333333;
+
+    --background-color: #333;
     --navbar-background-color: #434343;
     --navbar-text-color: #e4e4e4;
     --footer-github-color: #fff;
-    --color-font: #ffffff;
+    --color-font: #fff;
     --surface-1: #181818;
     --text-input: #a0a0a01f;
     --btn-color: #272727;
