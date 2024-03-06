@@ -28,6 +28,23 @@ func (s *PostgresStorage) BuildDevDB() {
       "created_at" timestamp,
       FOREIGN KEY ("organization_id") REFERENCES "organization"("id")
     );
+
+    CREATE TABLE "tag" (
+	  "id" SERIAL UNIQUE PRIMARY KEY,
+      "
+	  "name" varchar UNIQUE NOT NULL,
+      "delete_group" BOOLEAN DEFAULT FALSE,
+      "remove_add_student" BOOLEAN DEFAULT FALSE,
+      "add_remove_access_level" BOOLEAN DEFAULT FALSE
+    );
+
+    CREATE TABLE "account_tag" (
+      "id" SERIAL UNIQUE PRIMARY KEY,
+      "account_id" uuid,
+      "tag_id" INT,
+      FOREIGN KEY ("account_id") REFERENCES "account"("id") ON DELETE CASCADE,
+      FOREIGN KEY ("tag_id") REFERENCES "tag"("id") ON DELETE CASCADE
+    );
     
     CREATE TABLE "group" (
       "id" SERIAL UNIQUE PRIMARY KEY,
