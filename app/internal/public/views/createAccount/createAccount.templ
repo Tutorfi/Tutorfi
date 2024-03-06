@@ -10,7 +10,7 @@ type AccountForm struct {
 }
 
 templ CreateAccountPage(cssDir []string) {
-	@templates.Base(cssDir) {
+	@templates.Base(cssDir, []string{}) {
 		<div class="center-screen container account-container">
 			<div>
 				<a href="/"><p>Tutorfi</p></a> <!--In the future insert logo here-->
@@ -19,7 +19,6 @@ templ CreateAccountPage(cssDir []string) {
 			<form hx-post="/create-account/create" class="account-form" hx-swap="innerHTML">
 				@CreateAccountForm(AccountForm{Fname: "", Lname: "", Email: "", Password: ""}, "", false)
 			</form>
-			<a href="/login"><button><h4>Sign in</h4></button></a>
 		</div>
 	}
 }
@@ -59,6 +58,7 @@ templ CreateAccountForm(form AccountForm, invalidInput string, isInvalid bool) {
 			required
 			min="8"
 		/>
+        <a href="/login">Sign in</a>
 		<div class="md">
 			<button type="submit">Submit</button>
 		</div>

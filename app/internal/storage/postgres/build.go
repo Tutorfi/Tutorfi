@@ -13,14 +13,14 @@ func (s *PostgresStorage) BuildDevDB() error {
     DROP TABLE IF EXISTS "organization";
     
     CREATE TABLE "organization" (
-        "id" integer UNIQUE PRIMARY KEY,
+        "id" SERIAL UNIQUE PRIMARY KEY,
         "setting" varchar
     );
 
     CREATE TABLE "account" (
       "id" uuid UNIQUE PRIMARY KEY DEFAULT (gen_random_uuid()),
-      "seesion_id" uuid UNIQUE,
-      "organization_id" integer UNIQUE,
+      "session_id" uuid UNIQUE,
+      "organization_id" SERIAL UNIQUE,
       "email" varchar UNIQUE NOT NULL,
       "firstname" varchar NOT NULL,
       "lastname" varchar NOT NULL,
@@ -30,22 +30,22 @@ func (s *PostgresStorage) BuildDevDB() error {
     );
     
     CREATE TABLE "group" (
-      "id" integer UNIQUE PRIMARY KEY,
-      "organization_id" integer,
+      "id" SERIAL UNIQUE PRIMARY KEY,
+      "organization_id" SERIAL,
       "name" varchar UNIQUE NOT NULL,
       "data" jsonb,
       FOREIGN KEY ("organization_id") REFERENCES "organization"("id") ON DELETE CASCADE
     );
     
     CREATE TABLE "user_schedule" (
-      "id" integer UNIQUE PRIMARY KEY,
+      "id" SERIAL UNIQUE PRIMARY KEY,
       "account_id" uuid UNIQUE NOT NULL,
       "data" jsonb,
       FOREIGN KEY ("account_id") REFERENCES "account"("id") ON DELETE CASCADE
     );
     
     CREATE TABLE "permission" (
-      "id" integer UNIQUE PRIMARY KEY,
+      "id" SERIAL UNIQUE PRIMARY KEY,
       "account_id" uuid UNIQUE NOT NULL,
       "permissions" jsonb,
       FOREIGN KEY ("account_id") REFERENCES "account"("id") ON DELETE CASCADE
