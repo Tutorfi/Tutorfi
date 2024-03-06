@@ -5,64 +5,51 @@ import "golang.org/x/crypto/bcrypt"
 
 func (s *PostgresStorage) BuildDevDB() {
 	val := ` 
-    DROP TABLE IF EXISTS schedule;
-    DROP TABLE IF EXISTS user_schedule;
-    DROP TABLE IF EXISTS permission;
-	DROP TABLE IF EXISTS account;
-    DROP TABLE IF EXISTS organization;
+    DROP TABLE IF EXISTS "group";
+    DROP TABLE IF EXISTS "schedule";
+    DROP TABLE IF EXISTS "user_schedule";
+    DROP TABLE IF EXISTS "permission";
+    DROP TABLE IF EXISTS "account";
+    DROP TABLE IF EXISTS "organization";
     
-    CREATE TABLE organization (
-      id integer PRIMARY KEY UNIQUE,
-      setting varchar
+    CREATE TABLE "organization" (
+        "id" SERIAL UNIQUE PRIMARY KEY,
+        "setting" varchar
+    );
+
+    CREATE TABLE "account" (
+      "id" uuid UNIQUE PRIMARY KEY DEFAULT (gen_random_uuid()),
+      "session_id" uuid UNIQUE,
+      "organization_id" INTEGER UNIQUE,
+      "email" varchar UNIQUE NOT NULL,
+      "firstname" varchar NOT NULL,
+      "lastname" varchar NOT NULL,
+      "password" varchar NOT NULL,
+      "created_at" timestamp,
+      FOREIGN KEY ("organization_id") REFERENCES "organization"("id")
     );
     
-    CREATE TABLE account (
-      id uuid DEFAULT gen_random_uuid () PRIMARY KEY UNIQUE,
-      seesion_id uuid UNIQUE,
-      organization_id integer UNIQUE,
-      email varchar UNIQUE NOT NULL,
-      firstname varchar NOT NULL,
-      lastname varchar NOT NULL,
-      password varchar NOT NULL,
-      created_at timestamp
+    CREATE TABLE "group" (
+      "id" SERIAL UNIQUE PRIMARY KEY,
+      "organization_id" INTEGER,
+      "name" varchar UNIQUE NOT NULL,
+      "data" jsonb,
+      FOREIGN KEY ("organization_id") REFERENCES "organization"("id") ON DELETE CASCADE
     );
     
-    CREATE TABLE schedule (
-      id integer PRIMARY KEY UNIQUE,
-      organization_id integer,
-      name varchar UNIQUE NOT NULL,
-      scheduled_at TIMESTAMPTZ NOT NULL,
-      time_created TIMESTAMP DEFAULT Now()
-    );
-    
-    CREATE TABLE user_schedule (
-      id integer PRIMARY KEY UNIQUE,
-      account_id uuid UNIQUE NOT NULL,
-      name varchar UNIQUE NOT NULL,
-      scheduled_at TIMESTAMPTZ NOT NULL,
-      time_created TIMESTAMP DEFAULT Now()
+    CREATE TABLE "user_schedule" (
+      "id" SERIAL UNIQUE PRIMARY KEY,
+      "account_id" uuid UNIQUE NOT NULL,
+      "data" jsonb,
+      FOREIGN KEY ("account_id") REFERENCES "account"("id") ON DELETE CASCADE
     );
     
     CREATE TABLE "permission" (
-      id integer PRIMARY KEY UNIQUE,
-      account_id uuid UNIQUE NOT NULL,
-      permissions jsonb
+      "id" SERIAL UNIQUE PRIMARY KEY,
+      "account_id" uuid UNIQUE NOT NULL,
+      "permissions" jsonb,
+      FOREIGN KEY ("account_id") REFERENCES "account"("id") ON DELETE CASCADE
     );
-    
-    ALTER TABLE account ADD FOREIGN KEY (organization_id) REFERENCES organization (id);
-	
-    ALTER TABLE user_schedule ADD FOREIGN KEY (account_id) REFERENCES account (id)
-	on delete cascade on update cascade;
-    
-	ALTER TABLE schedule ADD FOREIGN KEY (organization_id) REFERENCES organization (id)
-	on delete cascade on update cascade;
-	
-    ALTER TABLE "permission" ADD FOREIGN KEY (account_id) REFERENCES account (id)
-	on delete cascade on update cascade;
-	
-	ALTER TABLE account ALTER COLUMN organization_id DROP NOT NULL;
-	ALTER TABLE user_schedule ALTER COLUMN account_id DROP NOT NULL;
-	ALTER TABLE permission ALTER COLUMN account_id DROP NOT NULL;
     `
 	_, err := s.db.Exec(val)
 	if err != nil {

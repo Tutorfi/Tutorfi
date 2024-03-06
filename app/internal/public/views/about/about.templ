@@ -1,15 +1,14 @@
-package hometempl
+package abouttempl
 
 import "app/internal/public/templates"
 import "app/internal/public/components"
 
 
-templ Home() {
+templ About() {
 	@templates.Base([]string{}, []string{}) {
 		<div>
 			@components.HeaderNotLoggedIn()
-			@components.HomepageBody()
-			@components.Footer()
+			<h1>About</h1>
 		</div>
 	}
 }

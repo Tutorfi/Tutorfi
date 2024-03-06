@@ -1,29 +1,67 @@
-package createtempl
+package createAccountTempl
 
 import "app/internal/public/templates"
 
-templ Create(cssDir []string) {
-	@templates.Base(cssDir) {
+type AccountForm struct {
+	Fname    string
+	Lname    string
+	Email    string
+	Password string
+}
+
+templ CreateAccountPage(cssDir []string) {
+	@templates.Base(cssDir, []string{}) {
 		<div class="center-screen container account-container">
-            <div>
+			<div>
 				<a href="/"><p>Tutorfi</p></a> <!--In the future insert logo here-->
 			</div>
 			<h1 class="md">Create Account </h1>
-			<div id="create-error" class="md"></div>
-			<form hx-post="/create-account/create" class="account-form" hx-target="#create-error">
-				<label for="fname">First Name</label>
-				<input type="text" name="fname" id="fname" required/>
-				<label for="lname">Last Name</label>
-				<input type="text" name="lname" id="lname" required/>
-				<label for="email">Email</label>
-				<input type="text" name="email" id="email" required/>
-				<label for="password">Password</label>
-				<input type="text" name="password" id="password" required min="8"/>
-                <div class="md">
-                    <button type="submit">Submit</button>
-                </div>
+			<form hx-post="/create-account/create" class="account-form" hx-swap="innerHTML">
+				@CreateAccountForm(AccountForm{Fname: "", Lname: "", Email: "", Password: ""}, "", false)
 			</form>
-            <a href="/login"><button><h4>Sign in</h4></button></a>
 		</div>
 	}
+}
+
+templ CreateAccountForm(form AccountForm, invalidInput string, isInvalid bool) {
+	<div>
+		<input
+			type="text"
+			name="first_name"
+			id="fname"
+			placeholder="First Name"
+			value={ form.Fname }
+			required
+		/>
+		<input
+			type="text"
+			name="last_name"
+			id="lname"
+			placeholder="Last Name"
+			value={ form.Lname }
+			required
+		/>
+		<input
+			type="email"
+			name="email"
+			id="email"
+			placeholder="Email"
+			value={ form.Email }
+			required
+		/>
+		<input
+			type="password"
+			name="password"
+			id="password"
+			placeholder="password"
+			value={ form.Password }
+			required
+			min="8"
+		/>
+        <a href="/login">Sign in</a>
+		<div class="md">
+			<button type="submit">Submit</button>
+		</div>
+		<div id="create-error" class="md">{ invalidInput }</div>
+	</div>
 }
