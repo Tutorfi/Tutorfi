@@ -13,11 +13,10 @@ func (s *PostgresStorage) GetGroups(account models.Account) ([]models.Group, err
         FROM "group_account" 
         WHERE "account_id" = $1
     )`, account.Id)
-    defer rows.Close()
-
     if err != nil {
         return nil, err
     }
+    defer rows.Close()
 
     for rows.Next() {
         group := models.Group{}
