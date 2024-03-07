@@ -25,7 +25,11 @@ func main() {
 
 	if *build {
 		fmt.Println("Building database")
-		postgresStorage.BuildDevDB()
+        err = postgresStorage.BuildDevDB()
+        if err != nil {
+            fmt.Println("Error building database")
+            fmt.Println("Build failed")
+        }
 		os.Exit(0)
 	}
 	e := echo.New()
