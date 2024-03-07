@@ -9,7 +9,7 @@ func (s *PostgresStorage) BuildDevDB() error {
     DROP TABLE IF EXISTS "schedule";
     DROP TABLE IF EXISTS "user_schedule";
     DROP TABLE IF EXISTS "permission";
-    DROP TABLE IF EXISTS "account_tag";
+    DROP TABLE IF EXISTS "tag_account";
 	DROP TABLE IF EXISTS "tag";
     DROP TABLE IF EXISTS "account";
     DROP TABLE IF EXISTS "organization";
@@ -36,10 +36,10 @@ func (s *PostgresStorage) BuildDevDB() error {
 	  "name" varchar UNIQUE NOT NULL,
       "delete_group" BOOLEAN DEFAULT FALSE,
       "remove_add_student" BOOLEAN DEFAULT FALSE,
-      "add_remove_access_level" BOOLEAN DEFAULT FALSE
+      "remove_add_access_level" BOOLEAN DEFAULT FALSE
     );
 
-    CREATE TABLE "account_tag" (
+    CREATE TABLE "tag_account" (
       "id" SERIAL UNIQUE PRIMARY KEY,
       "account_id" uuid,
       "tag_id" INT,
