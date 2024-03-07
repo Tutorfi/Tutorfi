@@ -20,7 +20,7 @@ func (s *PostgresStorage) BuildDevDB() error {
     CREATE TABLE "account" (
       "id" uuid UNIQUE PRIMARY KEY DEFAULT (gen_random_uuid()),
       "session_id" uuid UNIQUE,
-      "organization_id" SERIAL UNIQUE,
+      "organization_id" INTEGER UNIQUE,
       "email" varchar UNIQUE NOT NULL,
       "firstname" varchar NOT NULL,
       "lastname" varchar NOT NULL,
@@ -31,7 +31,7 @@ func (s *PostgresStorage) BuildDevDB() error {
     
     CREATE TABLE "group" (
       "id" SERIAL UNIQUE PRIMARY KEY,
-      "organization_id" SERIAL,
+      "organization_id" INTEGER,
       "name" varchar UNIQUE NOT NULL,
       "data" jsonb,
       FOREIGN KEY ("organization_id") REFERENCES "organization"("id") ON DELETE CASCADE
