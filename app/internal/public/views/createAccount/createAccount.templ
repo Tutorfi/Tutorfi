@@ -10,7 +10,7 @@ type AccountForm struct {
 }
 
 templ CreateAccountPage(cssDir []string) {
-	@templates.Base(cssDir) {
+	@templates.Base(cssDir, []string{}) {
 		<div class="center-screen container account-container">
 			<div>
 				<a href="/"><p>Tutorfi</p></a> <!--In the future insert logo here-->

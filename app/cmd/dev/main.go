@@ -13,25 +13,28 @@ import (
 )
 
 func main() {
-    db, err := storage.ConnectPgsql()
-    if err != nil {
-        fmt.Println(err)
-    }
-    postgresStorage := storage.NewPostgresStorage(db)
-    
-    build := flag.Bool("build", false, "Rebuild the database")
-    flag.Parse()
-    fmt.Println("Build:", *build)
+  db, err := storage.ConnectPgsql()
+  if err != nil {
+    fmt.Println(err)
+  }
+  postgresStorage := storage.NewPostgresStorage(db)
 
-    if *build {
-        fmt.Println("Building database")
-        err := postgresStorage.BuildDevDB()
-		if err != nil{
-			fmt.Println(err)
-			os.Exit(1)
-		}
-        os.Exit(0)
+  build := flag.Bool("build", false, "Rebuild the database")
+  flag.Parse()
+  fmt.Println("Build:", *build)
+
+	if *build {
+		fmt.Println("Building database")
+    err = postgresStorage.BuildDevDB()
+    if err != nil {
+      fmt.Println("Error building database")
+     	fmt.Println(err)
+      fmt.Println("Build failed")
+      os.Exit(1)
     }
+		os.Exit(0)
+	}
+
 	e := echo.New()
 	fmt.Println("Current Working Directory:")
 	fmt.Println(os.Getwd())
