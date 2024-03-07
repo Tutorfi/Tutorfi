@@ -3,7 +3,7 @@ package storage
 import "fmt"
 import "golang.org/x/crypto/bcrypt"
 
-func (s *PostgresStorage) BuildDevDB() {
+func (s *PostgresStorage) BuildDevDB() error {
 	val := ` 
     DROP TABLE IF EXISTS "group";
     DROP TABLE IF EXISTS "schedule";
@@ -72,12 +72,37 @@ func (s *PostgresStorage) BuildDevDB() {
 	_, err := s.db.Exec(val)
 	if err != nil {
 		fmt.Println("unable to create database")
+        fmt.Println(err)
+        return err;
 	}
 	hash, _ := bcrypt.GenerateFromPassword([]byte("passwordthing"), 0)
 	_, err = s.db.Exec("INSERT INTO account (firstname,lastname,email,password) VALUES ('bob', 'Builder', 'bob@gmail.com', $1)", hash)
 	if err != nil {
 		fmt.Println("unable to insert values into test database")
 		fmt.Println(err)
+        return err;
+	}
+	hash, _ = bcrypt.GenerateFromPassword([]byte("passwordthing"), 0)
+	_, err = s.db.Exec("INSERT INTO account (firstname,lastname,email,password) VALUES ('Jane', 'Lin', 'JaneLin@gmail.com', $1)", hash)
+	if err != nil {
+		fmt.Println("unable to insert values into test database")
+		fmt.Println(err)
+        return err;
+	}
+	hash, _ = bcrypt.GenerateFromPassword([]byte("passwordthing"), 0)
+	_, err = s.db.Exec("INSERT INTO account (firstname,lastname,email,password) VALUES ('Me', 'Bulmaro', 'Bulmaro@gmail.com', $1)", hash)
+	if err != nil {
+		fmt.Println("unable to insert values into test database")
+		fmt.Println(err)
+        return err;
+	}
+	hash, _ = bcrypt.GenerateFromPassword([]byte("passwordthing"), 0)
+	_, err = s.db.Exec("INSERT INTO account (firstname,lastname,email,password) VALUES ('John', 'Doe', 'JohnDoe@gmail.com', $1)", hash)
+	if err != nil {
+		fmt.Println("unable to insert values into test database")
+		fmt.Println(err)
+        return err;
 	}
 	fmt.Println("Finished building db")
+    return nil;
 }
