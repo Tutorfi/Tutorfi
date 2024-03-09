@@ -10,7 +10,20 @@ import (
 func (s *PostgresStorage) GetAccount(email string) (*models.Account, error) {
 	var acc models.Account
 	err := s.db.QueryRow("SELECT id, firstname, lastname, email, password, session_id, organization_id FROM \"account\" WHERE email = $1", email).Scan(
-        &acc.Id, &acc.Firstname, &acc.Lastname, &acc.Email, &acc.Password, &acc.SessionId, &acc.OrganizationId)
+		&acc.Id, &acc.Firstname, &acc.Lastname, &acc.Email, &acc.Password, &acc.SessionId, &acc.OrganizationId)
+	if err != nil {
+		return nil, err
+	}
+	return &acc, nil
+}
+
+func (s *PostgresStorage) GetAccountSessionId(sessionId string) (*models.Account, error) {
+	var acc models.Account
+	err := s.db.QueryRow(`
+        SELECT id, firstname, lastname, email, password, session_id, 
+        organization_id FROM "account" WHERE "session_id" = $1`, sessionId).Scan(
+		    &acc.Id, &acc.Firstname, &acc.Lastname, &acc.Email, &acc.Password, &acc.SessionId, 
+            &acc.OrganizationId)
 	if err != nil {
 		return nil, err
 	}
