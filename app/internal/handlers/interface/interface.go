@@ -21,9 +21,9 @@ func New(store storage.Storage) *InterfaceHandler {
 }
 
 func (handle *InterfaceHandler) GetAccountGroups(c echo.Context) error {
-	acc, err := utils.GetAccountFromCookie(handle.store, c)
+	acc, err := utils.GetAccountFromSessionId(handle.store, c)
 	if err == sql.ErrNoRows {
-
+        return utils.RenderComponents(c, 200, logintempl.Error("Account Not Found"), nil)
 	}
 	if err != nil {
 		fmt.Println(err)
