@@ -9,9 +9,11 @@ func (s *PostgresStorage) BuildDevDB() error {
     DROP TABLE IF EXISTS "schedule";
     DROP TABLE IF EXISTS "user_schedule";
     DROP TABLE IF EXISTS "permission";
+    DROP TABLE IF EXISTS "tag_account";
+	DROP TABLE IF EXISTS "tag";
     DROP TABLE IF EXISTS "account";
     DROP TABLE IF EXISTS "organization";
-    
+
     CREATE TABLE "organization" (
         "id" SERIAL UNIQUE PRIMARY KEY,
         "setting" varchar
@@ -28,7 +30,23 @@ func (s *PostgresStorage) BuildDevDB() error {
       "created_at" timestamp,
       FOREIGN KEY ("organization_id") REFERENCES "organization"("id")
     );
-    
+
+    CREATE TABLE "tag" (
+	  "id" SERIAL UNIQUE PRIMARY KEY,
+	  "name" varchar UNIQUE NOT NULL,
+      "delete_group" BOOLEAN DEFAULT FALSE,
+      "remove_add_student" BOOLEAN DEFAULT FALSE,
+      "remove_add_access_level" BOOLEAN DEFAULT FALSE
+    );
+
+    CREATE TABLE "tag_account" (
+      "id" SERIAL UNIQUE PRIMARY KEY,
+      "account_id" uuid,
+      "tag_id" INT,
+      FOREIGN KEY ("account_id") REFERENCES "account"("id") ON DELETE CASCADE,
+      FOREIGN KEY ("tag_id") REFERENCES "tag"("id") ON DELETE CASCADE
+    );
+
     CREATE TABLE "group" (
       "id" SERIAL UNIQUE PRIMARY KEY,
       "organization_id" INTEGER,
@@ -36,14 +54,14 @@ func (s *PostgresStorage) BuildDevDB() error {
       "data" jsonb,
       FOREIGN KEY ("organization_id") REFERENCES "organization"("id") ON DELETE CASCADE
     );
-    
+
     CREATE TABLE "user_schedule" (
       "id" SERIAL UNIQUE PRIMARY KEY,
       "account_id" uuid UNIQUE NOT NULL,
       "data" jsonb,
       FOREIGN KEY ("account_id") REFERENCES "account"("id") ON DELETE CASCADE
     );
-    
+
     CREATE TABLE "permission" (
       "id" SERIAL UNIQUE PRIMARY KEY,
       "account_id" uuid UNIQUE NOT NULL,
