@@ -2,7 +2,9 @@
   "devDependencies": {
     "@playwright/test": "^1.41.2",
     "@types/node": "^20.11.10",
-    "standard": "^17.1.0"
+    "standard": "^17.1.0",
+    "stylelint": "^16.2.1",
+    "stylelint-config-standard": "^36.0.0"
   },
   "scripts": {}
 }
