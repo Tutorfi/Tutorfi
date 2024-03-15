@@ -1,24 +1,31 @@
-package make
+package main
 
 import (
-	"log"
 	"net/http"
-	"strings"
+
+	"github.com/labstack/echo/v4"
 )
 
-func noDirListing(h http.Handler) http.HandlerFunc {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		if strings.HasSuffix(r.URL.Path, "/") {
-			http.NotFound(w, r)
-			return
-		}
-		h.ServeHTTP(w, r)
-	})
-}
+// func noDirListing(h http.Handler) http.HandlerFunc {
+// 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+// 		if strings.HasSuffix(r.URL.Path, "/") {
+// 			http.NotFound(w, r)
+// 			return
+// 		}
+// 		h.ServeHTTP(w, r)
+// 	})
+// }
 
 func main() {
-	http.Handle("/", noDirListing(http.FileServer(http.Dir("./static/"))))
-	log.Println(http.ListenAndServe(":8080", nil))
+	e := echo.New()
+	e.Static("/", "/file_server/data")
+	// e.File("/:fileName", );
+	e.GET("/:fileName", func(c echo.Context) error {
+		return c.String(http.StatusOK, c.Param("fileName"));
+		
+		// return c.File("/"+c.Param("fileName"));
+	})
+	e.Logger.Fatal(e.Start(":1323"))
 }
 
 // package main
