@@ -3,14 +3,13 @@ package calendartempl
 import "app/internal/public/templates"
 
 templ Calendar(cssDir []string) {
-    @templates.Base(cssDir) {
+    @templates.Base(cssDir, []string{"calendar/extensions/index.global.min.js"}, "Calendar") {
 
         <h1> Calendar </h1>
         <button class="calendarview" id="week"> Weekly </button>
         <button class="calendarview" id="month"> Monthly </button>
         <div id='calendar'></div>
 
-        <script src="../js/pages/calendar/extentions/index.global.min.js"></script>
         <script>
         document.getElementById("week").addEventListener("click", function() {
             showCalendar('dayGridWeek');

@@ -31,7 +31,7 @@ func Calendar(cssDir []string) templ.Component {
 				templ_7745c5c3_Buffer = templ.GetBuffer()
 				defer templ.ReleaseBuffer(templ_7745c5c3_Buffer)
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<h1>Calendar </h1><button class=\"calendarview\" id=\"week\">Weekly </button> <button class=\"calendarview\" id=\"month\">Monthly </button><div id=\"calendar\"></div><script src=\"../js/pages/calendar/extentions/index.global.min.js\"></script> <script>\n        document.getElementById(\"week\").addEventListener(\"click\", function() {\n            showCalendar('dayGridWeek');\n        });\n        document.getElementById(\"month\").addEventListener(\"click\", function() {\n            showCalendar('dayGridMonth');\n        });\n\n        // showCalendar('dayGridMonth');\n\n        function showCalendar(gridcall){\n            var calendarEl = document.getElementById('calendar');\n            var calendar = new FullCalendar.Calendar(calendarEl, {\n                initialView: gridcall,\n                fixedWeekCount: false\n            });\n            calendar.render();\n        }\n        </script>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<h1>Calendar </h1><button class=\"calendarview\" id=\"week\">Weekly </button> <button class=\"calendarview\" id=\"month\">Monthly </button><div id=\"calendar\"></div> <script>\n        document.getElementById(\"week\").addEventListener(\"click\", function() {\n            showCalendar('dayGridWeek');\n        });\n        document.getElementById(\"month\").addEventListener(\"click\", function() {\n            showCalendar('dayGridMonth');\n        });\n\n        showCalendar('dayGridMonth');\n\n        function showCalendar(gridcall){\n            var calendarEl = document.getElementById('calendar');\n            var calendar = new FullCalendar.Calendar(calendarEl, {\n                initialView: gridcall,\n                fixedWeekCount: false\n            });\n            calendar.render();\n        }\n        </script>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -40,7 +40,7 @@ func Calendar(cssDir []string) templ.Component {
 			}
 			return templ_7745c5c3_Err
 		})
-		templ_7745c5c3_Err = templates.Base(cssDir).Render(templ.WithChildren(ctx, templ_7745c5c3_Var2), templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = templates.Base(cssDir, []string{"calendar/extensions/index.global.min.js"}, "Calendar").Render(templ.WithChildren(ctx, templ_7745c5c3_Var2), templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
