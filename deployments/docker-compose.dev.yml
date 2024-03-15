@@ -7,7 +7,7 @@ services:
     ports:
       - "5432:5432"
   app:
-    build: 
+    build:
       context: ../app
       dockerfile: Dockerfile.dev
     env_file:
@@ -16,4 +16,11 @@ services:
       - "8000:8000"
     volumes:
       - ../app:/app/
-
+  fileserver:
+    build:
+      context: ../file_server
+      dockerfile: Dockerfile.dev
+    ports:
+      - "8080:8080"
+    volumes:
+      - ../file_server:/file_server/

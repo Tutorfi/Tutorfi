@@ -87,7 +87,6 @@ func (s *PostgresStorage) BuildDevDB() error {
       "filedir" varchar,
       FOREIGN KEY ("account_id") REFERENCES "account"("id") ON DELETE CASCADE
     );
-  
     CREATE TABLE "files_group" (
       "id" integer UNIQUE PRIMARY KEY,
       "files_id" integer,
