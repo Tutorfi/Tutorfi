@@ -56,11 +56,11 @@ func (s *PostgresStorage) BuildDevDB() error {
       FOREIGN KEY ("organization_id") REFERENCES "organization"("id") ON DELETE CASCADE
     );
 
-    CREATE TABLE "events" (
+    CREATE TABLE "event" (
       "id" uuid UNIQUE PRIMARY KEY DEFAULT (gen_random_uuid()),
       "account_id" uuid NOT NULL,
       "event_title" varchar NOT NULL,
-      "details" varchar NOT NULL,
+      "detail" varchar NOT NULL,
       "start_time" TIMESTAMPTZ NOT NULL,
       "end_time" TIMESTAMPTZ,
       FOREIGN KEY ("account_id") REFERENCES "account"("id") ON DELETE CASCADE
