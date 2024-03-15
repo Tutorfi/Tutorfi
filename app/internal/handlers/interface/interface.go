@@ -1,7 +1,7 @@
 package interfacehandler
 
 import (
-	logintempl "app/internal/public/views/login"
+	"app/internal/public/views/login"
 	"app/internal/storage"
 	"app/internal/utils"
 	"database/sql"

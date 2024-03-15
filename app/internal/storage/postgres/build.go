@@ -53,7 +53,7 @@ func (s *PostgresStorage) BuildDevDB() error {
 
     CREATE TABLE "group" (
       "id" SERIAL UNIQUE PRIMARY KEY,
-      "organization_id" INTEGER,
+      "organization_id" INTEGER NOT NULL,
       "name" varchar UNIQUE NOT NULL,
       "data" jsonb,
       FOREIGN KEY ("organization_id") REFERENCES "organization"("id") ON DELETE CASCADE
