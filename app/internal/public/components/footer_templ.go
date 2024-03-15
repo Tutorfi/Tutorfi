@@ -85,7 +85,7 @@ func Footer() templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<style>\r\n      .buttons{\r\n        cursor: pointer;\r\n      }\r\n      .buttons:hover{\r\n        color: #99badd;\r\n      }\r\n    </style>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<style>\n      .buttons{\n        cursor: pointer;\n      }\n      .buttons:hover{\n        color: #99badd;\n      }\n    </style>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -119,7 +119,7 @@ func Footer() templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\">© 2024 Tutorfi \r ")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\">© 2024 Tutorfi  ")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

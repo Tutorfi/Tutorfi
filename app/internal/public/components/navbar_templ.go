@@ -73,7 +73,7 @@ func HeaderNotLoggedIn() templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<style>\r\n      .navbarButton{}\r\n      .navbarButton:hover{\r\n        color: #99badd;\r\n      }\r\n      .sign-up{\r\n        background-color: #99badd;\r\n        border-radius: 4px;\r\n        color: white;\r\n      }\r\n      .sign-up:hover{\r\n        background-color: #99badd;\r\n        color: white;\r\n        filter: brightness(90%);\r\n        border-radius: 4px;\r\n      }\r\n    </style>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<style>\n      .navbarButton{}\n      .navbarButton:hover{\n        color: #99badd;\n      }\n      .sign-up{\n        background-color: #99badd;\n        border-radius: 4px;\n        color: white;\n      }\n      .sign-up:hover{\n        background-color: #99badd;\n        color: white;\n        filter: brightness(90%);\n        border-radius: 4px;\n      }\n    </style>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -165,7 +165,7 @@ func HeaderLoggedIn() templ.Component {
 			templ_7745c5c3_Var6 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<style>\r\n      .navbarButton{}\r\n      .navbarButton:hover{\r\n        color: #99badd;\r\n      }\r\n      .sign-up{\r\n        background-color: #99badd;\r\n        border-radius: 4px;\r\n        color: white;\r\n      }\r\n      .sign-up:hover{\r\n        background-color: #99badd;\r\n        color: white;\r\n        filter: brightness(90%);\r\n        border-radius: 4px;\r\n      }\r\n    </style>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<style>\n      .navbarButton{}\n      .navbarButton:hover{\n        color: #99badd;\n      }\n      .sign-up{\n        background-color: #99badd;\n        border-radius: 4px;\n        color: white;\n      }\n      .sign-up:hover{\n        background-color: #99badd;\n        color: white;\n        filter: brightness(90%);\n        border-radius: 4px;\n      }\n    </style>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
