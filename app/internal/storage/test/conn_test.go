@@ -15,7 +15,7 @@ func TestConn(t *testing.T) {
 	}
 	err = db.Ping()
 	if err != nil {
-		log.Printf(err.Error())
+		log.Print(err.Error())
 	}
 
 }
