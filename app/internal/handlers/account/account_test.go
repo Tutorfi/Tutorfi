@@ -82,15 +82,3 @@ func TestAccountCreation(t *testing.T) {
 	}
 	t.Logf("Account creation test completed")
 }
-func TestAccountLogin(t *testing.T) {
-
-}
-
-// func TestFormValid(t *testing.T){
-// 	if errs := TestEmail(); errs != nil{
-// 		fmt.Println("email test failed")
-// 		fmt.Println(errs)
-// 	}
-// }
-//In the future add fuzzing somewhere
-//https://github.com/stretchr/testify???

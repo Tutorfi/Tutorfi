@@ -40,7 +40,7 @@ func checkFormValue(expression, val string) error {
 	}
 	matched := matcher.MatchString(val)
 	if !matched{
-		return &AccountError{msg: fmt.Sprintf("Invalid form value")}
+		return &AccountError{msg: "Invalid form value"}
 	}
 	return nil
 }
@@ -83,7 +83,7 @@ func (handle *AccountHandler) CreateAccount(c echo.Context) error {
 	//https://stackoverflow.com/questions/19605150/regex-for-password-must-contain-at-least-eight-characters-at-least-one-number-a
 	if utf8.RuneCountInString(form.Password) < 8{
 		fmt.Println("Password too short")
-		err := &AccountError{msg: fmt.Sprintf("Password must be longer than 8 characters")}
+		err := &AccountError{msg: "Password must be longer than 8 characters"}
 		return utils.RenderComponents(c, 200, logintempl.Error(err.Error()), nil)
 	}
 	//In the future we may need a restriction on passwords too long
