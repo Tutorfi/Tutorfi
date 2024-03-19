@@ -8,7 +8,7 @@ import (
 )
 
 func TestMain(t *testing.M) {
-	err := app.BuildTestDB()
+	_, err := app.BuildTestDB()
 	if err != nil{
 		log.Fatalf(err.Error())
 	}

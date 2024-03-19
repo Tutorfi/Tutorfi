@@ -24,7 +24,7 @@ func ConnectPgsql() (*sql.DB, error) {
 }
 
 func ConnectPgsqlTest() (*sql.DB, error) {
-	psqlconn := ("host=pgsqlTest user=user password=postgres dbname=master sslmode=disable port=5432")
+	psqlconn := "host=pgsqlTest user=user password=postgres dbname=master sslmode=disable port=5432"
 	db, err := sql.Open("pgx", psqlconn)
 	if err != nil {
 		return nil, err
