@@ -34,12 +34,12 @@ func New(store storage.Storage) *AccountHandler {
 func checkFormValue(expression, val string) error {
 	regex := expression
 	matcher, err := regexp.Compile(regex)
-	if err != nil{
-		fmt.Println("regex failed")//What to do here?
+	if err != nil {
+		fmt.Println("regex failed") //What to do here?
 		return err
 	}
 	matched := matcher.MatchString(val)
-	if !matched{
+	if !matched {
 		return &AccountError{msg: "Invalid form value"}
 	}
 	return nil
@@ -47,20 +47,20 @@ func checkFormValue(expression, val string) error {
 func (handle *AccountHandler) CreateAccount(c echo.Context) error {
 	//Get and check the email to see if the account exists
 	form := createAccountTempl.AccountForm{}
-	
+
 	form.Email = c.FormValue("email")
 	form.Fname = c.FormValue("fname")
 	form.Lname = c.FormValue("lname")
 	form.Password = c.FormValue("password")
 	_, err := mail.ParseAddress(form.Email)
-	if err != nil{
+	if err != nil {
 		fmt.Println("Invalid email")
 		fmt.Println(form.Email)
 		return utils.RenderComponents(c, 200, createAccountTempl.CreateAccountForm(form,
 			"Invalid email", true), nil)
 	}
 	_, err = handle.store.GetAccount(form.Email)
-	if err != sql.ErrNoRows{
+	if err != sql.ErrNoRows {
 		fmt.Println("Account already exists")
 		fmt.Println(err)
 		// Future: Change this to show server error and on dev show server error
@@ -74,14 +74,14 @@ func (handle *AccountHandler) CreateAccount(c echo.Context) error {
 		return utils.RenderComponents(c, 200, createAccountTempl.CreateAccountForm(form, "Invalid email or password", true), nil)
 	}
 	err = checkFormValue(nameRegex, form.Lname)
-	if err != nil{
-		return utils.RenderComponents(c, 200, logintempl.Error(err.Error()), nil)
+	if err != nil {
+		return utils.RenderComponents(c, 200, createAccountTempl.CreateAccountForm(form, "Invalid email or password", true), nil)
 	}
 
 	//Check and hash the password
 	//For the future when we figure out error handeling better
 	//https://stackoverflow.com/questions/19605150/regex-for-password-must-contain-at-least-eight-characters-at-least-one-number-a
-	if utf8.RuneCountInString(form.Password) < 8{
+	if utf8.RuneCountInString(form.Password) < 8 {
 		fmt.Println("Password too short")
 		err := &AccountError{msg: "Password must be longer than 8 characters"}
 		return utils.RenderComponents(c, 200, logintempl.Error(err.Error()), nil)
@@ -131,13 +131,13 @@ func (handle *AccountHandler) Verification(c echo.Context) error {
 	account, err := handle.store.GetAccount(email)
 
 	if err == sql.ErrNoRows {
-        fmt.Println(err)
+		fmt.Println(err)
 		return utils.RenderComponents(c, 200, logintempl.Login(email, "Invalid email or password", true), nil)
 	}
 
 	if err != nil {
 		fmt.Println(err)
-        return utils.RenderComponents(c, 200, logintempl.Error("Sorry an Error occured please contact support"), nil)
+		return utils.RenderComponents(c, 200, logintempl.Error("Sorry an Error occured please contact support"), nil)
 	}
 	hash := []byte(account.Password)
 
@@ -155,7 +155,7 @@ func (handle *AccountHandler) Verification(c echo.Context) error {
 	if err != nil { //What to do here?
 		fmt.Println("cookie error")
 		fmt.Println(err)
-        return utils.RenderComponents(c, 200, logintempl.Error("Sorry an Error occured please contact support"), nil)
+		return utils.RenderComponents(c, 200, logintempl.Error("Sorry an Error occured please contact support"), nil)
 	}
 	c.Response().Header().Set("HX-Redirect", "/")
 	return utils.RenderComponents(c, 200, logintempl.Login("", "Logging in", false), nil)

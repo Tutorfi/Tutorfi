@@ -2,57 +2,13 @@ package accounthandler
 
 import (
 	"app/internal/storage/postgres"
+	"github.com/labstack/echo/v4"
 	"net/http"
 	"net/http/httptest"
 	"net/url"
 	"strings"
 	"testing"
-	"github.com/labstack/echo/v4"
 )
-
-// Ok most of this is invalid bc of a change that I made, but i'm keeping it around for integration tests
-func TestEmail(t *testing.T) {
-	//https://gist.github.com/cjaoude/fd9910626629b53c4d25
-	validEmails := []string{"email@example.com",
-		"firstname.lastname@example.com",
-		"email@subdomain.example.com",
-		"firstname+lastname@example.com",
-		"email@123.123.123.123",
-		"email@[123.123.123.123]",
-
-		"1234567890@example.com",
-		"email@example-one.com",
-		"_______@example.com",
-		"email@example.name",
-		"email@example.museum",
-		"email@example.co.jp",
-		"firstname-lastname@example.com"}
-
-	invalidEmails := []string{
-		"plainaddress",
-		"#@%^%#$@#$@#.com",
-		"@example.com",
-		"Joe Smith <email@example.com>",
-		"email.example.com",
-		"email@example@example.com",
-		".email@example.com",
-		"email.@example.com",
-		"email..email@example.com",
-		"あいうえお@example.com",
-		"email@example.com (Joe Smith)",
-		"email@example",
-		"email@-example.com",
-		"email@example.web",
-		"email@111.222.333.44444",
-		"email@example..com",
-		"Abc..123@example.com",
-		`“email”@example.com`}
-	if len(validEmails) == 1 || len(invalidEmails) == 1 {
-		t.Logf("Dummy")
-	}
-	//t.Logf("Email test completed")
-}
-
 
 func TestAccountCreation(t *testing.T) {
 	db, err := storage.ConnectPgsqlTest()
