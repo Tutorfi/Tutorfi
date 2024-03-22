@@ -2,17 +2,56 @@ package storage
 
 import (
 	"app/internal/models"
+	"database/sql"
 	_ "database/sql"
 	"fmt"
+
+	"github.com/labstack/echo/v4"
 	_ "github.com/lib/pq"
 )
+
+func (s *PostgresStorage)authMiddleware(e echo.HandlerFunc) echo.HandlerFunc {
+    return func(c echo.Context) error {
+        acc, err := s.GetAccountSessionId(c)
+        if err != nil {
+            return c.Redirect(302, "/login")
+        }
+        if acc == nil {
+            return c.Redirect(302, "/login")
+        }
+        return e(c)
+    }
+}
 
 func (s *PostgresStorage) GetAccount(email string) (*models.Account, error) {
 	var acc models.Account
 	err := s.db.QueryRow("SELECT id, firstname, lastname, email, password, session_id, organization_id FROM \"account\" WHERE email = $1", email).Scan(
-        &acc.Id, &acc.Firstname, &acc.Lastname, &acc.Email, &acc.Password, &acc.SessionId, &acc.OrganizationId)
+		&acc.Id, &acc.Firstname, &acc.Lastname, &acc.Email, &acc.Password, &acc.SessionId, &acc.OrganizationId)
 	if err != nil {
 		return nil, err
+	}
+	return &acc, nil
+}
+
+func (s *PostgresStorage) GetAccountSessionId(c echo.Context) (*models.Account, error) {
+	var acc models.Account
+	cookie, err := c.Cookie("Tutorfi_Account")
+	if err != nil {
+		return &models.Account{}, err
+	}
+    sessionId := cookie.Value
+	err = s.db.QueryRow(`
+        SELECT id, firstname, lastname, email, password, session_id, 
+        organization_id FROM "account" WHERE "session_id" = $1`, sessionId).Scan(
+		    &acc.Id, &acc.Firstname, &acc.Lastname, &acc.Email, &acc.Password, &acc.SessionId, 
+            &acc.OrganizationId)
+	if err == sql.ErrNoRows {
+		return &models.Account{}, err
+	}
+	if err != nil {
+		fmt.Println("A database Error Occured")
+		fmt.Println(err)
+		return &models.Account{}, err
 	}
 	return &acc, nil
 }
