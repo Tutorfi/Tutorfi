@@ -34,5 +34,5 @@ func AddPagesRoutes(e *echo.Echo) {
 	e.GET("/create-account", createAccount)
 	e.GET("/test", test)
 	e.GET("/about", aboutPage)
-
+	e.GET("/materials", materialsPage)
 }

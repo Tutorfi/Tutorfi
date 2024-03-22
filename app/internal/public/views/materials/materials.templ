@@ -3,12 +3,16 @@ package materialstempl
 import "app/internal/public/templates"
 import "app/internal/public/components"
 
+css materialDisplay(){}
 
 templ Materials() {
-	@templates.Base([]string{}) {
+	@templates.Base([]string{}, []string{}, "Tutorfi | Home") {
 		<div>
 			@components.HeaderNotLoggedIn()
 			<h1>Materials</h1>
+			<div>Mateirals Block</div>
+			@components.MaterialsDisplay()
+			
 		</div>
 	}
 }
