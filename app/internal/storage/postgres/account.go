@@ -10,19 +10,6 @@ import (
 	_ "github.com/lib/pq"
 )
 
-func (s *PostgresStorage)authMiddleware(e echo.HandlerFunc) echo.HandlerFunc {
-    return func(c echo.Context) error {
-        acc, err := s.GetAccountSessionId(c)
-        if err != nil {
-            return c.Redirect(302, "/login")
-        }
-        if acc == nil {
-            return c.Redirect(302, "/login")
-        }
-        return e(c)
-    }
-}
-
 func (s *PostgresStorage) GetAccount(email string) (*models.Account, error) {
 	var acc models.Account
 	err := s.db.QueryRow("SELECT id, firstname, lastname, email, password, session_id, organization_id FROM \"account\" WHERE email = $1", email).Scan(
@@ -46,7 +33,7 @@ func (s *PostgresStorage) GetAccountSessionId(c echo.Context) (*models.Account, 
 		    &acc.Id, &acc.Firstname, &acc.Lastname, &acc.Email, &acc.Password, &acc.SessionId, 
             &acc.OrganizationId)
 	if err == sql.ErrNoRows {
-		return &models.Account{}, err
+		return &models.Account{}, nil
 	}
 	if err != nil {
 		fmt.Println("A database Error Occured")
