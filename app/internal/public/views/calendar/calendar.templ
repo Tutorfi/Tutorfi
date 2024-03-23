@@ -11,15 +11,6 @@ templ Calendar(cssDir []string) {
         <div id='calendar'></div>
 
         <script>
-        document.getElementById("week").addEventListener("click", function() {
-            showCalendar('dayGridWeek');
-        });
-        document.getElementById("month").addEventListener("click", function() {
-            showCalendar('dayGridMonth');
-        });
-
-        showCalendar('dayGridMonth');
-
         function showCalendar(gridcall){
             var calendarEl = document.getElementById('calendar');
             var calendar = new FullCalendar.Calendar(calendarEl, {
@@ -28,6 +19,25 @@ templ Calendar(cssDir []string) {
             });
             calendar.render();
         }
+        
+        document.getElementById("week").addEventListener("click", function() {
+            showCalendar('dayGridWeek');
+        });
+        document.getElementById("month").addEventListener("click", function() {
+            showCalendar('dayGridMonth');
+        });
+
+        function toggleVisibility() {
+            // desktop view
+            if (window.innerWidth <= 768) 
+                showCalendar('dayGridWeek');
+            // mobile view
+            else 
+                showCalendar('dayGridMonth');
+        }
+
+        window.addEventListener('resize', toggleVisibility);
+        toggleVisibility();
         </script>
     }
 }
