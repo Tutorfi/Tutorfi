@@ -2,15 +2,44 @@ package main
 
 import (
 	"app/internal/app"
-	"app/internal/storage/postgres"
+	storage "app/internal/storage/postgres"
 	"app/internal/utils"
 	"flag"
 	"fmt"
+	"net/http"
+	"net/url"
 	"os"
 
 	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 	_ "github.com/lib/pq"
 )
+
+func proxy(e *echo.Echo) {
+	url1, err := url.Parse("http://localhost:8000")
+	if err != nil {
+	e.Logger.Fatal(err)
+	}	
+
+	url2, err := url.Parse("http://localhost:8080")
+	if err != nil {
+	e.Logger.Fatal(err)
+	}
+	targets := []*middleware.ProxyTarget{
+		{
+			URL: url1,
+		},
+		{
+			URL: url2,
+		},
+		}
+
+	g := e.Group("/blog")
+	g.Use(middleware.Proxy(middleware.NewRoundRobinBalancer(targets)))
+	g.GET("/thing", func(c echo.Context) error {		
+		return c.String(http.StatusOK, "Hello");
+	})
+}
 
 func main() {
 	db, err := app.ConnectPgsql()
@@ -39,6 +68,8 @@ func main() {
 		fmt.Println("WARNING: Running in production mode")
 	}
 
+	proxy(e)
+	
 	// postgresStorage.BuildDevDB()
 	server := app.NewApp("0.0.0.0:8000", postgresStorage)
 	err = server.Start(e)
