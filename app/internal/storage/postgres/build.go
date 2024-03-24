@@ -3,15 +3,17 @@ package storage
 import "fmt"
 import "golang.org/x/crypto/bcrypt"
 
-func (s *PostgresStorage) BuildDevDB() {
+func (s *PostgresStorage) BuildDevDB() error {
 	val := ` 
     DROP TABLE IF EXISTS "group";
     DROP TABLE IF EXISTS "schedule";
     DROP TABLE IF EXISTS "user_schedule";
     DROP TABLE IF EXISTS "permission";
+    DROP TABLE IF EXISTS "tag_account";
+	DROP TABLE IF EXISTS "tag";
     DROP TABLE IF EXISTS "account";
     DROP TABLE IF EXISTS "organization";
-    
+
     CREATE TABLE "organization" (
         "id" SERIAL UNIQUE PRIMARY KEY,
         "setting" varchar
@@ -28,7 +30,23 @@ func (s *PostgresStorage) BuildDevDB() {
       "created_at" timestamp,
       FOREIGN KEY ("organization_id") REFERENCES "organization"("id")
     );
-    
+
+    CREATE TABLE "tag" (
+	  "id" SERIAL UNIQUE PRIMARY KEY,
+	  "name" varchar UNIQUE NOT NULL,
+      "delete_group" BOOLEAN DEFAULT FALSE,
+      "remove_add_student" BOOLEAN DEFAULT FALSE,
+      "remove_add_access_level" BOOLEAN DEFAULT FALSE
+    );
+
+    CREATE TABLE "tag_account" (
+      "id" SERIAL UNIQUE PRIMARY KEY,
+      "account_id" uuid,
+      "tag_id" INT,
+      FOREIGN KEY ("account_id") REFERENCES "account"("id") ON DELETE CASCADE,
+      FOREIGN KEY ("tag_id") REFERENCES "tag"("id") ON DELETE CASCADE
+    );
+
     CREATE TABLE "group" (
       "id" SERIAL UNIQUE PRIMARY KEY,
       "organization_id" INTEGER,
@@ -36,7 +54,7 @@ func (s *PostgresStorage) BuildDevDB() {
       "data" jsonb,
       FOREIGN KEY ("organization_id") REFERENCES "organization"("id") ON DELETE CASCADE
     );
-    
+
     CREATE TABLE "user_schedule" (
       "id" SERIAL UNIQUE PRIMARY KEY,
       "account_id" uuid UNIQUE NOT NULL,
@@ -44,7 +62,7 @@ func (s *PostgresStorage) BuildDevDB() {
       "scheduled_at" TIMESTAMPTZ NOT NULL, 
       FOREIGN KEY ("account_id") REFERENCES "account"("id") ON DELETE CASCADE
     );
-    
+
     CREATE TABLE "permission" (
       "id" SERIAL UNIQUE PRIMARY KEY,
       "account_id" uuid UNIQUE NOT NULL,
@@ -55,12 +73,37 @@ func (s *PostgresStorage) BuildDevDB() {
 	_, err := s.db.Exec(val)
 	if err != nil {
 		fmt.Println("unable to create database")
+        fmt.Println(err)
+        return err;
 	}
 	hash, _ := bcrypt.GenerateFromPassword([]byte("passwordthing"), 0)
 	_, err = s.db.Exec("INSERT INTO account (firstname,lastname,email,password) VALUES ('bob', 'Builder', 'bob@gmail.com', $1)", hash)
 	if err != nil {
 		fmt.Println("unable to insert values into test database")
 		fmt.Println(err)
+        return err;
+	}
+	hash, _ = bcrypt.GenerateFromPassword([]byte("passwordthing"), 0)
+	_, err = s.db.Exec("INSERT INTO account (firstname,lastname,email,password) VALUES ('Jane', 'Lin', 'JaneLin@gmail.com', $1)", hash)
+	if err != nil {
+		fmt.Println("unable to insert values into test database")
+		fmt.Println(err)
+        return err;
+	}
+	hash, _ = bcrypt.GenerateFromPassword([]byte("passwordthing"), 0)
+	_, err = s.db.Exec("INSERT INTO account (firstname,lastname,email,password) VALUES ('Me', 'Bulmaro', 'Bulmaro@gmail.com', $1)", hash)
+	if err != nil {
+		fmt.Println("unable to insert values into test database")
+		fmt.Println(err)
+        return err;
+	}
+	hash, _ = bcrypt.GenerateFromPassword([]byte("passwordthing"), 0)
+	_, err = s.db.Exec("INSERT INTO account (firstname,lastname,email,password) VALUES ('John', 'Doe', 'JohnDoe@gmail.com', $1)", hash)
+	if err != nil {
+		fmt.Println("unable to insert values into test database")
+		fmt.Println(err)
+        return err;
 	}
 	fmt.Println("Finished building db")
+    return nil;
 }
