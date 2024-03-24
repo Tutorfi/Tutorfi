@@ -1,5 +1,10 @@
 name: integration tests
-on: pull_request
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
 jobs:
   container-test:
     runs-on: ubuntu-latest
