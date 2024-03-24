@@ -1,0 +1,31 @@
+name: integration tests
+on: pull_request
+jobs:
+  container-test:
+    runs-on: ubuntu-latest
+    container: golang:1.22.0-alpine3.19
+    defaults:
+      run: 
+        working-directory: ./app
+    services:
+      pgsqlTest:
+        image: postgres:16-bullseye
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_USER: user
+          POSTGRES_DB: master
+          
+        ports:
+          - 5432:5432
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v4
+      - name: Install dependencies
+        run: go mod tidy
+      - name: Run tests
+        run: go test ./...
+        env:
+          POSTGRES_HOST: pgsqlTest
+          POSTGRES_PORT: 5432
+        
+        
