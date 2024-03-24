@@ -8,7 +8,7 @@ require (
 	github.com/jackc/pgx/v5 v5.5.4
 	github.com/labstack/echo/v4 v4.11.4
 	github.com/lib/pq v1.10.9
-	golang.org/x/crypto v0.20.0
+	golang.org/x/crypto v0.21.0
 )
 
 require (
