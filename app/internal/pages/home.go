@@ -26,13 +26,4 @@ func homePage(c echo.Context) error {
 func test(c echo.Context) error {
 	return utils.RenderPages(c, http.StatusOK, components.Testing("Test"))
 }
-func AddPagesRoutes(e *echo.Echo) {
-	fmt.Println("Adding pages routes")
 
-	e.GET("/", homePage)
-	e.GET("/login", login)
-	e.GET("/create-account", createAccount)
-	e.GET("/test", test)
-	e.GET("/about", aboutPage)
-
-}
