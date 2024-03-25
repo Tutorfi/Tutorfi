@@ -58,7 +58,8 @@ func (s *PostgresStorage) BuildDevDB() error {
     CREATE TABLE "user_schedule" (
       "id" SERIAL UNIQUE PRIMARY KEY,
       "account_id" uuid UNIQUE NOT NULL,
-      "data" jsonb,
+      "name" varchar UNIQUE NOT NULL,
+      "scheduled_at" TIMESTAMPTZ NOT NULL, 
       FOREIGN KEY ("account_id") REFERENCES "account"("id") ON DELETE CASCADE
     );
 
