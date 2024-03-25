@@ -3,7 +3,7 @@ module app
 go 1.22.0
 
 require (
-	github.com/a-h/templ v0.2.598
+	github.com/a-h/templ v0.2.646
 	github.com/google/uuid v1.6.0
 	github.com/jackc/pgx/v5 v5.5.4
 	github.com/labstack/echo/v4 v4.11.4
