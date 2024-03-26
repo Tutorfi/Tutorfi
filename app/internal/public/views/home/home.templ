@@ -3,12 +3,111 @@ package hometempl
 import "app/internal/public/templates"
 import "app/internal/public/components"
 
+css bodyImage(){
+    width: 300px;
+    height: 200px;
+    background-color: white;
+}
+
+css features(){
+    display: flex;
+    flex-direction: column;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+css feature(){
+    display: flex;
+    justify-content: space-evenly;
+    margin: 30px;
+    margin-left: 130px; 
+    margin-right: 130px;
+}
+
+css featureInfo(){
+    display: flex;
+    flex-direction: column;
+
+    width: 80vmin;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+css featureTitle(){
+
+}
+
+css featureDetail(){
+
+}
+
+css bodyImageContainer(){
+    position: relative;
+}
+
+css mainBodyImage(){
+    height: 90vh;
+    width: 100%;
+    background-color: #ff00ff;
+}
+
+css overlayText(){
+    position: absolute;
+    bottom: 60px;
+    left: 10vw;
+}
+
+css imageTitle(){
+    font-size: 60px;
+    margin: 0;
+    padding: 0;
+}
+
+css imageDescription(){
+    font-size: 30px;
+    max-width: 45vw;
+}
+
+templ HomepageBody(){
+    <div class={bodyImageContainer()}>
+        <img class={mainBodyImage()}/>
+        <div class={overlayText()}>
+            <h1 class={imageTitle()}>Tutor Management</h1>
+            <h1 class={imageTitle()}>Made Easy</h1>
+            <p class={imageDescription()}>Creating easy tutor management for organizations while also reducing the complexity of getting a tutor for students</p>
+            <a class="signupbutton"></a>
+        </div>
+    </div>
+    <div class={features()}>
+        <div class={feature()}>
+            <img class={bodyImage()}/>
+            <div class={featureInfo()}>
+                <h3 class={featureTitle()}>Easy Tutor Management</h3>
+                <p class={featureDetail()}>Ability to assign tutors to students, giving organizations the freedom and ease of managing while giving them accessible tools and features.</p>
+            </div>
+        </div>
+        <div class={feature()}>
+            <div class={featureInfo()}>
+                <h3 class={featureTitle()}>Intuitive Calendar and Scheduling</h3>
+                <p class={featureDetail()}>Planning made easy with our seamless approach to scheduling within our system. The user-friendly design with powerful functionality allows tutors and students to effortlessly set availability and schedule appointments. The intuitive calendar interface simplifies the process of organizing sessions, ensuring a hassle-free experience for users. With automated reminders and synchronization capabilities, this feature not only optimizes scheduling efficiency but also contributes to a well-organized and stress-free learning environment.</p>
+            </div>
+            <img class={bodyImage()}/>
+        </div>
+        <div class={feature()}>
+            <img class={bodyImage()} alt="classroomImage"/>
+            <div class={featureInfo()}>
+                <h3 class={featureTitle()}>Simple Navigational Classroom Hub</h3>
+                <p class={featureDetail()}></p>
+            </div>
+        </div>
+    </div>
+}
 
 templ Home() {
 	@templates.Base([]string{}, []string{}, "Tutorfi | Home") {
 		<div>
 			@components.HeaderNotLoggedIn()
-			@components.HomepageBody()
+			@HomepageBody()
 			@components.Footer()
 		</div>
 	}

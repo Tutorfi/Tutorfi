@@ -1,0 +1,38 @@
+package userinterface
+
+import "app/internal/public/templates"
+
+templ ViewOrganizations() {
+    @templates.Base([]string{}, []string{}, "Tutorfi | Groups") {
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1>Groups</h1>
+                </div>
+            </div>
+        </div>
+
+    }
+}
+
+templ ViewGroups() {
+    @templates.Base([]string{}, []string{}, "Tutorfi | Group") {
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1>Group</h1>
+                </div>
+            </div>
+        </div>
+    }
+}
+
+templ GroupComponent() {
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h1>Group</h1>
+            </div>
+        </div>
+    </div>
+}

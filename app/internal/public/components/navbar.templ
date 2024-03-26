@@ -56,34 +56,13 @@ templ HeaderNotLoggedIn() {
       <div class={buttons()}>
         <a class={buttonStyle(), "navbarButton"} href='/about'>About</a>
         <a class={buttonStyle(), "navbarButton"} href='/login'>Log in</a>
+        <button class={buttonStyle(), "navbarButton", "sign-up"}>Profile</button>
       </div>
     </div>
 }
 
-templ HeaderLoggedIn(){
-  <style>
-      .navbarButton{}
-      .navbarButton:hover{
-        color: #99badd;
-      }
-      .sign-up{
-        background-color: #99badd;
-        border-radius: 4px;
-        color: white;
-      }
-      .sign-up:hover{
-        background-color: #99badd;
-        color: white;
-        filter: brightness(90%);
-        border-radius: 4px;
-      }
-    </style>
-    <div class={header()}>
-      <img />
-      <div class={buttons()}>
-        <button class={buttonStyle(),"navbarButton"}>Subscriptions</button>
-        <button class={buttonStyle(), "navbarButton"}>About</button>
-        <button class={buttonStyle(), "navbarButton", "sign-up"}>Profile</button>
-      </div>
+templ UserHeader(){
+    <div>
+        
     </div>
 }
