@@ -8,6 +8,7 @@ templ Calendar(cssDir []string) {
         <h1> Calendar </h1>
         <button class="calendarview" id="week"> Weekly </button>
         <button class="calendarview" id="month"> Monthly </button>
+        <button class="calendarview" id="year"> Yearly </button>
         <div id='calendar'></div>
 
         <script>
@@ -26,6 +27,9 @@ templ Calendar(cssDir []string) {
         document.getElementById("month").addEventListener("click", function() {
             showCalendar('dayGridMonth');
         });
+       document.getElementById("year").addEventListener("click", function() {
+            showCalendar('dayGridYear');
+        }); 
 
         function toggleVisibility() {
             // desktop view
@@ -33,7 +37,7 @@ templ Calendar(cssDir []string) {
                 showCalendar('dayGridWeek');
             // mobile view
             else 
-                showCalendar('dayGridMonth');
+                showCalendar('dayGridYear');
         }
 
         window.addEventListener('resize', toggleVisibility);
