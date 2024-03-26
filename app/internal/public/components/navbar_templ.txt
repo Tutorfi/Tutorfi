@@ -1,0 +1,20 @@
+<style>\n      .navbarButton{}\n      .navbarButton:hover{\n        color: #99badd;\n      }\n      .sign-up{\n        background-color: #99badd;\n        border-radius: 4px;\n        color: white;\n      }\n      .sign-up:hover{\n        background-color: #99badd;\n        color: white;\n        filter: brightness(90%);\n        border-radius: 4px;\n      }\n    </style>
+<div class=\"
+\"><img alt=\"Logo\">
+<div class=\"
+\">
+<a class=\"
+\" href=\"/about\">About</a> 
+<a class=\"
+\" href=\"/login\">Log in</a></div></div>
+<style>\n      .navbarButton{}\n      .navbarButton:hover{\n        color: #99badd;\n      }\n      .sign-up{\n        background-color: #99badd;\n        border-radius: 4px;\n        color: white;\n      }\n      .sign-up:hover{\n        background-color: #99badd;\n        color: white;\n        filter: brightness(90%);\n        border-radius: 4px;\n      }\n    </style>
+<div class=\"
+\"><img>
+<div class=\"
+\">
+<button class=\"
+\">Subscriptions</button> 
+<button class=\"
+\">About</button> 
+<button class=\"
+\">Profile</button></div></div>
