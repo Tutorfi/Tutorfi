@@ -24,7 +24,7 @@ test('login-visiblity', async({page}) =>{
 });
 
 test('create-visiblity', async({page}) =>{
-    await page.goto('http://localhost:8000/');
+    await page.goto('http://localhost:8000/');  
     await page.getByRole('link', { name: 'Log in' }).click();
     await page.getByRole('link', { name: 'Create an account' }).click();
     await expect(page.getByRole('link', { name: 'Tutorfi' })).toBeVisible();
