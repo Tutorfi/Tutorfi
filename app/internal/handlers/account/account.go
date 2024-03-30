@@ -9,7 +9,6 @@ import (
 	"app/internal/storage"
 	"app/internal/utils"
 	"database/sql"
-	"errors"
 	"fmt"
 	"net/http"
 	"regexp"
@@ -19,6 +18,7 @@ import (
 	"github.com/google/uuid"
 	"github.com/labstack/echo/v4"
 	"golang.org/x/crypto/bcrypt"
+	"net/mail"
 )
 
 type AccountHandler struct {
@@ -36,11 +36,11 @@ func checkFormValue(expression, val string) error {
 	matcher, err := regexp.Compile(regex)
 	if err != nil {
 		fmt.Println("regex failed") //What to do here?
-		//Maybe use mustcompile?
+		return err
 	}
 	matched := matcher.MatchString(val)
 	if !matched {
-		return errors.New("Invalid form input") //In the future insert an error in here
+		return &AccountError{msg: "Invalid form value"}
 	}
 	return nil
 }
@@ -49,23 +49,19 @@ func (handle *AccountHandler) CreateAccount(c echo.Context) error {
 	form := createAccountTempl.AccountForm{}
 
 	form.Email = c.FormValue("email")
-	form.Fname = c.FormValue("first_name")
-	form.Lname = c.FormValue("last_name")
+	form.Fname = c.FormValue("fname")
+	form.Lname = c.FormValue("lname")
 	form.Password = c.FormValue("password")
-
-	emailRegex := `^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$`
-	err := checkFormValue(emailRegex, form.Email)
+	_, err := mail.ParseAddress(form.Email)
 	if err != nil {
+		fmt.Println("Invalid email")
+		fmt.Println(form.Email)
 		return utils.RenderComponents(c, 200, createAccountTempl.CreateAccountForm(form,
 			"Invalid email", true), nil)
 	}
-
 	_, err = handle.store.GetAccount(form.Email)
 	if err != sql.ErrNoRows {
-		return utils.RenderComponents(c, 200, createAccountTempl.CreateAccountForm(form, "Email already exists", true), nil)
-	}
-
-	if err != nil {
+		fmt.Println("Account already exists")
 		fmt.Println(err)
 		// Future: Change this to show server error and on dev show server error
 		return utils.RenderComponents(c, 200, createAccountTempl.CreateAccountForm(form, "Invalid email or password", true), nil)
@@ -77,7 +73,6 @@ func (handle *AccountHandler) CreateAccount(c echo.Context) error {
 		// Future: Change this to show server error and on dev show server error
 		return utils.RenderComponents(c, 200, createAccountTempl.CreateAccountForm(form, "Invalid email or password", true), nil)
 	}
-
 	err = checkFormValue(nameRegex, form.Lname)
 	if err != nil {
 		return utils.RenderComponents(c, 200, createAccountTempl.CreateAccountForm(form, "Invalid email or password", true), nil)
@@ -86,9 +81,10 @@ func (handle *AccountHandler) CreateAccount(c echo.Context) error {
 	//Check and hash the password
 	//For the future when we figure out error handeling better
 	//https://stackoverflow.com/questions/19605150/regex-for-password-must-contain-at-least-eight-characters-at-least-one-number-a
-
 	if utf8.RuneCountInString(form.Password) < 8 {
-		return utils.RenderComponents(c, 200, createAccountTempl.CreateAccountForm(form, "The password must be greater then 8", true), nil)
+		fmt.Println("Password too short")
+		err := &AccountError{msg: "Password must be longer than 8 characters"}
+		return utils.RenderComponents(c, 200, logintempl.Error(err.Error()), nil)
 	}
 	//In the future we may need a restriction on passwords too long
 	//Create a new account
@@ -135,13 +131,13 @@ func (handle *AccountHandler) Verification(c echo.Context) error {
 	account, err := handle.store.GetAccount(email)
 
 	if err == sql.ErrNoRows {
-        fmt.Println(err)
+		fmt.Println(err)
 		return utils.RenderComponents(c, 200, logintempl.Login(email, "Invalid email or password", true), nil)
 	}
 
 	if err != nil {
 		fmt.Println(err)
-        return utils.RenderComponents(c, 200, logintempl.Error("Sorry an Error occured please contact support"), nil)
+		return utils.RenderComponents(c, 200, logintempl.Error("Sorry an Error occured please contact support"), nil)
 	}
 	hash := []byte(account.Password)
 
@@ -159,7 +155,7 @@ func (handle *AccountHandler) Verification(c echo.Context) error {
 	if err != nil { //What to do here?
 		fmt.Println("cookie error")
 		fmt.Println(err)
-        return utils.RenderComponents(c, 200, logintempl.Error("Sorry an Error occured please contact support"), nil)
+		return utils.RenderComponents(c, 200, logintempl.Error("Sorry an Error occured please contact support"), nil)
 	}
 	c.Response().Header().Set("HX-Redirect", "/")
 	return utils.RenderComponents(c, 200, logintempl.Login("", "Logging in", false), nil)

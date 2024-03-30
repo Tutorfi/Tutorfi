@@ -1,11 +1,20 @@
 #major.minor.patch
 version: "0.0.0"
-name: tutorixa
+name: tutorfi
 
 services:
   pgsql:
     image: postgres:16-bullseye
     container_name: pgsql
+    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "sh -c 'pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}'"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+  pgsqlTest:
+    image: postgres:16-bullseye
+    container_name: pgsqlTest
     restart: always
     healthcheck:
       test: ["CMD-SHELL", "sh -c 'pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}'"]
@@ -18,5 +27,7 @@ services:
       context: ../app
     depends_on:
       pgsql:
+        condition: service_healthy
+      pgsqlTest:
         condition: service_healthy
 
