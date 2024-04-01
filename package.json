@@ -1,7 +1,7 @@
 {
   "devDependencies": {
     "@playwright/test": "^1.41.2",
-    "@types/node": "^20.11.30",
+    "@types/node": "^20.12.2",
     "standard": "^17.1.0",
     "stylelint": "^16.3.0",
     "stylelint-config-standard": "^36.0.0"
