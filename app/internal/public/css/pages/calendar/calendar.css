@@ -23,6 +23,14 @@
     border-radius: 15px;
 } 
 
+.fc-day {
+    background-color: var(--background-color);
+}
+
+.fc-multimonth-title {
+    background-color: var(--background-color);
+}
+
 /* days that aren't part of the month */
 .fc-day-other {
     background-color: var(--past-dates-color);
@@ -35,4 +43,3 @@
     padding-top: 5px;
     padding-bottom: 5px;
 }
-
