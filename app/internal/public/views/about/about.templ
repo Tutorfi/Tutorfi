@@ -4,11 +4,31 @@ import "app/internal/public/templates"
 import "app/internal/public/components"
 
 
+css footer(){
+	margin-top: auto;
+}
+
+css aboutTotal(){
+	padding-left: 80px;
+	padding-right: 80px;
+}
+
+css aboutFrame(){
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
+}
+
+
 templ About() {
 	@templates.Base([]string{}, []string{}, "Tutorfi | About") {
-		<div>
+		<div class={aboutFrame()}>
 			@components.HeaderNotLoggedIn()
-			<h1>About</h1>
+			<div class={aboutTotal()}>
+				<h1>About Tutrofi</h1>
+				<div>Tutorfi is a project associated with Rensselaer Center for Open Source (RCOS), a community at Rensselaer Polytechnic Institute. We wanted to tackle a project that would benefit students at RPI, and out of them one problem that seemed to be the conflict of too many students for too little TAs at our courses' office hours. One course especially that is netorious for this at RPI is data structures, with its hours of wait time for office hours and endless cries for helps from its students. What Tutorfi provides is an easier way for these tutors and teaching assistants to aid its students. It is a Tutor management application that helps scheduling 1-to-1 or group sessions, proritizing the convenience of both the student and the tutor/TA.</div>
+			</div>
+			@components.Footer()
 		</div>
 	}
 }
