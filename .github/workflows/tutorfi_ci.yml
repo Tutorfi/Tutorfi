@@ -24,9 +24,12 @@ jobs:
 
     - name: Install dependencies
       run: npm install
+    
+    - name: Test stuff
+      run: pwd
 
     - name: Run eslint
-      run: npx estlint
+      run: npx eslint .
 
   golangci:
     runs-on: ubuntu-latest
