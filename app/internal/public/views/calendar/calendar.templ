@@ -6,24 +6,48 @@ templ Calendar(cssDir []string) {
     @templates.Base(cssDir, []string{"calendar/extensions/index.global.min.js"}, "Calendar") {
 
         <h1> Calendar </h1>
+        <button class="calendarview" id="day"> Daily </button>
         <button class="calendarview" id="week"> Weekly </button>
         <button class="calendarview" id="month"> Monthly </button>
         <button class="calendarview" id="year"> Yearly </button>
-        <div id='calendar'></div>
+        <center> <div id='calendar'></div> </center>
 
         <script>
         window.addEventListener("load", (event) =>{
             toggleVisibility();
         });
+        
         function showCalendar(gridcall){
             var calendarEl = document.getElementById('calendar');
             var calendar = new FullCalendar.Calendar(calendarEl, {
+                // header: {
+                //     left: 'prev,next today',
+                //     center: 'title',
+                //     right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+                // },
+                // header: {
+                //     left: 'prev,next today',
+                //     center: 'title',
+                //     right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+                // },
                 initialView: gridcall,
                 fixedWeekCount: false
             });
             calendar.render();
         }
+
+        function toggleVisibility() {
+            // desktop view
+            if (window.innerWidth <= 768) 
+                showCalendar('dayGridWeek');
+            // mobile view
+            else 
+                showCalendar('dayGridMonth');
+        }
         
+        document.getElementById("day").addEventListener("click", function() {
+            showCalendar('dayGridDay');
+        });
         document.getElementById("week").addEventListener("click", function() {
             showCalendar('dayGridWeek');
         });
@@ -33,16 +57,6 @@ templ Calendar(cssDir []string) {
        document.getElementById("year").addEventListener("click", function() {
             showCalendar('multiMonthYear');
         }); 
-        // multiMonthYear
-        
-        function toggleVisibility() {
-            // desktop view
-            if (window.innerWidth <= 768) 
-                showCalendar('dayGridWeek');
-            // mobile view
-            else 
-                showCalendar('dayGridMonth');
-        }
 
         // window.addEventListener('resize', toggleVisibility);
         // toggleVisibility();
