@@ -1,7 +1,7 @@
 package interfacehandler
 
 import (
-	"app/internal/public/views/login"
+	"app/internal/public/views/interface"
 	"app/internal/storage"
 	"app/internal/utils"
 	"database/sql"
@@ -23,12 +23,20 @@ func New(store storage.Storage) *InterfaceHandler {
 func (handle *InterfaceHandler) GetAccountGroups(c echo.Context) error {
 	acc, err := utils.GetAccountFromSessionId(handle.store, c)
 	if err == sql.ErrNoRows {
-		return utils.RenderComponents(c, 200, logintempl.Error("Account Not Found"), nil)
-	}
+	    return c.Redirect(302,"/login")
+    }
 	if err != nil {
 		fmt.Println(err)
-		return utils.RenderComponents(c, 200, logintempl.Error("Account Not Found"), nil)
+	    return c.Redirect(302,"/login")
 	}
-	fmt.Println(acc.Firstname)
-	return utils.RenderComponents(c, 200, logintempl.Error("Account Created"), nil)
+    groups, err := handle.store.GetGroups(acc)
+    if err != nil {
+        fmt.Println(err)
+        return utils.RenderComponents(c, 200, userinterface.NoGroups(),nil)
+    }
+    if len(groups) == 0 {
+        return utils.RenderComponents(c, 200, userinterface.NoGroups(),nil)
+    }
+    return utils.RenderComponents(c, 200, userinterface.GroupComponent(groups),nil)
+    
 }

@@ -1,11 +1,14 @@
 package storage
 
-import "app/internal/models"
+import (
+	"app/internal/models"
+	"fmt"
+)
 
-func (s *PostgresStorage) GetGroups(account models.Account) ([]models.Group, error) {
+func (s *PostgresStorage) GetGroups(account *models.Account) ([]models.Group, error) {
     groups := make([]models.Group, 0, 10)
     rows, err := s.db.Query(`
-    SELECT ("id","organization_id","name" 
+    SELECT "id","organization_id","name"
     FROM "group" 
     WHERE 
     "id" = (
@@ -14,10 +17,11 @@ func (s *PostgresStorage) GetGroups(account models.Account) ([]models.Group, err
         WHERE "account_id" = $1
     )`, account.Id)
     if err != nil {
+        fmt.Println(err)
         return nil, err
     }
     defer rows.Close()
-
+    
     for rows.Next() {
         group := models.Group{}
         err = rows.Scan(&group.Id, &group.OrganizationId, &group.Name)
