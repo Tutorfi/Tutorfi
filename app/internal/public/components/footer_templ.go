@@ -18,6 +18,7 @@ func footer() templ.CSSClass {
 	templ_7745c5c3_CSSBuilder.WriteString(`background-color:var(--navbar-background-color);`)
 	templ_7745c5c3_CSSBuilder.WriteString(`padding-top:3px;`)
 	templ_7745c5c3_CSSBuilder.WriteString(`padding-bottom:3px;`)
+	templ_7745c5c3_CSSBuilder.WriteString(`margin-top:auto;`)
 	templ_7745c5c3_CSSID := templ.CSSID(`footer`, templ_7745c5c3_CSSBuilder.String())
 	return templ.ComponentCSSClass{
 		ID:    templ_7745c5c3_CSSID,
