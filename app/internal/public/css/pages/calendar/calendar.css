@@ -9,20 +9,22 @@
 
 } */
 
-/* ::-webkit-scrollbar {
-    width: 1px;
-} */
+::-webkit-scrollbar {
+    width: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--calendar-scrolbar-color); 
+    border-radius: 10px;
+  }
+  
 
 .fc-media-screen {
     width: 80%;
     display: inline-block;
 }
 
-.fc-scrollgrid, .fc table{
-    border-radius: 15px;
-}
-
-.fc-col-header-cell {
+.fc-scrollgrid, .fc table, .fc-col-header-cell{
     border-radius: 15px;
 }
 
@@ -49,42 +51,49 @@
     padding-bottom: 5px;
 }
 
+
 /* Styling for day view */
-.fc-dayGridDay-view {
+.fc-timeGridDay-view {
     border-radius: 15px;
 }
 
+.fc-timeGridDay-view .fc-day-today {
+    background: var(--calendar-background-color) !important;
+}
 
 
 /* Styling for week view */
-.fc-dayGridWeek-view {
+.fc-timeGridWeek-view {
     border-radius: 15px;
 }
 
-.fc-dayGridWeek-view .fc-col-header-cell .fc-day {
+.fc-timeGridWeek-view .fc-col-header-cell .fc-day {
     border-radius: 15px !important;
 }
 
-.fc-dayGridWeek-view .fc-day-sat {
+.fc-timeGridWeek-view .fc-day-sat {
     border-radius: 0 15px 15px 0;
 }
 
-.fc-dayGridWeek-view .fc-day-sun {
+.fc-timeGridWeek-view .fc-day-sun {
     border-radius: 15px 0 0 15px;
 }
 
-.fc-dayGridWeek-view .fc-day-today {
+.fc-timeGridWeek-view .fc-day-today,
+.fc-timeGridWeek-view [role=presentation] {
     border-radius: 0px;
+}
+
+.fc-timeGridWeek-view .fc-day {
+    background: var(--calendar-background-color);
 }
 
 
 /* Styling for month view */
-.fc-dayGridMonth-view {
-    border-radius: 15px;
-}
-
+.fc-dayGridMonth-view,
 .fc-dayGridMonth-view .fc-col-header-cell,
-.fc-dayGridMonth-view .fc-day {
+.fc-dayGridMonth-view .fc-day,
+.fc-dayGridMonth-view .fc-scrollgrid{
     border-radius: 15px;
 }
 
@@ -93,17 +102,8 @@
 }
 
 .fc-dayGridMonth-view .fc-day-today {
-    border-radius: 0px;
+    border-radius: 0px !important;
 }
-
-.fc-dayGridMonth-view .fc-scrollgrid {
-    border-radius: 15px;
-}
-
-/* .fc-dayGridMonth-view .fc-scrollgrid td:last-of-type {
-    border-radius: 0 0 15px 0;
-} */
-
 
 
 /* Styling for year view */
