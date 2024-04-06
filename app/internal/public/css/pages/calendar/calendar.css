@@ -9,36 +9,28 @@
 
 } */
 
-::-webkit-scrollbar {
+/* ::-webkit-scrollbar {
     width: 1px;
-}
+} */
 
 .fc-media-screen {
     width: 80%;
     display: inline-block;
 }
 
-.fc-day-today {
-    border-radius: 0px !important;
-}
-
 .fc-scrollgrid, .fc table{
     border-radius: 15px;
 }
 
-/* .fc-col-header-cell {
+.fc-col-header-cell {
     border-radius: 15px;
-} */
-
-/* .fc-dayGridDay-view {
-    border-radius: 15px;
-    background-color: lightblue;
-}  */
-
-.fc-scrollgrid td:last-of-type {
-    border-radius: 0 0 15px 0;
 }
 
+.fc-scrollgrid td:last-of-type {
+    border-radius: 0 0 15px 15px;
+}
+
+/* days of the week and multimonth title */
 .fc-day, .fc-multimonth-title {
     background-color: var(--background-color);
 }
@@ -56,3 +48,65 @@
     padding-top: 5px;
     padding-bottom: 5px;
 }
+
+/* Styling for day view */
+.fc-dayGridDay-view {
+    border-radius: 15px;
+}
+
+
+
+/* Styling for week view */
+.fc-dayGridWeek-view {
+    border-radius: 15px;
+}
+
+.fc-dayGridWeek-view .fc-col-header-cell .fc-day {
+    border-radius: 15px !important;
+}
+
+.fc-dayGridWeek-view .fc-day-sat {
+    border-radius: 0 15px 15px 0;
+}
+
+.fc-dayGridWeek-view .fc-day-sun {
+    border-radius: 15px 0 0 15px;
+}
+
+.fc-dayGridWeek-view .fc-day-today {
+    border-radius: 0px;
+}
+
+
+/* Styling for month view */
+.fc-dayGridMonth-view {
+    border-radius: 15px;
+}
+
+.fc-dayGridMonth-view .fc-col-header-cell,
+.fc-dayGridMonth-view .fc-day {
+    border-radius: 15px;
+}
+
+.fc-dayGridMonth-view .fc-day-other {
+    border-radius: 0px;
+}
+
+.fc-dayGridMonth-view .fc-day-today {
+    border-radius: 0px;
+}
+
+.fc-dayGridMonth-view .fc-scrollgrid {
+    border-radius: 15px;
+}
+
+/* .fc-dayGridMonth-view .fc-scrollgrid td:last-of-type {
+    border-radius: 0 0 15px 0;
+} */
+
+
+
+/* Styling for year view */
+/* .fc-multiYear-view .fc-day {
+    
+} */
