@@ -86,7 +86,7 @@ func CreateAccountForm(form AccountForm, invalidInput string, isInvalid bool) te
 		var templ_7745c5c3_Var4 string
 		templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(form.Fname)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal\public\views\createAccount\createAccount.templ`, Line: 33, Col: 21}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/public/views/createAccount/createAccount.templ`, Line: 33, Col: 21}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 		if templ_7745c5c3_Err != nil {
@@ -99,7 +99,7 @@ func CreateAccountForm(form AccountForm, invalidInput string, isInvalid bool) te
 		var templ_7745c5c3_Var5 string
 		templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(form.Lname)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal\public\views\createAccount\createAccount.templ`, Line: 41, Col: 21}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/public/views/createAccount/createAccount.templ`, Line: 41, Col: 21}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 		if templ_7745c5c3_Err != nil {
@@ -112,7 +112,7 @@ func CreateAccountForm(form AccountForm, invalidInput string, isInvalid bool) te
 		var templ_7745c5c3_Var6 string
 		templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(form.Email)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal\public\views\createAccount\createAccount.templ`, Line: 49, Col: 21}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/public/views/createAccount/createAccount.templ`, Line: 49, Col: 21}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 		if templ_7745c5c3_Err != nil {
@@ -125,7 +125,7 @@ func CreateAccountForm(form AccountForm, invalidInput string, isInvalid bool) te
 		var templ_7745c5c3_Var7 string
 		templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(form.Password)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal\public\views\createAccount\createAccount.templ`, Line: 57, Col: 24}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/public/views/createAccount/createAccount.templ`, Line: 57, Col: 24}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
 		if templ_7745c5c3_Err != nil {
@@ -138,7 +138,7 @@ func CreateAccountForm(form AccountForm, invalidInput string, isInvalid bool) te
 		var templ_7745c5c3_Var8 string
 		templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(invalidInput)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal\public\views\createAccount\createAccount.templ`, Line: 65, Col: 50}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/public/views/createAccount/createAccount.templ`, Line: 65, Col: 50}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
 		if templ_7745c5c3_Err != nil {
