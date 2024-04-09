@@ -1,0 +1,8 @@
+<div class=\"center-screen container account-container\"><div><a href=\"/\"><p>Tutorfi</p></a><!--In the future insert logo here--></div><h1 class=\"md\">Create Account </h1><form hx-post=\"/create-account/create\" class=\"account-form\" hx-swap=\"innerHTML\">
+</form></div>
+<div><input type=\"text\" name=\"first_name\" id=\"fname\" placeholder=\"First Name\" value=\"
+\" required> <input type=\"text\" name=\"last_name\" id=\"lname\" placeholder=\"Last Name\" value=\"
+\" required> <input type=\"email\" name=\"email\" id=\"email\" placeholder=\"Email\" value=\"
+\" required> <input type=\"password\" name=\"password\" id=\"password\" placeholder=\"password\" value=\"
+\" required min=\"8\"> <a href=\"/login\">Sign in</a><div class=\"md\"><button type=\"submit\">Submit</button></div><div id=\"create-error\" class=\"md\">
+</div></div>
