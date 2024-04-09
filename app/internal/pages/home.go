@@ -5,9 +5,8 @@ import (
 	hometempl "app/internal/public/views/home"
 	"app/internal/utils"
 	"fmt"
-	"net/http"
-
 	"github.com/labstack/echo/v4"
+	"net/http"
 )
 
 func homePage(c echo.Context) error {
@@ -33,6 +32,6 @@ func AddPagesRoutes(e *echo.Echo) {
 	e.GET("/login", login)
 	e.GET("/create-account", createAccount)
 	e.GET("/test", test)
+	e.GET("/calendar", calendar)
 	e.GET("/about", aboutPage)
-
 }
