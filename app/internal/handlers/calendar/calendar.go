@@ -1,22 +1,21 @@
 package calendarhandler
 
-// import (
-// 	"app/internal/public/views/createAccount"
-// 	"app/internal/public/views/login"
-// 	"app/internal/storage"
-// 	"app/internal/utils"
-// 	"database/sql"
-// 	"fmt"
-// 	"net/http"
-// 	"regexp"
-// 	"time"
-// 	"unicode/utf8"
+import (
+	"app/internal/public/views/calendar"
+	"app/internal/storage"
+	"fmt"
+	"github.com/labstack/echo/v4"
+)
 
-// 	"github.com/google/uuid"
-// 	"github.com/labstack/echo/v4"
-// 	"golang.org/x/crypto/bcrypt"
-// 	"net/mail"
-// )
+type Calendar struct {
+	store storage.Storage
+}
+
+func New(store storage.Storage) *Calendar {
+	return &Calendar{
+		store: store,
+	}
+}
 
 // func (handle *calendarHandler) calendarting(){
 // 	//Return a template
