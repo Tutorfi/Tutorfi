@@ -55,6 +55,7 @@
 /* Styling for day view */
 .fc-timeGridDay-view {
     border-radius: 15px;
+    /* border-radius: 0 15px 15px 0; */
 }
 
 .fc-timeGridDay-view .fc-day-today {
