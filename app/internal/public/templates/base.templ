@@ -13,15 +13,15 @@ templ Base(cssDirectories []string, jsDirectories []string, title string) {
             for _, cssDirectory := range cssDirectories {
                 <link href={ "/css/pages/" + cssDirectory } rel="stylesheet"/>
             }
+			for _, jsDirectory := range jsDirectories {
+                <script src={ "/js/pages/" + jsDirectory }></script>
+            }
 			<title>{ title }</title>
 		</head>
 		<body>
             <div class="error"></div>
 			{ children... }
 			<script src="https://unpkg.com/htmx.org@1.9.9" integrity="sha384-QFjmbokDn2DjBjq+fM+8LUIVrAgqcNW2s0PjAxHETgRn9l4fvX31ZxDxvwQnyMOX" crossorigin="anonymous"></script>
-		    for _, jsDirectory := range jsDirectories {
-                <script src={ "/js/pages/" + jsDirectory }></script>
-            }
         </body>
 	</html>
 }
