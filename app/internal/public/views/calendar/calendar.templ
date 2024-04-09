@@ -1,0 +1,45 @@
+package calendartempl
+
+import "app/internal/public/templates"
+
+templ Calendar(cssDir []string) {
+    @templates.Base(cssDir, []string{"calendar/extensions/index.global.min.js"}, "Calendar") {
+
+        <h1> Calendar </h1>
+        <center> <div id='calendar'></div> </center>
+
+        <script>
+        window.addEventListener("load", (event) =>{
+            toggleVisibility();
+        });
+        
+        function showCalendar(gridcall){
+            var calendarEl = document.getElementById('calendar');
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                dateClick: function(info) {
+                    showCalendar('dayGridMonth');
+                },
+                headerToolbar: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'timeGridDay,timeGridWeek,dayGridMonth,multiMonthYear'
+                },
+                initialView: gridcall,
+                fixedWeekCount: false
+            });
+            calendar.render();
+        }
+
+        function toggleVisibility() {
+            // desktop view
+            if (window.innerWidth <= 768) 
+                showCalendar('timeGridWeek');
+            // mobile view
+            else 
+                showCalendar('dayGridMonth');
+        }
+        // window.addEventListener('resize', toggleVisibility);
+        // toggleVisibility();
+        </script>
+    }
+}
