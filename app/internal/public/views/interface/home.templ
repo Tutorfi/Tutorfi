@@ -1,0 +1,44 @@
+package userinterface
+
+import "app/internal/public/templates"
+import "app/internal/models"
+
+templ ViewOrganizations() {
+    @templates.Base([]string{}, []string{}, "Tutorfi | Groups") {
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1>Groups</h1>
+                </div>
+            </div>
+        </div>
+
+    }
+}
+
+templ ViewGroups() {
+    @templates.Base([]string{}, []string{}, "Tutorfi | Group") {
+        <div class="container">
+            <div class="col-md-12">
+                <h1>Group</h1>
+            </div>
+            <div hx-get="/account/groups" hx-trigger="load"></div>
+        </div>
+    }
+}
+
+templ GroupComponent(groups []models.Group) {
+    <div>
+         for _, group := range groups {
+             <div>
+                { group.Name }
+             </div>
+         }
+    </div>
+}
+
+templ NoGroups(){
+    <div>
+        Looks like you don't have a group
+    </div>
+}

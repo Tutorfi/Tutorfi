@@ -2,23 +2,18 @@ package pages
 
 import (
 	"app/internal/public/components"
-	hometempl "app/internal/public/views/home"
+	"app/internal/public/views/home"
 	"app/internal/utils"
-	"fmt"
 	"net/http"
 
 	"github.com/labstack/echo/v4"
 )
 
+//  All logic is handled in the handlers package ex: geting users data
 func homePage(c echo.Context) error {
 	err := utils.RenderPages(c, http.StatusOK, hometempl.Home())
 	if err != nil {
 		return err
-	}
-	// Check if user is logged in
-	if len(c.Cookies()) == 0 {
-		fmt.Println(c.Cookies())
-		fmt.Println("No cookies found")
 	}
 	return nil
 }
