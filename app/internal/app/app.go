@@ -22,12 +22,7 @@ func NewApp(listenAddr string, store storage.Storage) *App {
 
 func (a *App) AuthMiddleware (next echo.HandlerFunc) echo.HandlerFunc {
     return func(c echo.Context) error {
-        cookie, err := c.Cookie("Tutorfi_Account")
-        if err != nil {
-            return c.Redirect(302, "/login")
-        }
-        sessionId := cookie.Value
-        acc, err := a.store.GetAccountSessionId(sessionId)
+        acc, err := a.store.GetAccountSessionId(c)
         if err != nil {
             // Oops something happened
             return c.Redirect(302, "/login")
