@@ -6,7 +6,6 @@ import (
 	_ "database/sql"
 	"fmt"
 
-	"github.com/labstack/echo/v4"
 	_ "github.com/lib/pq"
 )
 
@@ -20,9 +19,9 @@ func (s *PostgresStorage) GetAccount(email string) (*models.Account, error) {
 	return &acc, nil
 }
 
-func (s *PostgresStorage) GetAccountSessionId(sessionId String) (*models.Account, error) {
+func (s *PostgresStorage) GetAccountSessionId(sessionId string) (*models.Account, error) {
 	var acc models.Account
-	err = s.db.QueryRow(`
+    err := s.db.QueryRow(`
         SELECT id, firstname, lastname, email, password, session_id, 
         organization_id FROM "account" WHERE "session_id" = $1`, sessionId).Scan(
 		    &acc.Id, &acc.Firstname, &acc.Lastname, &acc.Email, &acc.Password, &acc.SessionId, 

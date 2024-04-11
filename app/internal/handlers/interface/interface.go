@@ -21,7 +21,12 @@ func New(store storage.Storage) *InterfaceHandler {
 }
 
 func (handle *InterfaceHandler) GetAccountGroups(c echo.Context) error {
-	acc, err := utils.GetAccountFromSessionId(handle.store, c)
+    cookie, err := c.Cookie("Tutorfi_Account")
+    if err != nil {
+        return c.Redirect(302, "/login")
+    }
+    sessionId := cookie.Value
+    acc, err := handle.store.GetAccountSessionId(sessionId)
 	if err == sql.ErrNoRows {
 	    return c.Redirect(302,"/login")
     }
