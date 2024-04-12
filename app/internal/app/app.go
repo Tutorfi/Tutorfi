@@ -20,11 +20,33 @@ func NewApp(listenAddr string, store storage.Storage) *App {
 	}
 }
 
+func (a *App) AuthMiddleware (next echo.HandlerFunc) echo.HandlerFunc {
+    return func(c echo.Context) error {
+        cookie, err := c.Cookie("Tutorfi_Account")
+        if err != nil {
+            return c.Redirect(302, "/login")
+        }
+        sessionId := cookie.Value
+        acc, err := a.store.GetAccountSessionId(sessionId)
+        if err != nil {
+            // Oops something happened
+            return c.Redirect(302, "/login")
+        }
+        if acc == nil {
+            // Unauthorized
+            return c.Redirect(302, "/login")
+        }
+        return next(c)
+    }
+}
+
 func (a *App) Start(e *echo.Echo) error {
-	pages.AddPagesRoutes(e)
+    user := e.Group("/user", a.AuthMiddleware)
+    pages.AddPagesRoutes(e, user)
 	addRoutes(e, a)
 
 	e.Use(middleware.CORS(), middleware.Logger(), middleware.Recover())
 	e.Use(middleware.GzipWithConfig(middleware.GzipConfig{Level: 6}))
 	return e.Start(a.listenAddr)
 }
+

@@ -1,10 +1,14 @@
 package storage
 
-import "fmt"
-import "golang.org/x/crypto/bcrypt"
+import (
+	"fmt"
+
+	"golang.org/x/crypto/bcrypt"
+)
 
 func (s *PostgresStorage) BuildDevDB() error {
 	val := ` 
+    DROP TABLE IF EXISTS "group_account";
     DROP TABLE IF EXISTS "group";
     DROP TABLE IF EXISTS "schedule";
     DROP TABLE IF EXISTS "user_schedule";
@@ -16,7 +20,7 @@ func (s *PostgresStorage) BuildDevDB() error {
 
     CREATE TABLE "organization" (
         "id" SERIAL UNIQUE PRIMARY KEY,
-        "setting" varchar
+        "name" varchar UNIQUE NOT NULL
     );
 
     CREATE TABLE "account" (
@@ -27,7 +31,7 @@ func (s *PostgresStorage) BuildDevDB() error {
       "firstname" varchar NOT NULL,
       "lastname" varchar NOT NULL,
       "password" varchar NOT NULL,
-      "created_at" timestamp,
+      "created_at" timestamptz DEFAULT current_timestamp,
       FOREIGN KEY ("organization_id") REFERENCES "organization"("id")
     );
 
@@ -49,7 +53,7 @@ func (s *PostgresStorage) BuildDevDB() error {
 
     CREATE TABLE "group" (
       "id" SERIAL UNIQUE PRIMARY KEY,
-      "organization_id" INTEGER,
+      "organization_id" INTEGER NOT NULL,
       "name" varchar UNIQUE NOT NULL,
       "data" jsonb,
       FOREIGN KEY ("organization_id") REFERENCES "organization"("id") ON DELETE CASCADE
@@ -65,6 +69,14 @@ func (s *PostgresStorage) BuildDevDB() error {
       FOREIGN KEY ("account_id") REFERENCES "account"("id") ON DELETE CASCADE
     );
 
+    CREATE TABLE "group_account" (
+	    "id" SERIAL UNIQUE PRIMARY KEY,
+	    "group_id" integer,
+	    "account_id" uuid,
+	    FOREIGN KEY ("group_id") REFERENCES "group"("id") ON DELETE CASCADE,
+	    FOREIGN KEY ("account_id") REFERENCES "account"("id") ON DELETE CASCADE
+    );
+    
     CREATE TABLE "user_schedule" (
       "id" SERIAL UNIQUE PRIMARY KEY,
       "account_id" uuid UNIQUE NOT NULL,
@@ -82,37 +94,57 @@ func (s *PostgresStorage) BuildDevDB() error {
 	_, err := s.db.Exec(val)
 	if err != nil {
 		fmt.Println("unable to create database")
-        fmt.Println(err)
-        return err;
+		fmt.Println(err)
+		return err
 	}
-	hash, _ := bcrypt.GenerateFromPassword([]byte("passwordthing"), 0)
-	_, err = s.db.Exec("INSERT INTO account (firstname,lastname,email,password) VALUES ('bob', 'Builder', 'bob@gmail.com', $1)", hash)
+    fmt.Println("Created the tables")
+	_, err = s.db.Exec(`INSERT INTO "organization" ("name") VALUES ('Tutorfi')`)
 	if err != nil {
 		fmt.Println("unable to insert values into test database")
 		fmt.Println(err)
-        return err;
+		return err
 	}
-	hash, _ = bcrypt.GenerateFromPassword([]byte("passwordthing"), 0)
-	_, err = s.db.Exec("INSERT INTO account (firstname,lastname,email,password) VALUES ('Jane', 'Lin', 'JaneLin@gmail.com', $1)", hash)
-	if err != nil {
-		fmt.Println("unable to insert values into test database")
-		fmt.Println(err)
-        return err;
+	users := [][]string{
+		{"bob", "Builder", "bob@gmail.com"},
+		{"Jane", "Lin", "Jane@gmail.com"},
+		{"Me", "Bull", "Bull@gmail.com"},
+		{"John", "Doe", "JohnDoe@gmail.com"},
 	}
-	hash, _ = bcrypt.GenerateFromPassword([]byte("passwordthing"), 0)
-	_, err = s.db.Exec("INSERT INTO account (firstname,lastname,email,password) VALUES ('Me', 'Bulmaro', 'Bulmaro@gmail.com', $1)", hash)
+	var orgId int
+    err = s.db.QueryRow(`SELECT ("id") FROM "organization" WHERE "name"='Tutorfi'`).Scan(&orgId)
 	if err != nil {
-		fmt.Println("unable to insert values into test database")
+		fmt.Println("Unable to read organization row")
 		fmt.Println(err)
-        return err;
+		return err
 	}
-	hash, _ = bcrypt.GenerateFromPassword([]byte("passwordthing"), 0)
-	_, err = s.db.Exec("INSERT INTO account (firstname,lastname,email,password) VALUES ('John', 'Doe', 'JohnDoe@gmail.com', $1)", hash)
+	_, err = s.db.Exec(`INSERT INTO "group" ("organization_id","name") VALUES ($1, 'Linear Algebra')`, orgId)
 	if err != nil {
-		fmt.Println("unable to insert values into test database")
+		fmt.Println("unable to insert users into database")
 		fmt.Println(err)
-        return err;
+		return err
+	}
+	for i := 0; i < len(users); i++ {
+		hash, _ := bcrypt.GenerateFromPassword([]byte("password"), 0)
+		_, err = s.db.Exec(`INSERT INTO "account" (firstname,lastname,email,password) VALUES ($1, $2, $3, $4)`, users[i][0], users[i][1], users[i][2], hash)
+		if err != nil {
+			fmt.Println("unable to insert users into database")
+			fmt.Println(err)
+			return err
+		}
+        var userId string
+        err = s.db.QueryRow(`SELECT ("id") FROM "account" WHERE "email"=$1`, users[i][2]).Scan(&userId)
+	    if err != nil {
+	    	fmt.Println("Unable to read user row")
+	    	fmt.Println(err)
+	    	return err
+	    }
+		_, err = s.db.Exec(`INSERT INTO "group_account" ("group_id", "account_id") VALUES ($1, $2)`, orgId, userId)
+		if err != nil {
+			fmt.Println("unable to insert users into database")
+			fmt.Println(err)
+			return err
+		}
 	}
 	fmt.Println("Finished building db")
-    return nil;
+	return nil
 }
