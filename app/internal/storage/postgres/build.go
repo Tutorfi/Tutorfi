@@ -10,8 +10,7 @@ func (s *PostgresStorage) BuildDevDB() error {
 	val := ` 
     DROP TABLE IF EXISTS "group_account";
     DROP TABLE IF EXISTS "group";
-    DROP TABLE IF EXISTS "schedule";
-    DROP TABLE IF EXISTS "user_schedule";
+    DROP TABLE IF EXISTS "calendar";
     DROP TABLE IF EXISTS "permission";
     DROP TABLE IF EXISTS "tag_account";
 	DROP TABLE IF EXISTS "tag";
@@ -76,13 +75,6 @@ func (s *PostgresStorage) BuildDevDB() error {
 	    FOREIGN KEY ("group_id") REFERENCES "group"("id") ON DELETE CASCADE,
 	    FOREIGN KEY ("account_id") REFERENCES "account"("id") ON DELETE CASCADE
     );
-    
-    CREATE TABLE "user_schedule" (
-      "id" SERIAL UNIQUE PRIMARY KEY,
-      "account_id" uuid UNIQUE NOT NULL,
-      "data" jsonb,
-      FOREIGN KEY ("account_id") REFERENCES "account"("id") ON DELETE CASCADE
-    );
 
     CREATE TABLE "permission" (
       "id" SERIAL UNIQUE PRIMARY KEY,
@@ -144,6 +136,12 @@ func (s *PostgresStorage) BuildDevDB() error {
 			fmt.Println(err)
 			return err
 		}
+	}
+  _, err = s.db.Exec(`INSERT INTO "event" ("event_title","detail") VALUES ('Birthday Party', 'Bring Cake and Present for Ben')`)
+	if err != nil {
+		fmt.Println("unable to insert event into database")
+		fmt.Println(err)
+		return err
 	}
 	fmt.Println("Finished building db")
 	return nil
