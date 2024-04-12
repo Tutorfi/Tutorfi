@@ -17,4 +17,5 @@ func AddPagesRoutes(e *echo.Echo, user *echo.Group) {
     e.GET("/:errors", errorHandler)
     e.GET("/group", groupView)
     user.GET("/test", test)
+    e.GET("/calendar", calendar)
 }
