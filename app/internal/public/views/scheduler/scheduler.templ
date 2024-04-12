@@ -3,12 +3,21 @@ package schedulertempl
 import "app/internal/public/templates"
 import "app/internal/public/components"
 
+css somePadding(){
+    padding: 10px;
+    padding-top: 50px;
+    padding-bottom: 50px;
+}
+
 
 templ Scheduler() {
 	@templates.Base([]string{}, []string{}, "Tutorfi | Scheduler") {
 		<div>
 			@components.HeaderNotLoggedIn()
-            <div></div>
+            <div class={somePadding()}>
+                <button>Create Tag</button>
+                <button>Assign Tag</button>
+            </div>
 			@components.Footer()
 		</div>
 	}
