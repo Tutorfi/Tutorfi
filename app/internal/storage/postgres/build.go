@@ -14,6 +14,7 @@ func (s *PostgresStorage) BuildDevDB() error {
     DROP TABLE IF EXISTS "user_schedule";
     DROP TABLE IF EXISTS "permission";
     DROP TABLE IF EXISTS "tag_account";
+	DROP TABLE IF EXISTS "tag_organization";
 	DROP TABLE IF EXISTS "tag";
     DROP TABLE IF EXISTS "account";
     DROP TABLE IF EXISTS "organization";
@@ -58,6 +59,14 @@ func (s *PostgresStorage) BuildDevDB() error {
       "data" jsonb,
       FOREIGN KEY ("organization_id") REFERENCES "organization"("id") ON DELETE CASCADE
     );
+
+	CREATE TABLE "tag_organization" (
+		"id" SERIAL UNIQUE PRIMARY KEY,
+		"organization_id" uuid,
+		"tag_id" INT,
+		FOREIGN KEY ("organization_id") REFERENCES "organization"("id") ON DELETE CASCADE,
+		FOREIGN KEY ("tag_id") REFERENCES "tag"("id") ON DELETE CASCADE
+	  );
 
     CREATE TABLE "group_account" (
 	    "id" SERIAL UNIQUE PRIMARY KEY,
