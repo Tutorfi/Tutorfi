@@ -1,0 +1,15 @@
+package schedulertempl
+
+import "app/internal/public/templates"
+import "app/internal/public/components"
+
+
+templ Scheduler() {
+	@templates.Base([]string{}, []string{}, "Tutorfi | Scheduler") {
+		<div>
+			@components.HeaderNotLoggedIn()
+            <div></div>
+			@components.Footer()
+		</div>
+	}
+}
