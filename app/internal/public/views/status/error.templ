@@ -1,0 +1,25 @@
+package status
+
+import "app/internal/public/templates"
+import "app/internal/public/components"
+
+css errorFrame(){
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
+}
+
+css errorMessage(){
+	padding: 100px;
+	padding-top: 50px;
+}
+
+templ ErrorPage(){
+    @templates.Base([]string{}, []string{}, "Tutorfi | Error") {
+		<div class={errorFrame()}>
+			@components.HeaderNotLoggedIn()
+			<h1 class={errorMessage()}>Error 404: Resource not found</h1>
+			@components.Footer()
+		</div>
+	}
+}

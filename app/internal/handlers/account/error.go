@@ -1,9 +1,8 @@
 package accounthandler
 
-type AccountError struct {
-	message string
+type AccountError struct{
+	msg string
 }
-
-func (ac *AccountError) Error() string {
-	return ac.message
+func (ac *AccountError) Error() (string){
+	return ac.msg
 }

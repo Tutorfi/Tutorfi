@@ -6,6 +6,13 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     ports:
       - "5432:5432"
+  pgsqlTest:
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_DB: master
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - 5431:5432
   app:
     build:
       context: ../app
