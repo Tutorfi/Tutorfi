@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 
 test('homepage-visiblity', async ({ page }) => {
-  await page.goto('http://localhost:8000/');
+  await page.goto('/');
   await expect(page.getByRole('img', { name: 'Logo' })).toBeVisible();
   await expect(page.getByRole('link', { name: 'About' })).toBeVisible();
   await expect(page.getByRole('link', { name: 'Log in' })).toBeVisible();
@@ -12,7 +12,7 @@ test('homepage-visiblity', async ({ page }) => {
 });
 
 test('login-visiblity', async({page}) =>{
-    await page.goto('http://localhost:8000/');
+    await page.goto('/');
     await page.getByRole('link', { name: 'Log in' }).click();
     await expect(page.getByRole('link', { name: 'Tutorfi' })).toBeVisible();
     await expect(page.getByRole('heading', { name: 'Sign in' })).toBeVisible();
@@ -24,7 +24,7 @@ test('login-visiblity', async({page}) =>{
 });
 
 test('create-visiblity', async({page}) =>{
-    await page.goto('http://localhost:8000/');  
+    await page.goto('/');  
     await page.getByRole('link', { name: 'Log in' }).click();
     await page.getByRole('link', { name: 'Create an account' }).click();
     await expect(page.getByRole('link', { name: 'Tutorfi' })).toBeVisible();
