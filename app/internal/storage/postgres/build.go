@@ -59,7 +59,7 @@ func (s *PostgresStorage) BuildDevDB() error {
     );
 
     CREATE TABLE "event" (
-      "id" uuid UNIQUE PRIMARY KEY DEFAULT (gen_random_uuid()),
+      "id" SERIAL UNIQUE PRIMARY KEY,
       "account_id" uuid NOT NULL,
       "event_title" varchar NOT NULL,
       "detail" varchar NOT NULL,
