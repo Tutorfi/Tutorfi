@@ -13,4 +13,5 @@ type Storage interface {
 	SetSessionID(email string, sessionid string) error
 	DeleteAccount(id string) error
 	ResetSessionID(id string) error
+	GetEvent(id int64) (*models.Calendar, error)
 }
