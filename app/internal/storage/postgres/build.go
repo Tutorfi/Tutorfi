@@ -137,7 +137,7 @@ func (s *PostgresStorage) BuildDevDB() error {
 			return err
 		}
 	}
-  _, err = s.db.Exec(`INSERT INTO "event" ("event_title","detail") VALUES ('Birthday Party', 'Bring Cake and Present for Ben')`)
+  _, err = s.db.Exec(`INSERT INTO "event" ("id", "event_title","detail") VALUES ('1', 'Birthday Party', 'Bring Cake and Present for Ben')`)
 	if err != nil {
 		fmt.Println("unable to insert event into database")
 		fmt.Println(err)

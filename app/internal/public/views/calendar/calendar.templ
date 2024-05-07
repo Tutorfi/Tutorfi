@@ -6,6 +6,7 @@ templ Calendar(cssDir []string) {
     @templates.Base(cssDir, []string{"calendar/extensions/index.global.min.js"}, "Calendar") {
 
         <h1> Calendar </h1>
+        <button hx-post="/calendar/request/" hx-swap="outterHTML">Button Request</button>
         <center> <div id='calendar'></div> </center>
 
         <script>

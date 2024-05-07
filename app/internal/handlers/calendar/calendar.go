@@ -1,22 +1,30 @@
 package calendarhandler
 
 import (
-	"app/internal/public/views/calendar"
-	"app/internal/storage"
-	"fmt"
-	"github.com/labstack/echo/v4"
+    "github.com/labstack/echo/v4"
+    "app/internal/storage"
+    "net/http"
 )
 
-type Calendar struct {
-	store storage.Storage
+type calendarHandler struct {
+    store storage.Storage
 }
 
-func New(store storage.Storage) *Calendar {
-	return &Calendar{
-		store: store,
-	}
+func New(store storage.Storage) *calendarHandler {
+    return &calendarHandler{store: store}
 }
 
-// func (handle *calendarHandler) calendarting(){
-// 	//Return a template
-// }
+func (h *calendarHandler) HandleGetCalendar(c echo.Context) error {
+    // Assuming you can extract userID from context or session
+    userID := getUserIDFromContext(c)
+
+    events, err := h.store.GetEventsByUserID(userID)
+    if err != nil {
+        return echo.NewHTTPError(http.StatusInternalServerError, "Unable to fetch events")
+    }
+
+    return c.Render(http.StatusOK, "calendar.templ", map[string]interface{}{
+        "Title": "Your Calendar",
+        "Events": events,
+    })
+}
