@@ -35,6 +35,12 @@ func (handle *AccountHandler) CreateAccount(c echo.Context) error {
     u := new(accountAuth)
     err := c.Bind(u)
 
+    if err != nil {
+        re := fillResponse("Failed", "Server error, try again later")
+        fmt.Println(err)
+        return c.JSON(http.StatusInternalServerError, re)
+    }
+
 	form.Email = u.Email
 	form.Fname = u.Fname
 	form.Lname = u.Lname
@@ -99,6 +105,12 @@ func (handle *AccountHandler) CreateAccount(c echo.Context) error {
 func (handle *AccountHandler) Verification(c echo.Context) error {
     u := new(accountAuth)
     err := c.Bind(u)
+    if err != nil {
+        re := fillResponse("Failed", "Server error, try again later")
+        fmt.Println(err)
+        return c.JSON(http.StatusInternalServerError, re)
+    }
+
 	email := u.Email
     password := u.Password
 
