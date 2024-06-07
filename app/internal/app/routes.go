@@ -1,9 +1,9 @@
 package app
 
 import (
-	"app/internal/handlers/account"
-	"app/internal/handlers/interface"
-	"app/internal/handlers/scheduler"
+	"app/internal/handlers/app/account"
+	"app/internal/handlers/app/interface"
+	"app/internal/handlers/app/scheduler"
 
 	"github.com/labstack/echo/v4"
 )
