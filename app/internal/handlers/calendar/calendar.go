@@ -16,10 +16,13 @@ func New(store storage.Storage) *calendarHandler {
 
 func (h *calendarHandler) HandleGetCalendar(c echo.Context) error {
     // Assuming you can extract userID from context or session
-    userID := getUserIDFromContext(c)
-    if userID == 0 {
-        return echo.NewHTTPError(http.StatusBadRequest, "Invalid user ID")
+    cookie, err := c.Cookie("Tutorfi_Account")
+    if err != nil {
+        return c.Redirect(302, "/login")
     }
+    sessionId := cookie.Value
+    userID, err := h.store.GetAccountSessionId(sessionId)
+    
 
     events, err := h.store.GetEventsByUserID(userID)
     if err != nil {
