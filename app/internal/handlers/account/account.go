@@ -5,18 +5,17 @@ package accounthandler
 
 import (
 	"app/internal/public/views/createAccount"
-	"app/internal/public/views/login"
 	"app/internal/storage"
-	"app/internal/utils"
 	"database/sql"
 	"fmt"
-	"regexp"
 	"unicode/utf8"
+
+	"net/http"
+	"net/mail"
 
 	"github.com/google/uuid"
 	"github.com/labstack/echo/v4"
 	"golang.org/x/crypto/bcrypt"
-	"net/mail"
 )
 
 type AccountHandler struct {
@@ -29,112 +28,107 @@ func New(store storage.Storage) *AccountHandler {
 	}
 }
 
-func checkFormValue(expression, val string) error {
-	regex := expression
-	matcher, err := regexp.Compile(regex)
-	if err != nil {
-		fmt.Println("regex failed") //What to do here?
-		return err
-	}
-	matched := matcher.MatchString(val)
-	if !matched {
-		return &AccountError{msg: "Invalid form value"}
-	}
-	return nil
-}
+
 func (handle *AccountHandler) CreateAccount(c echo.Context) error {
 	//Get and check the email to see if the account exists
 	form := createAccountTempl.AccountForm{}
+    u := new(accountAuth)
+    err := c.Bind(u)
 
-    // Get the json data nd fill the below out with that
+	form.Email = u.Email
+	form.Fname = u.Fname
+	form.Lname = u.Lname
+	form.Password = u.Password
 
-	// form.Email = c.FormValue("email")
-	// form.Fname = c.FormValue("fname")
-	// form.Lname = c.FormValue("lname")
-	// form.Password = c.FormValue("password")
-	_, err := mail.ParseAddress(form.Email)
+    _, err = mail.ParseAddress(form.Email)
 	if err != nil {
-		fmt.Println("Invalid email")
-		fmt.Println(form.Email)
-		return utils.RenderComponents(c, 200, createAccountTempl.CreateAccountForm(form,
-			"Invalid email", true), nil)
+        re := fillResponse("Invalid", "Invalid email")
+        return c.JSON(http.StatusUnprocessableEntity, re)
 	}
 	_, err = handle.store.GetAccount(form.Email)
 	if err != sql.ErrNoRows {
-		fmt.Println("Account already exists")
-		fmt.Println(err)
 		// Future: Change this to show server error and on dev show server error
-		return utils.RenderComponents(c, 200, createAccountTempl.CreateAccountForm(form, "Invalid email or password", true), nil)
+        re := fillResponse("Invalid", "Account already exists")
+        return c.JSON(http.StatusConflict, re)
 	}
 
 	nameRegex := `^[A-Za-z\x{00C0}-\x{00FF}][A-Za-z\x{00C0}-\x{00FF}\'\-]+([\ A-Za-z\x{00C0}-\x{00FF}][A-Za-z\x{00C0}-\x{00FF}\'\-]+)*`
 	err = checkFormValue(nameRegex, form.Fname)
 	if err != nil {
 		// Future: Change this to show server error and on dev show server error
-		return utils.RenderComponents(c, 200, createAccountTempl.CreateAccountForm(form, "Invalid email or password", true), nil)
+        re := fillResponse("Invalid", "Invalid characeters in first name")
+        return c.JSON(http.StatusUnprocessableEntity, re)
 	}
 	err = checkFormValue(nameRegex, form.Lname)
 	if err != nil {
-		return utils.RenderComponents(c, 200, createAccountTempl.CreateAccountForm(form, "Invalid email or password", true), nil)
+        re := fillResponse("Invalid", "Invalid characeters in last name")
+        return c.JSON(http.StatusUnprocessableEntity, re)
 	}
 
 	//Check and hash the password
 	//For the future when we figure out error handeling better
 	//https://stackoverflow.com/questions/19605150/regex-for-password-must-contain-at-least-eight-characters-at-least-one-number-a
 	if utf8.RuneCountInString(form.Password) < 8 {
-		fmt.Println("Password too short")
-		err := &AccountError{msg: "Password must be longer than 8 characters"}
-		return utils.RenderComponents(c, 200, logintempl.Error(err.Error()), nil)
+        re := fillResponse("Invalid", "Invalid number of characeters")
+        return c.JSON(http.StatusUnprocessableEntity, re)
 	}
 	//In the future we may need a restriction on passwords too long
 	//Create a new account
-
 	hash, err := bcrypt.GenerateFromPassword([]byte(form.Password), 0)
 	if err != nil {
-		fmt.Println("password hasing failed")
+		fmt.Println("password hashing failed")
 		fmt.Println(err)
-		return utils.RenderComponents(c, 200, createAccountTempl.CreateAccountForm(form, "Invalid email or password", true), nil)
+        re := fillResponse("Failed", "Server error, try again later")
+        return c.JSON(http.StatusInternalServerError, re)
 	}
 
 	err = handle.store.CreateAccount(form.Fname, form.Lname, form.Email, string(hash))
 	if err != nil {
 		fmt.Println(err)
-		return utils.RenderComponents(c, 200, logintempl.Error(err.Error()), nil)
+        re := fillResponse("Failed", "Server error, try again later")
+        return c.JSON(http.StatusInternalServerError, re)
 	}
 	//For now we allow all kinds of names, this may change in the future
 	//https://stackoverflow.com/questions/2385701/regular-expression-for-first-and-last-name
 	//https://andrewwoods.net/blog/2018/name-validation-regex/
-
+    re := fillResponse("Success", "Account Created")
+    return c.JSON(http.StatusOK, re)
 }
 
 
 func (handle *AccountHandler) Verification(c echo.Context) error {
-	// email := c.FormValue("email")
-	// password := c.FormValue("password")
+    u := new(accountAuth)
+    err := c.Bind(u)
+	email := u.Email
+    password := u.Password
 
-	err := checkFormValue(`^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$`, email)
+	err = checkFormValue(`^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$`, email)
 	if err != nil {
 		fmt.Println("email error")
-		return utils.RenderComponents(c, 200, logintempl.Login(email, "Invalid email or password", true), nil)
+        re := fillResponse("Invalid", "Invalid email or password")
+        return c.JSON(http.StatusForbidden, re)
 	}
 
 	account, err := handle.store.GetAccount(email)
 
 	if err == sql.ErrNoRows {
 		fmt.Println(err)
-		return utils.RenderComponents(c, 200, logintempl.Login(email, "Invalid email or password", true), nil)
+        re := fillResponse("Invalid", "Invalid email or password")
+        return c.JSON(http.StatusForbidden, re)
 	}
 
 	if err != nil {
 		fmt.Println(err)
-		return utils.RenderComponents(c, 200, logintempl.Error("Sorry an Error occured please contact support"), nil)
+        re := fillResponse("Failed", "Server error, try again later")
+        return c.JSON(http.StatusInternalServerError, re)
 	}
 	hash := []byte(account.Password)
 
 	err = bcrypt.CompareHashAndPassword(hash, []byte(password))
 	if err != nil {
 		fmt.Println(err)
-		return utils.RenderComponents(c, 200, logintempl.Login(email, "Invalid email or password", true), nil)
+        re := fillResponse("Failed", "Server error, try again later")
+        return c.JSON(http.StatusInternalServerError, re)
 	}
 
 	//Create a new session id, set this session id in the database and make a cookie for it
@@ -147,5 +141,6 @@ func (handle *AccountHandler) Verification(c echo.Context) error {
 		fmt.Println(err)
         // return a json error
 	}
-
+    re := fillResponse("Success", "Authorized")
+    return c.JSON(http.StatusOK, re)
 }
