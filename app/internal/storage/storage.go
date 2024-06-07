@@ -13,5 +13,5 @@ type Storage interface {
 	SetSessionID(email string, sessionid string) error
 	DeleteAccount(id string) error
 	ResetSessionID(id string) error
-	GetEventsByUserID(userID int64) ([]models.Calendar, error)
+	GetEventsByUserID(userID *models.Account) ([]models.Calendar, error)
 }
