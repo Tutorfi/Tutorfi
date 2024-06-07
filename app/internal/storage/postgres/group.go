@@ -2,6 +2,7 @@ package storage
 
 import (
 	"app/internal/models"
+	"crypto/rand"
 	"fmt"
 )
 
@@ -32,4 +33,17 @@ func (s *PostgresStorage) GetGroups(account *models.Account) ([]models.Group, er
     }
 
     return groups, nil
+}
+
+func (s *PostgresStorage) CreateGroups(account *models.Account, group *models.Group) error {
+
+    s.db.Exec(`INSERT `)
+    
+    return nil
+}
+
+func tokenGenerator() string {
+	b := make([]byte, 8)
+	rand.Read(b)
+	return fmt.Sprintf("%x", b)
 }
