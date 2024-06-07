@@ -1,7 +1,7 @@
 /*
 Contains the base handlers for creating and authenticating accounts.
 */
-package appAccounthandler
+package accounthandler
 
 import (
 	"app/internal/public/views/createAccount"
@@ -10,9 +10,7 @@ import (
 	"app/internal/utils"
 	"database/sql"
 	"fmt"
-	"net/http"
 	"regexp"
-	"time"
 	"unicode/utf8"
 
 	"github.com/google/uuid"
@@ -48,10 +46,12 @@ func (handle *AccountHandler) CreateAccount(c echo.Context) error {
 	//Get and check the email to see if the account exists
 	form := createAccountTempl.AccountForm{}
 
-	form.Email = c.FormValue("email")
-	form.Fname = c.FormValue("fname")
-	form.Lname = c.FormValue("lname")
-	form.Password = c.FormValue("password")
+    // Get the json data nd fill the below out with that
+
+	// form.Email = c.FormValue("email")
+	// form.Fname = c.FormValue("fname")
+	// form.Lname = c.FormValue("lname")
+	// form.Password = c.FormValue("password")
 	_, err := mail.ParseAddress(form.Email)
 	if err != nil {
 		fmt.Println("Invalid email")
@@ -105,23 +105,13 @@ func (handle *AccountHandler) CreateAccount(c echo.Context) error {
 	//https://stackoverflow.com/questions/2385701/regular-expression-for-first-and-last-name
 	//https://andrewwoods.net/blog/2018/name-validation-regex/
 
-	fmt.Println("account created successfully")
-	c.Response().Header().Set("HX-Redirect", "/login")
-	return utils.RenderComponents(c, 201, logintempl.Error("Account Created"), nil)
 }
-func createCookie(sessionid string) *http.Cookie {
-	var cookie = new(http.Cookie)
-	cookie.Name = "Tutorfi_Account"
-	cookie.Value = sessionid
-	cookie.Expires = time.Now().Add(24 * time.Hour)
-	cookie.HttpOnly = true
-	cookie.Secure = true
-	cookie.Path = "/"
-	return cookie
-}
+
+
 func (handle *AccountHandler) Verification(c echo.Context) error {
-	email := c.FormValue("email")
-	password := c.FormValue("password")
+	// email := c.FormValue("email")
+	// password := c.FormValue("password")
+
 	err := checkFormValue(`^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$`, email)
 	if err != nil {
 		fmt.Println("email error")
@@ -155,8 +145,7 @@ func (handle *AccountHandler) Verification(c echo.Context) error {
 	if err != nil { //What to do here?
 		fmt.Println("cookie error")
 		fmt.Println(err)
-		return utils.RenderComponents(c, 200, logintempl.Error("Sorry an Error occured please contact support"), nil)
+        // return a json error
 	}
-	c.Response().Header().Set("HX-Redirect", "/")
-	return utils.RenderComponents(c, 200, logintempl.Login("", "Logging in", false), nil)
+
 }

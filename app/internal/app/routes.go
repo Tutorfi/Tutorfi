@@ -10,9 +10,9 @@ import (
 
 func addRoutes(e *echo.Echo, a *App) {
 
-	accountFunctions := accounthandler.New(a.store)
-	schedulerFunctions := schedulerhandler.New(a.store)
-    interfaceFunctions := interfacehandler.New(a.store)
+	accountFunctions := appAccounthandler.New(a.store)
+	schedulerFunctions := appschedulerhandler.New(a.store)
+    interfaceFunctions := appinterfacehandler.New(a.store)
 
 	e.POST("/login/verify", accountFunctions.Verification)
 	e.GET("/schedule/date", schedulerFunctions.Schedule)

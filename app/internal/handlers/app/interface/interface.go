@@ -1,4 +1,4 @@
-package interfacehandler
+package appinterfacehandler
 
 import (
 	"app/internal/public/views/interface"

@@ -1,4 +1,4 @@
-package appAccounthandler
+package accounthandler
 
 type AccountError struct{
 	msg string
