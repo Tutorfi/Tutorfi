@@ -17,6 +17,9 @@ func New(store storage.Storage) *calendarHandler {
 func (h *calendarHandler) HandleGetCalendar(c echo.Context) error {
     // Assuming you can extract userID from context or session
     userID := getUserIDFromContext(c)
+    if userID == 0 {
+        return echo.NewHTTPError(http.StatusBadRequest, "Invalid user ID")
+    }
 
     events, err := h.store.GetEventsByUserID(userID)
     if err != nil {
