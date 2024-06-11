@@ -1,10 +1,11 @@
-package interfacehandler
+package appinterfacehandler
 
 import (
+	"app/internal/public/views/interface"
 	"app/internal/storage"
+	"app/internal/utils"
 	"database/sql"
 	"fmt"
-	"net/http"
 
 	"github.com/labstack/echo/v4"
 )
@@ -31,21 +32,16 @@ func (handle *InterfaceHandler) GetAccountGroups(c echo.Context) error {
     }
 	if err != nil {
 		fmt.Println(err)
-        re := fillResponse("Failed", "None", "Server error, try again later", nil, "")
-	    return c.JSON(http.StatusInternalServerError, re)
+	    return c.Redirect(302,"/login")
 	}
     groups, err := handle.store.GetGroups(acc)
     if err != nil {
         fmt.Println(err)
-        re := fillResponse("Failed", "None", "Server error, try again later", nil, "")
-	    return c.JSON(http.StatusInternalServerError, re)
+        return utils.RenderComponents(c, 200, userinterface.NoGroups(),nil)
     }
     if len(groups) == 0 {
-        // Future update the "None" to the auth level of the tags
-        re := fillResponse("Success", "None", "No groups", nil, "")
-	    return c.JSON(http.StatusOK, re)
+        return utils.RenderComponents(c, 200, userinterface.NoGroups(),nil)
     }
-    re := fillResponse("Success", "None", "", groups, "name")
-	return c.JSON(http.StatusOK, re)
+    return utils.RenderComponents(c, 200, userinterface.GroupComponent(groups),nil)
     
 }
