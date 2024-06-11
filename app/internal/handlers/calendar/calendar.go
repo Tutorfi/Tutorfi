@@ -22,17 +22,29 @@ func (h *calendarHandler) HandleGetCalendar(c echo.Context) error {
 	}
 	sessionId := cookie.Value
 	account, err := h.store.GetAccountSessionId(sessionId)
-    if err != nil {
-        return echo.NewHTTPError(http.StatusInternalServerError, "Unable to fetch session ID")
-    }
+	if err != nil {
+		return echo.NewHTTPError(http.StatusInternalServerError, "Unable to fetch session ID")
+	}
 
 	events, err := h.store.GetEventsByUserID(account.Id)
 	if err != nil {
 		return echo.NewHTTPError(http.StatusInternalServerError, "Unable to fetch events")
 	}
 
-	return c.Render(http.StatusOK, "calendar.templ", map[string]interface{}{
-		"Title":  "Your Calendar",
-		"Events": events,
-	})
+	var calendarEvents []calendar
+
+	for _, event := range events {
+        thing := calendar{
+            Event_title: event.Event_title,
+            Detail:      event.Detail,
+            Start_time:  event.Start_time,
+            End_time:    event.End_time,
+        }
+        calendarEvents = append(calendarEvents, thing)
+    }
+
+    return c.JSON(http.StatusOK, map[string]interface{}{
+        "Title":  "Your Calendar",
+        "Events": calendarEvents,
+    })
 }
