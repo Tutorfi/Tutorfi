@@ -21,9 +21,12 @@ func (h *calendarHandler) HandleGetCalendar(c echo.Context) error {
 		return c.Redirect(302, "/login")
 	}
 	sessionId := cookie.Value
-	userID, err := h.store.GetAccountSessionId(sessionId)
+	account, err := h.store.GetAccountSessionId(sessionId)
+    if err != nil {
+        return echo.NewHTTPError(http.StatusInternalServerError, "Unable to fetch session ID")
+    }
 
-	events, err := h.store.GetEventsByUserID(userID)
+	events, err := h.store.GetEventsByUserID(account.Id)
 	if err != nil {
 		return echo.NewHTTPError(http.StatusInternalServerError, "Unable to fetch events")
 	}

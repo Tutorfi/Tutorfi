@@ -6,7 +6,7 @@ import (
 )
 
 // GetEventsByUserID fetches all events for a specific user from the database
-func (s *PostgresStorage) GetEventsByUserID(userID *models.Account) ([]models.Calendar, error) {
+func (s *PostgresStorage) GetEventsByUserID(userID string) ([]models.Calendar, error) {
     var events []models.Calendar
     query := `SELECT id, event_title, detail, start_time, end_time
               FROM "event"
