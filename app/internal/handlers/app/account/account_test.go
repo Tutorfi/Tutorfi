@@ -1,4 +1,4 @@
-package accounthandler
+package appAccounthandler
 
 import (
 	"app/internal/storage/postgres"
