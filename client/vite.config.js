@@ -8,12 +8,14 @@ export default defineConfig({
   ],
   server: {
     port: 3000,
+    watch: {
+      usePolling: true
+    },
     proxy: {
       '/api': {
-        // string shorthand: http://localhost:5173/foo -> http://localhost:4567/foo
         target: 'http://app:8000',
-
-        // proxy debug event listeners
+        changeOrigin: true,
+        secure: false,
         configure: (proxy, _options) => {
           proxy.on('error', (err, _req, _res) => {
             console.log('proxy error', err)
