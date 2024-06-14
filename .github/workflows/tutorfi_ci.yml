@@ -44,6 +44,7 @@ jobs:
         with:
           working-directory: ./app/
           version: v1.54
+
   csslint:
     runs-on: ubuntu-latest
     strategy:
@@ -61,4 +62,28 @@ jobs:
       run: npm install
 
     - name: Run stylelint
-      run: npx stylelint "**/*.css"    
+      run: npx stylelint "**/*.css"
+
+  solidjs-jsxlint:
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        node-version: [20.x]
+    steps:
+    - uses: actions/checkout@v4
+    - name: Cache node modules
+      uses: actions/setup-node@v3
+      with:
+        working-directory: ./client/
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: npm install
+    
+    - name: Test stuff
+      run: pwd
+
+    - name: Run eslint
+      run: npx eslint $(git ls-files '*.jsx')
