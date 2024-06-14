@@ -1,7 +1,7 @@
 /*
 Contains the base handlers for scheduling and creating events.
 */
-package schedulerhandler
+package appschedulerhandler
 
 import (
 	"app/internal/storage"
