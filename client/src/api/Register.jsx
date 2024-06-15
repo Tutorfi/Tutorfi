@@ -1,8 +1,10 @@
-// verify
-function Login (email, password) {
-  fetch('/api/account/verify', {
+// create account
+function Register (fname, lname, email, password) {
+  fetch('/api/account/create', {
     method: 'POST',
     body: JSON.stringify({
+      fname,
+      lname,
       email,
       password
     }),
@@ -14,4 +16,4 @@ function Login (email, password) {
     .then((json) => { console.log(json) })
 }
 
-export default Login
+export default Register
