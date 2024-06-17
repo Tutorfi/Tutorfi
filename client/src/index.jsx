@@ -1,10 +1,9 @@
 import { lazy } from 'solid-js'
 import { render } from 'solid-js/web'
-import { Router, Route } from '@solidjs/router'
+import { HashRouter, Route } from '@solidjs/router'
 
-import './index.css'
-const Home = lazy(() => import('./pages/Home'))
-const NotFound = lazy(() => import('./pages/NotFound'))
+const Landing = lazy(() => import('./routes/pages/Landing'))
+const NotFound = lazy(() => import('./routes/pages/NotFound'))
 
 const root = document.getElementById('root')
 
@@ -15,8 +14,8 @@ if (import.meta.env.DEV && !(root instanceof HTMLElement)) {
 }
 
 render(() => (
-  <Router>
-    <Route path="/" component={Home} />
-    <Route path="*paramName" component={NotFound} />
-  </Router>
+  <HashRouter>
+    <Route path="/" component={Landing} />
+    <Route path="*404" component={NotFound} />
+  </HashRouter>
 ), document.getElementById('root'))

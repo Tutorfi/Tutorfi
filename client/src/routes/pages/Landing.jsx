@@ -1,11 +1,9 @@
 // about->login<->register
-import logo from '../logo.svg'
-
-function Home () {
+function Landing () {
+  document.title = 'Tutorfi'
   return (
     <div>
       <header>
-        <img src={logo} alt="logo" />
         <p>
           Edit <code>src/App.jsx</code> and save to reload.
         </p>
@@ -21,4 +19,4 @@ function Home () {
   )
 }
 
-export default Home
+export default Landing
