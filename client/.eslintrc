@@ -1,4 +1,8 @@
 {
     "plugins": ["solid"],
-    "extends": ["eslint:recommended", "plugin:solid/recommended"]
+    "extends": ["eslint:recommended", "plugin:solid/recommended"],
+    "ignorePatterns": [
+        "src/index.css",
+        "src/assets/favicon/*"
+    ]
 }

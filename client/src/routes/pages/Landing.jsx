@@ -4,7 +4,7 @@ function Landing () {
   return (
     <div>
       <header>
-        <p>
+        <p class="text-3xl">
           Edit <code>src/App.jsx</code> and save to reload.
         </p>
         <a
