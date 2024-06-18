@@ -2,8 +2,10 @@ package calendarhandler
 
 import (
 	"app/internal/storage"
-	"github.com/labstack/echo/v4"
+	"database/sql"
 	"net/http"
+
+	"github.com/labstack/echo/v4"
 )
 
 type calendarHandler struct {
@@ -27,24 +29,27 @@ func (h *calendarHandler) HandleGetCalendar(c echo.Context) error {
 	}
 
 	events, err := h.store.GetEventsByUserID(account.Id)
+    if err != sql.ErrNoRows {
+        return echo.NewHTTPError(http.StatusOK, "No events")
+    }
 	if err != nil {
-		return echo.NewHTTPError(http.StatusInternalServerError, "Unable to fetch events")
+		return echo.NewHTTPError(http.StatusOK, "Unable to fetch events")
 	}
 
 	var calendarEvents []calendar
 
 	for _, event := range events {
-        thing := calendar{
-            Event_title: event.Event_title,
-            Detail:      event.Detail,
-            Start_time:  event.Start_time,
-            End_time:    event.End_time,
-        }
-        calendarEvents = append(calendarEvents, thing)
-    }
+		thing := calendar{
+			Event_title: event.Event_title,
+			Detail:      event.Detail,
+			Start_time:  event.Start_time,
+			End_time:    event.End_time,
+		}
+		calendarEvents = append(calendarEvents, thing)
+	}
 
-    return c.JSON(http.StatusOK, map[string]interface{}{
-        "Title":  "Your Calendar",
-        "Events": calendarEvents,
-    })
+	return c.JSON(http.StatusOK, map[string]interface{}{
+		"Title":  "Your Calendar",
+		"Events": calendarEvents,
+	})
 }
