@@ -32,11 +32,6 @@
     border-radius: 0 0 15px 15px;
 }
 
-/* days of the week and multimonth title */
-.fc-day, .fc-multimonth-title {
-    background-color: var(--background-color);
-}
-
 /* days that aren't part of the month */
 .fc-day-other {
     border-radius: 0;
@@ -102,4 +97,13 @@
 
 .fc-dayGridMonth-view .fc-day-today {
     border-radius: 0 !important;
+}
+
+/* Styling year view */
+.fc-day, .fc-multimonth-title {
+    background-color: var(--background-color);
+}
+
+.fc-multimonth-daygrid .fc-day-disabled {
+    background-color: #bfbfbf;
 }
