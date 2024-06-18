@@ -39,7 +39,7 @@
 
 /* days that aren't part of the month */
 .fc-day-other {
-    border-radius: 0px;
+    border-radius: 0;
     background-color: var(--past-dates-color);
 }
 
@@ -55,7 +55,6 @@
 /* Styling for day view */
 .fc-timeGridDay-view {
     border-radius: 15px;
-    /* border-radius: 0 15px 15px 0; */
 }
 
 .fc-timeGridDay-view .fc-day-today {
@@ -66,6 +65,14 @@
 /* Styling for week view */
 .fc-timeGridWeek-view {
     border-radius: 15px;
+}
+
+.fc-timeGridWeek-view .fc-day {
+    background: var(--calendar-background-color);
+}
+
+.fc-dayGridMonth-view .fc-day-other {
+    border-radius: 0;
 }
 
 .fc-timeGridWeek-view .fc-col-header-cell .fc-day {
@@ -81,14 +88,9 @@
 }
 
 .fc-timeGridWeek-view .fc-day-today,
-.fc-timeGridWeek-view [role=presentation] {
-    border-radius: 0px;
+.fc-timeGridWeek-view [role="presentation"] {
+    border-radius: 0;
 }
-
-.fc-timeGridWeek-view .fc-day {
-    background: var(--calendar-background-color);
-}
-
 
 /* Styling for month view */
 .fc-dayGridMonth-view,
@@ -98,16 +100,6 @@
     border-radius: 15px;
 }
 
-.fc-dayGridMonth-view .fc-day-other {
-    border-radius: 0px;
-}
-
 .fc-dayGridMonth-view .fc-day-today {
-    border-radius: 0px !important;
+    border-radius: 0 !important;
 }
-
-
-/* Styling for year view */
-/* .fc-multiYear-view .fc-day {
-    
-} */
