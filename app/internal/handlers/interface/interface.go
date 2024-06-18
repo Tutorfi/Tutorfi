@@ -27,12 +27,18 @@ func (handle *InterfaceHandler) GetAccountGroups(c echo.Context) error {
     sessionId := cookie.Value
     acc, err := handle.store.GetAccountSessionId(sessionId)
 	if err == sql.ErrNoRows {
+        c.Response().Header().Add("HX-Redirect", "/login")
 	    return c.Redirect(302,"/login")
     }
 	if err != nil {
 		fmt.Println(err)
+<<<<<<< HEAD
         re := fillResponse("Failed", "None", "Server error, try again later", nil, "")
 	    return c.JSON(http.StatusInternalServerError, re)
+=======
+        c.Response().Header().Add("HX-Redirect", "/login")
+	    return c.Redirect(302,"/login")
+>>>>>>> 3bbfde8 (added_basic_queries)
 	}
     groups, err := handle.store.GetGroups(acc)
     if err != nil {
