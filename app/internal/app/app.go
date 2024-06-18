@@ -44,6 +44,7 @@ func (a *App) Start(e *echo.Echo) error {
     user := e.Group("/user", a.AuthMiddleware)
     pages.AddPagesRoutes(e, user)
 	addRoutes(e, a)
+    apiRoutes(e, a)
 
 	e.Use(middleware.CORS(), middleware.Logger(), middleware.Recover())
 	e.Use(middleware.GzipWithConfig(middleware.GzipConfig{Level: 6}))
