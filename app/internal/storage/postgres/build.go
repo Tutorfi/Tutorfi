@@ -6,6 +6,7 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
+
 func (s *PostgresStorage) BuildDevDB() error {
 	val := ` 
     DROP TABLE IF EXISTS "group_account";
@@ -108,7 +109,8 @@ func (s *PostgresStorage) BuildDevDB() error {
 		fmt.Println(err)
 		return err
 	}
-	_, err = s.db.Exec(`INSERT INTO "group" ("organization_id","name") VALUES ($1, 'Linear Algebra')`, orgId)
+    token, err := tokenGenerator()
+	_, err = s.db.Exec(`INSERT INTO "group" ("group_id", "organization_id","name") VALUES ($1, $2, 'Linear Algebra')`, token, orgId)
 	if err != nil {
 		fmt.Println("unable to insert users into database")
 		fmt.Println(err)

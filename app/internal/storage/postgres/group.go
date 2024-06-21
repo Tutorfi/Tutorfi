@@ -6,6 +6,16 @@ import (
 	"fmt"
 )
 
+func tokenGenerator() (string, error) {
+	b := make([]byte, 8)
+    _, err := rand.Read(b)
+    if err != nil {
+        return "error", err;
+    }
+
+	return fmt.Sprintf("%x", b), nil
+}
+
 func (s *PostgresStorage) GetGroups(account *models.Account) ([]models.Group, error) {
     groups := make([]models.Group, 0, 10)
     rows, err := s.db.Query(`
@@ -42,8 +52,3 @@ func (s *PostgresStorage) CreateGroups(account *models.Account, group *models.Gr
     return nil
 }
 
-func tokenGenerator() string {
-	b := make([]byte, 8)
-	rand.Read(b)
-	return fmt.Sprintf("%x", b)
-}
