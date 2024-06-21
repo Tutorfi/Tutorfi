@@ -47,7 +47,41 @@ func (s *PostgresStorage) GetGroups(account *models.Account) ([]models.Group, er
 
 func (s *PostgresStorage) CreateGroups(account *models.Account, group *models.Group) error {
 
-    s.db.Exec(`INSERT `)
+    token, err := tokenGenerator()
+    if err != nil {
+        fmt.Println("Can't generate token")
+        fmt.Println(err)
+        return err
+    }
+
+    _, err = s.db.Exec(`
+    INSERT "group" ("group_id","organization_id", "name") VALUES ($1,$2,$3);
+    `, token, account.OrganizationId, group.Name)
+    if err != nil {
+        fmt.Println("Insert error occured")
+        fmt.Println(err)
+        return err
+    }
+
+    rows := s.db.QueryRow(`
+    SELECT "id" FROM "group" WHERE "group_id" = $1
+    `, token)
+    group_id := new(int32)
+    err = rows.Scan(&group_id)
+    if err != nil {
+        fmt.Println("No rows exist even though created")
+        fmt.Println(err)
+        return err
+    }
+
+    _, err = s.db.Exec(`
+    INSERT "group_account" ("group_id", "account_id") VALUES ($1,$2)
+    `, group_id, account.Id)
+    if err != nil {
+        fmt.Println("Insert error occured")
+        fmt.Println(err)
+        return err
+    }
     
     return nil
 }

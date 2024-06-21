@@ -110,6 +110,10 @@ func (s *PostgresStorage) BuildDevDB() error {
 		return err
 	}
     token, err := tokenGenerator()
+    if err != nil {
+        fmt.Printf("Can't generate token")
+        fmt.Printf(err)
+        return err
 	_, err = s.db.Exec(`INSERT INTO "group" ("group_id", "organization_id","name") VALUES ($1, $2, 'Linear Algebra')`, token, orgId)
 	if err != nil {
 		fmt.Println("unable to insert users into database")
