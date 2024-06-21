@@ -1,4 +1,4 @@
-package calendarhandler
+package eventhandler
 
 import (
 	"app/internal/storage"
@@ -8,15 +8,15 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-type calendarHandler struct {
+type eventHadler struct {
 	store storage.Storage
 }
 
-func New(store storage.Storage) *calendarHandler {
-	return &calendarHandler{store: store}
+func New(store storage.Storage) *eventHadler {
+	return &eventHadler{store: store}
 }
 
-func (h *calendarHandler) HandleGetCalendar(c echo.Context) error {
+func (h *eventHadler) HandleGetEvent(c echo.Context) error {
 	// Assuming you can extract userID from context or session
 	cookie, err := c.Cookie("Tutorfi_Account")
 	if err != nil {
@@ -36,14 +36,14 @@ func (h *calendarHandler) HandleGetCalendar(c echo.Context) error {
 		return echo.NewHTTPError(http.StatusOK, "Unable to fetch events")
 	}
 
-	var calendarEvents []calendar
+	var calendarEvents []event
 
-	for _, event := range events {
-		thing := calendar{
-			Event_title: event.Event_title,
-			Detail:      event.Detail,
-			Start_time:  event.Start_time,
-			End_time:    event.End_time,
+	for _, e := range events {
+		thing := event{
+			Event_title: e.Event_title,
+			Detail:      e.Detail,
+			Start_time:  e.Start_time,
+			End_time:    e.End_time,
 		}
 		calendarEvents = append(calendarEvents, thing)
 	}

@@ -2,7 +2,7 @@ package models
 
 import "time"
 
-type Calendar struct {
+type Event struct {
 	Id          int64
 	Account_id  string
 	Event_title string

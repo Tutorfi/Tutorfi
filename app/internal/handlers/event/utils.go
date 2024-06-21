@@ -1,8 +1,8 @@
-package calendarhandler
+package eventhandler
 
 import "time"
 
-type calendar struct {
+type event struct {
     Event_title string 		`json:"title"`
     Detail 		string 		`json:"detail"`
 	// try to nest these two structs into one struct (start and end time)

@@ -6,8 +6,8 @@ import (
 )
 
 // GetEventsByUserID fetches all events for a specific user from the database
-func (s *PostgresStorage) GetEventsByUserID(userID string) ([]models.Calendar, error) {
-    var events []models.Calendar
+func (s *PostgresStorage) GetEventsByUserID(userID string) ([]models.Event, error) {
+    var events []models.Event
     query := `SELECT id, event_title, detail, start_time, end_time
               FROM "event"
               WHERE account_id = $1`
@@ -19,7 +19,7 @@ func (s *PostgresStorage) GetEventsByUserID(userID string) ([]models.Calendar, e
     defer rows.Close()
 
     for rows.Next() {
-        var event models.Calendar
+        var event models.Event
         if err := rows.Scan(&event.Id, &event.Event_title, &event.Detail, &event.Start_time, &event.End_time); err != nil {
             fmt.Println("Error scanning rows:", err)
             return nil, err
