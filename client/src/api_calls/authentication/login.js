@@ -1,5 +1,5 @@
 // verify
-function Login (email, password) {
+export async function login (email, password) {
   fetch('/api/account/verify', {
     method: 'POST',
     body: JSON.stringify({
@@ -13,5 +13,3 @@ function Login (email, password) {
     .then((response) => response.json())
     .then((json) => { console.log(json) })
 }
-
-export default Login

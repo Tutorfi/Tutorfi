@@ -1,5 +1,5 @@
 // create account
-function Register (fname, lname, email, password) {
+export function register (fname, lname, email, password) {
   fetch('/api/account/create', {
     method: 'POST',
     body: JSON.stringify({
@@ -15,5 +15,3 @@ function Register (fname, lname, email, password) {
     .then((response) => response.json())
     .then((json) => { console.log(json) })
 }
-
-export default Register
