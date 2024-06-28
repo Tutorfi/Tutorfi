@@ -4,9 +4,8 @@ import (
 	"app/internal/public/components"
 	"app/internal/public/views/home"
 	"app/internal/utils"
-	"net/http"
-
 	"github.com/labstack/echo/v4"
+	"net/http"
 )
 
 //  All logic is handled in the handlers package ex: geting users data
