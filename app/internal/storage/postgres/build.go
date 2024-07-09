@@ -2,7 +2,7 @@ package storage
 
 import (
 	"fmt"
-
+	"time"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -10,8 +10,7 @@ func (s *PostgresStorage) BuildDevDB() error {
 	val := ` 
     DROP TABLE IF EXISTS "group_account";
     DROP TABLE IF EXISTS "group";
-    DROP TABLE IF EXISTS "schedule";
-    DROP TABLE IF EXISTS "user_schedule";
+    DROP TABLE IF EXISTS "event";
     DROP TABLE IF EXISTS "permission";
     DROP TABLE IF EXISTS "tag_account";
 	DROP TABLE IF EXISTS "tag";
@@ -59,19 +58,22 @@ func (s *PostgresStorage) BuildDevDB() error {
       FOREIGN KEY ("organization_id") REFERENCES "organization"("id") ON DELETE CASCADE
     );
 
+    CREATE TABLE "event" (
+      "id" SERIAL UNIQUE PRIMARY KEY,
+      "account_id" uuid NOT NULL,
+      "event_title" varchar NOT NULL,
+      "detail" varchar NOT NULL,
+      "start_time" TIMESTAMPTZ NOT NULL,
+      "end_time" TIMESTAMPTZ,
+      FOREIGN KEY ("account_id") REFERENCES "account"("id") ON DELETE CASCADE
+    );
+
     CREATE TABLE "group_account" (
 	    "id" SERIAL UNIQUE PRIMARY KEY,
 	    "group_id" integer,
 	    "account_id" uuid,
 	    FOREIGN KEY ("group_id") REFERENCES "group"("id") ON DELETE CASCADE,
 	    FOREIGN KEY ("account_id") REFERENCES "account"("id") ON DELETE CASCADE
-    );
-    
-    CREATE TABLE "user_schedule" (
-      "id" SERIAL UNIQUE PRIMARY KEY,
-      "account_id" uuid UNIQUE NOT NULL,
-      "data" jsonb,
-      FOREIGN KEY ("account_id") REFERENCES "account"("id") ON DELETE CASCADE
     );
 
     CREATE TABLE "permission" (
@@ -87,7 +89,7 @@ func (s *PostgresStorage) BuildDevDB() error {
 		fmt.Println(err)
 		return err
 	}
-    fmt.Println("Created the tables")
+	fmt.Println("Created the tables")
 	_, err = s.db.Exec(`INSERT INTO "organization" ("name") VALUES ('Tutorfi')`)
 	if err != nil {
 		fmt.Println("unable to insert values into test database")
@@ -101,7 +103,7 @@ func (s *PostgresStorage) BuildDevDB() error {
 		{"John", "Doe", "JohnDoe@gmail.com"},
 	}
 	var orgId int
-    err = s.db.QueryRow(`SELECT ("id") FROM "organization" WHERE "name"='Tutorfi'`).Scan(&orgId)
+	err = s.db.QueryRow(`SELECT ("id") FROM "organization" WHERE "name"='Tutorfi'`).Scan(&orgId)
 	if err != nil {
 		fmt.Println("Unable to read organization row")
 		fmt.Println(err)
@@ -121,13 +123,13 @@ func (s *PostgresStorage) BuildDevDB() error {
 			fmt.Println(err)
 			return err
 		}
-        var userId string
-        err = s.db.QueryRow(`SELECT ("id") FROM "account" WHERE "email"=$1`, users[i][2]).Scan(&userId)
-	    if err != nil {
-	    	fmt.Println("Unable to read user row")
-	    	fmt.Println(err)
-	    	return err
-	    }
+		var userId string
+		err = s.db.QueryRow(`SELECT ("id") FROM "account" WHERE "email"=$1`, users[i][2]).Scan(&userId)
+		if err != nil {
+			fmt.Println("Unable to read user row")
+			fmt.Println(err)
+			return err
+		}
 		_, err = s.db.Exec(`INSERT INTO "group_account" ("group_id", "account_id") VALUES ($1, $2)`, orgId, userId)
 		if err != nil {
 			fmt.Println("unable to insert users into database")
@@ -135,6 +137,25 @@ func (s *PostgresStorage) BuildDevDB() error {
 			return err
 		}
 	}
+	// Insert event for Bob Builder
+	startTime := time.Now()
+	endTime := startTime.Add(2 * time.Hour) // Example duration of 2 hours
+	_, err = s.db.Exec(`
+		INSERT INTO "event" (account_id, event_title, detail, start_time, end_time) 
+		VALUES (
+			(SELECT id FROM account WHERE firstname = 'bob' AND lastname = 'Builder'), 
+			'Birthday', 
+			'Happy Birthday!', 
+			$1, 
+			$2
+		)
+	`, startTime, endTime)
+	if err != nil {
+		fmt.Println("unable to insert event into database")
+		fmt.Println(err)
+		return err
+	}
+
 	fmt.Println("Finished building db")
 	return nil
 }
