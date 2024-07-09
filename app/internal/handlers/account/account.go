@@ -62,12 +62,12 @@ func (handle *AccountHandler) CreateAccount(c echo.Context) error {
 	err = checkFormValue(nameRegex, form.Fname)
 	if err != nil {
 		// Future: Change this to show server error and on dev show server error
-        re := fillResponse("Invalid", "Invalid characeters in first name")
+        re := fillResponse("Invalid", "Invalid characters in first name")
         return c.JSON(http.StatusUnprocessableEntity, re)
 	}
 	err = checkFormValue(nameRegex, form.Lname)
 	if err != nil {
-        re := fillResponse("Invalid", "Invalid characeters in last name")
+        re := fillResponse("Invalid", "Invalid characters in last name")
         return c.JSON(http.StatusUnprocessableEntity, re)
 	}
 
@@ -75,7 +75,7 @@ func (handle *AccountHandler) CreateAccount(c echo.Context) error {
 	//For the future when we figure out error handeling better
 	//https://stackoverflow.com/questions/19605150/regex-for-password-must-contain-at-least-eight-characters-at-least-one-number-a
 	if utf8.RuneCountInString(form.Password) < 8 {
-        re := fillResponse("Invalid", "Invalid number of characeters")
+        re := fillResponse("Invalid", "Invalid number of characters")
         return c.JSON(http.StatusUnprocessableEntity, re)
 	}
 	//In the future we may need a restriction on passwords too long
