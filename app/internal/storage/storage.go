@@ -10,7 +10,7 @@ type Storage interface {
     GetAccountSessionId(sessionId string) (*models.Account, error)
 	CreateAccount(fname, lname, email, password string) error
     GetPassword(email string) (string, error)
-	SetSessionID(email string, sessionid string) error
+	SetSessionID(id string, sessionid string) error
 	DeleteAccount(id string) error
-	ResetSessionID(id string) error
+	ResetSessionID(sessionid string) error
 }
