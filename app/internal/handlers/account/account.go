@@ -8,6 +8,7 @@ import (
 	"app/internal/storage"
 	"database/sql"
 	"fmt"
+	"time"
 	"unicode/utf8"
 
 	"net/http"
@@ -102,7 +103,7 @@ func (handle *AccountHandler) CreateAccount(c echo.Context) error {
 }
 
 
-func (handle *AccountHandler) Verification(c echo.Context) error {
+func (handle *AccountHandler) Login(c echo.Context) error {
     u := new(accountAuth)
     err := c.Bind(u)
     if err != nil {
@@ -147,12 +148,92 @@ func (handle *AccountHandler) Verification(c echo.Context) error {
 	sessionid := uuid.New()
 	cookie := createCookie(sessionid.String())
 	c.SetCookie(cookie)
-	err = handle.store.SetSessionID(email, sessionid.String())
-	if err != nil { //What to do here?
+	err = handle.store.SetSessionID(account.Id, sessionid.String())
+	if err != nil {
 		fmt.Println("cookie error")
 		fmt.Println(err)
+        re := fillResponse("Failed", "Server error, try again later")
+        return c.JSON(http.StatusInternalServerError, re)
         // return a json error
 	}
     re := fillResponse("Success", "Authorized")
+    return c.JSON(http.StatusOK, re)
+}
+
+func (handle *AccountHandler) VerifyCookie (c echo.Context) error {
+    cookie, err := c.Cookie("Tutorfi_Account")
+    if cookie == nil {
+        re := fillResponse("Invalid", "Unable to read cookie")
+        return c.JSON(http.StatusUnauthorized, re)
+    }
+    if err != nil {
+        fmt.Println("Unable to read cookie")
+        fmt.Println(err);
+        re := fillResponse("Failed", "Unable to read cookie")
+        return c.JSON(http.StatusUnauthorized, re)
+    }
+
+
+    if time.Now().After(cookie.Expires) == false {
+        re := fillResponse("Invalid", "Expired Cookie")
+        return c.JSON(http.StatusUnauthorized, re)
+    }
+
+    account, err := handle.store.GetAccountSessionId(cookie.Value)
+
+    if err == sql.ErrNoRows {
+        re := fillResponse("Invalid", "Cookie is Invalid")
+        return c.JSON(http.StatusUnauthorized, re)
+    }
+    if err != nil {
+        fmt.Println("Database Error:")
+        fmt.Println(err);
+        re := fillResponse("Failed", "Something Happened")
+        return c.JSON(http.StatusInternalServerError, re)
+    }
+
+    if account == nil {
+        fmt.Println("Account is empty")
+        fmt.Println(err);
+        re := fillResponse("Invalid", "Cookie is Invalid")
+        return c.JSON(http.StatusUnauthorized, re)
+    }
+
+    if account.SessionId == nil {
+        re := fillResponse("Invalid", "Cookie is Invalid")
+        return c.JSON(http.StatusUnauthorized, re)
+    }
+
+
+    re := fillResponse("Success", "Authorized");
+    return c.JSON(http.StatusOK, re)
+}
+
+func (handle *AccountHandler) Logout (c echo.Context) error {
+    // Refreash session token
+    cookie, err := c.Cookie("Tutorfi_Account")
+    if cookie == nil {
+        re := fillResponse("Invalid", "Cookie not found")
+        return c.JSON(http.StatusUnauthorized, re)
+    }
+
+    if err != nil {
+        fmt.Println(err)
+        re := fillResponse("Failed", "Unable to get Cookie")
+        return c.JSON(http.StatusInternalServerError, re)
+    }
+    handle.store.ResetSessionID(cookie.Value)
+
+	cookie = new(http.Cookie)
+	cookie.Name = "Tutorfi_Account"
+	cookie.Value = ""
+	cookie.Expires = time.Now()
+	cookie.HttpOnly = true
+	cookie.Secure = true
+	cookie.Path = "/"
+    c.SetCookie(cookie)
+
+
+    re := fillResponse("Success", "Logged Out");
     return c.JSON(http.StatusOK, re)
 }

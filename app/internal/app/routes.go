@@ -1,5 +1,4 @@
 package app
-
 import (
 	accounthandler "app/internal/handlers/account"
 	"app/internal/handlers/app/account"
@@ -31,5 +30,6 @@ func apiRoutes(e *echo.Echo, a *App) {
 
     e.GET("/api/group", interfaceFunctions.GetAccountGroups)
     e.POST("/api/account/create", accounthandler.CreateAccount)
-    e.GET("/api/account/verify", accounthandler.Verification)
+    e.POST("/api/account/login", accounthandler.Login)
+    e.GET("/api/account/verify", accounthandler.VerifyCookie)
 }
