@@ -174,7 +174,7 @@ func (handle *AccountHandler) VerifyCookie (c echo.Context) error {
     }
 
 
-    if time.Now().After(cookie.Expires) == false {
+    if !time.Now().After(cookie.Expires) {
         re := fillResponse("Invalid", "Expired Cookie")
         return c.JSON(http.StatusUnauthorized, re)
     }
@@ -222,7 +222,12 @@ func (handle *AccountHandler) Logout (c echo.Context) error {
         re := fillResponse("Failed", "Unable to get Cookie")
         return c.JSON(http.StatusInternalServerError, re)
     }
-    handle.store.ResetSessionID(cookie.Value)
+    err = handle.store.ResetSessionID(cookie.Value)
+    if err != nil {
+        fmt.Println(err)
+        re := fillResponse("Failed", "Something happened")
+        return c.JSON(http.StatusInternalServerError, re)
+    }
 
 	cookie = new(http.Cookie)
 	cookie.Name = "Tutorfi_Account"
