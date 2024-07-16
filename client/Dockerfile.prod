@@ -10,4 +10,4 @@ COPY . /client/
 
 EXPOSE 3000
 
-CMD npm start -- --port 3000 --host
+CMD npm install && npm start -- --port 3000 --host
