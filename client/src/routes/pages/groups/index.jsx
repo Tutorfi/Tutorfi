@@ -2,7 +2,6 @@ import RouteGuard from '../../RouteGuard'
 import NavbarUser from '../../../components/nav/user/NavbarUser'
 
 function Group () {
-  RouteGuard()
 
   return (
     <>

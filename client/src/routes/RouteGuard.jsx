@@ -1,15 +1,25 @@
 import { useNavigate } from '@solidjs/router'
-import { createEffect } from 'solid-js'
+import { Show, createEffect, createSignal } from 'solid-js'
 
-function RouteGuard () {
-  const navigate = useNavigate()
-  const token = sessionStorage.getItem('token')
+function loading(){
+    return (
+        <h1>Loading...</h1>
+    );
+}
 
-  createEffect(() => {
-    if (!token) {
-      navigate('/', { replace: true })
-    }
-  })
+function RouteGuard (props) {
+    const navigate = useNavigate()
+    console.log(props);
+
+    const [auth, setAuth] = createSignal(false);
+    fetch().then(/*Converting to json*/).then(/*manpulate the json*/).catch();
+    
+    return (
+        <>
+            <Show when={auth()} fallback={loading}>
+                {props.children}
+            </Show>
+        </>);
 }
 
 export default RouteGuard
