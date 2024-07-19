@@ -5,7 +5,6 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"os/exec"
 	// "time"
 )
 
@@ -14,28 +13,15 @@ func fooHandler(w http.ResponseWriter, req *http.Request) {
 }
 
 func main() {
+	// create base storage folder within container
 	err := os.Mkdir("storage", 0750)
 	if err != nil && !os.IsExist(err) {
 		log.Fatal(err)
 	}
-	err = os.WriteFile("storage/testfile.txt", []byte("Hello, World!\n"), 0660)
-	if err != nil {
-		log.Fatal(err)
-	}
 
-	// data, err := os.ReadFile("testdir/testfile.txt")
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
-	// os.Stdout.Write(data)
-
-	cmd := exec.Command("cat", "storage/testfile.txt")
-	stdout, err := cmd.Output()
-	if err != nil {
-		fmt.Println(err.Error())
-		return
-	}
-	fmt.Println(string(stdout))
+	add_group("group1")
+	add_file("group1", "example.txt")
+	fmt.Println(get("group1", "example.txt"))
 
 	http.HandleFunc("/foo", fooHandler)
 
