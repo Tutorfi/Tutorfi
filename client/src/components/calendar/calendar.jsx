@@ -1,44 +1,53 @@
-import FullCalendar from '@fullcalendar/react'
+import { createSignal, onMount } from 'solid-js';
+import FullCalendar from '@fullcalendar/react';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import timeGridPlugin from '@fullcalendar/timegrid';
+import './calendar.css';
 
-function CalendarPage() {
-const [view, setView] = createSignal("dayGridMonth");
+function MyCalendar() {
+const [view, setView] = createSignal('dayGridMonth');
 
 onMount(() => {
     const script = document.createElement('script');
-    script.src = '/extensions/index.global.min.js';
+    script.src = './calendar/extensions/index.global.min.js';
     script.onload = () => {
-    toggleVisibility();
-    window.addEventListener("resize", toggleVisibility);
+        toggleVisibility();
+        window.addEventListener('resize', toggleVisibility);
     };
     document.head.appendChild(script);
 });
 
 function showCalendar(gridCall) {
-    const calendarEl = document.getElementById("calendar");
+    const calendarEl = document.getElementById('calendar');
+    if (calendarEl) {
     const calendar = new FullCalendar.Calendar(calendarEl, {
-    dateClick: function (info) {
-        showCalendar("dayGridMonth");
-    },
-    headerToolbar: {
-        left: "prev,next today",
-        center: "title",
-        right: "timeGridDay,timeGridWeek,dayGridMonth,multiMonthYear",
-    },
+        plugins: [dayGridPlugin, timeGridPlugin], // Removed multiMonthPlugin for now as it seems to be causing issues
+        dateClick: function (info) {
+            showCalendar('dayGridMonth');
+        },
+        headerToolbar: {
+            left: 'prev,next today',
+            center: 'title',
+            right: 'timeGridDay,timeGridWeek,dayGridMonth',
+        },
         initialView: gridCall,
         fixedWeekCount: false,
     });
     calendar.render();
+    } 
+    else {
+        console.error('Calendar element not found');
+    }
 }
 
 function toggleVisibility() {
     if (window.innerWidth <= 768) {
-        
-        setView("timeGridWeek");
-        showCalendar("timeGridWeek");
+        setView('timeGridWeek');
+        showCalendar('timeGridWeek');
     } 
     else {
-        setView("dayGridMonth");
-        showCalendar("dayGridMonth");
+        setView('dayGridMonth');
+        showCalendar('dayGridMonth');
     }
 }
 
@@ -52,4 +61,4 @@ return (
 );
 }
 
-export default CalendarPage;
+export default MyCalendar;
