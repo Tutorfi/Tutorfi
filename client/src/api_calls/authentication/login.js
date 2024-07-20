@@ -1,6 +1,5 @@
-// verify
 export async function login (email, password) {
-  fetch('/api/account/verify', {
+  const res = await fetch('/api/account/login', {
     method: 'POST',
     body: JSON.stringify({
       email,
@@ -10,6 +9,6 @@ export async function login (email, password) {
       'Content-type': 'application/json; charset=UTF-8'
     }
   })
-    .then((response) => response.json())
-    .then((json) => { console.log(json) })
+    console.log(res.json());
+    return res;
 }

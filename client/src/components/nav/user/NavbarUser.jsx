@@ -5,8 +5,9 @@ const NavbarOrgs = lazy(() => import('./NavbarOrgs'))
 const NavbarGroups = lazy(() => import('./NavbarGroups'))
 
 function NavbarUser (props) {
+    
+    // Change this logout request and redirect to home page
   const logout = () => {
-    sessionStorage.removeItem('token')
     location.reload()
   }
 
@@ -30,8 +31,8 @@ function NavbarUser (props) {
         </div>
 
         <div class="ml-8 flex space-x-4">
-          <A href="/orgs" class="text-blue-600 dark:text-blue-500 hover:underline">Show Organization</A>
-          <A href="/groups" class="text-blue-600 dark:text-blue-500 hover:underline">Show Groups</A>
+          <A href="/user/orgs" class="text-blue-600 dark:text-blue-500 hover:underline">Show Organization</A>
+          <A href="/user/groups" class="text-blue-600 dark:text-blue-500 hover:underline">Show Groups</A>
           <A href="#" class="text-red-600 hover:underline">Autograder Config</A>
         </div>
 
