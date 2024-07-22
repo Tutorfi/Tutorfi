@@ -4,7 +4,6 @@ const Landing = lazy(() => import('./Landing'))
 const UserHome = lazy(() => import('../user/index'))
 
 function root () {
-  RouteGuard()
 
   document.title = 'Tutorfi'
 
