@@ -5,15 +5,14 @@ function Landing () {
   document.title = 'Tutorfi'
 
     // Change to click button to register
-
+    // remove the register button here 
   return (
     <>
       <NavbarLanding />
       <div class="mt-16">
         <p>This is a landing page</p>
       </div>
-      <button class="btn" onClick={() => register('fname', 'lname', '123@email.com', 'password')}>register</button>
-    </>
+      <button class="btn" onClick={() => register('fname', 'lname', '123@email.com', 'password')}>register</button> </>
   )
 }
 
