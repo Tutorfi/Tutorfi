@@ -16,6 +16,7 @@ function RouteGuard (props) {
     var verify = async () => { 
         const response = await verifyCookie();
         if (!response.ok) {
+            navigate('/', { replace: true });
             setAuth(false);
         }else {
             setAuth(true);
