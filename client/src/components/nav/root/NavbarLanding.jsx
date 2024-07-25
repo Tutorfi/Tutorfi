@@ -3,7 +3,7 @@ import { login } from '../../../api_calls/authentication/login'
 function NavbarLanding () {
   // Change this to redirect to login page
   const loginTest = async () => {
-    const res = await login('123@email.com','password');
+    const res = await login('123@email.com', 'password')
     if (res.ok) {
       location.reload()
     }

@@ -1,5 +1,5 @@
 import { useNavigate } from '@solidjs/router'
-import { Show, createEffect, createSignal } from 'solid-js'
+import { Show, createSignal } from 'solid-js'
 import { verifyCookie } from '../api_calls/authentication/verifyCookie'
 
 function loading(){
@@ -9,28 +9,26 @@ function loading(){
 }
 
 function RouteGuard (props) {
-    const navigate = useNavigate()
-    const [auth, setAuth] = createSignal(false);
+  const navigate = useNavigate()
+  const [auth, setAuth] = createSignal(false)
 
-    
-    var verify = async () => { 
-        const response = await verifyCookie();
-        if (!response.ok) {
-            navigate('/', { replace: true });
-            setAuth(false);
-        }else {
-            setAuth(true);
-        }
+  const verify = async () => { 
+    const response = await verifyCookie()
+    if ( !response.ok ) {
+      navigate('/', { replace: true })
+      setAuth(false)
+    }else {
+      setAuth(true)
     }
-    verify();
+  }
+  verify()
 
-    
-    return (
-        <>
-            <Show when={auth()} fallback={loading}>
-                {props.children}
-            </Show>
-        </>);
+  return (
+  <>
+    <Show when={auth()} fallback={loading}>
+      {props.children}
+    </Show>
+  </>);
 }
 
 export default RouteGuard

@@ -8,8 +8,8 @@ const NavbarGroups = lazy(() => import('./NavbarGroups'))
 function NavbarUser (props) {
   // Change this logout request and redirect to home page
   const handleLogout = async () => {
-    const res = await logout();
-    if (res.ok){ 
+    const res = await logout()
+    if ( res.ok ){
       location.reload()
     }
   }

@@ -17,8 +17,8 @@ function root () {
         setAuth(true)
       }
     }
-    verify()
-  return (
+   verify()
+   return (
     <>
       <Switch>
         <Match when={!auth()}>
