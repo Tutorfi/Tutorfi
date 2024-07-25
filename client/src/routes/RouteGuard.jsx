@@ -2,7 +2,7 @@ import { useNavigate } from '@solidjs/router'
 import { Show, createSignal } from 'solid-js'
 import { verifyCookie } from '../api_calls/authentication/verifyCookie'
 
-function loading() {
+function loading () {
   return (
     <h1>Loading...</h1>
   )
@@ -17,7 +17,7 @@ function RouteGuard (props) {
     if (!response.ok) {
       navigate('/', { replace: true })
       setAuth(false)
-    }else {
+    } else {
       setAuth(true)
     }
   }
