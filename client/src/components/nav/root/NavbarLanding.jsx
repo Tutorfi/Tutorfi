@@ -4,7 +4,7 @@ function NavbarLanding () {
   // Change this to redirect to login page
   const loginTest = async () => {
     const res = await login('123@email.com', 'password')
-     if (res.ok) {
+    if (res.ok) {
       location.reload()
     }
   }
