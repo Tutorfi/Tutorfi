@@ -7,18 +7,17 @@ const UserHome = lazy(() => import('../user/index'))
 function root () {
 
   document.title = 'Tutorfi'
-
-    const [auth, setAuth] = createSignal(false);
-    // Change check whether the user is auth
-    var verify = async () => { 
-        const response = await verifyCookie();
-        if (!response.ok) {
-            setAuth(false);
-        }else {
-            setAuth(true);
-        }
+  const [auth, setAuth] = createSignal(false)
+  // Change check whether the user is auth
+  const verify = async () => { 
+    const response = await verifyCookie()
+      if (!response.ok) {
+        setAuth(false)
+      }else {
+        setAuth(true)
+      }
     }
-    verify();
+    verify()
   return (
     <>
       <Switch>

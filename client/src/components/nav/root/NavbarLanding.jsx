@@ -1,12 +1,12 @@
 import logo from '../../../assets/favicon/favicon.ico'
 import { login } from '../../../api_calls/authentication/login'
 function NavbarLanding () {
-    // Change this to redirect to login page
+  // Change this to redirect to login page
   const loginTest = async () => {
-    const res = await login("123@email.com","password");
-      if (res.ok) {
-        location.reload();
-      }
+    const res = await login('123@email.com','password');
+    if (res.ok) {
+      location.reload()
+    }
   }
   return (
     <header>
