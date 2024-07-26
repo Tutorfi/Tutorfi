@@ -1,0 +1,21 @@
+.calendar {
+    display: flex;
+    flex-direction: column;
+}
+
+.day {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    border-width: 0;
+    border: 1px solid black;
+}
+
+::-webkit-scrollbar {
+    width: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--calendar-scrolbar-color); 
+    border-radius: 10px;
+}

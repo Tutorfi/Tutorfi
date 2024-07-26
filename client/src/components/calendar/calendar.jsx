@@ -1,64 +1,74 @@
-import { createSignal, onMount } from 'solid-js';
-import FullCalendar from '@fullcalendar/react';
-import dayGridPlugin from '@fullcalendar/daygrid';
-import timeGridPlugin from '@fullcalendar/timegrid';
-import './calendar.css';
+import { render } from 'solid-js/web';
+import styles from './calendar.module.css';
 
-function MyCalendar() {
-const [view, setView] = createSignal('dayGridMonth');
+function Calendar() {
 
-onMount(() => {
-    const script = document.createElement('script');
-    script.src = './calendar/extensions/index.global.min.js';
-    script.onload = () => {
-        toggleVisibility();
-        window.addEventListener('resize', toggleVisibility);
-    };
-    document.head.appendChild(script);
-});
+  return (
+    <>
+        <h1>Calendar</h1>
+        <div class={styles.calendar}>
+            <div class={styles.day}>
+                <div>Sunday</div>
+                <div>Monday</div>
+                <div>Tuesday</div>
+                <div>Wednesday</div>
+                <div>Thursday</div>
+                <div>Friday</div>
+                <div>Saturday</div>
+            </div>
 
-function showCalendar(gridCall) {
-    const calendarEl = document.getElementById('calendar');
-    if (calendarEl) {
-    const calendar = new FullCalendar.Calendar(calendarEl, {
-        plugins: [dayGridPlugin, timeGridPlugin], // Removed multiMonthPlugin for now as it seems to be causing issues
-        dateClick: function (info) {
-            showCalendar('dayGridMonth');
-        },
-        headerToolbar: {
-            left: 'prev,next today',
-            center: 'title',
-            right: 'timeGridDay,timeGridWeek,dayGridMonth',
-        },
-        initialView: gridCall,
-        fixedWeekCount: false,
-    });
-    calendar.render();
-    } 
-    else {
-        console.error('Calendar element not found');
-    }
+            <div class={styles.day}>
+                <div></div>
+                <div>1</div>
+                <div>2</div>
+                <div>3</div>
+                <div>4</div>
+                <div>5</div>
+                <div>6</div>
+            </div>
+
+            <div class={styles.day}>
+                <div>7</div>
+                <div>8</div>
+                <div>9</div>
+                <div>10</div>
+                <div>11</div>
+                <div>12</div>
+                <div>13</div>
+            </div>
+
+            <div class={styles.day}>
+                <div>14</div>
+                <div>15</div>
+                <div>16</div>
+                <div>17</div>
+                <div>18</div>
+                <div>19</div>
+                <div>20</div>
+            </div>
+
+            <div class={styles.day}>
+                <div>21</div>
+                <div>22</div>
+                <div>23</div>
+                <div>24</div>
+                <div>25</div>
+                <div>26</div>
+                <div>27</div>
+            </div>
+
+            <div class={styles.day}>
+                <div>28</div>
+                <div>29</div>
+                <div>30</div>
+                <div>31</div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+        </div>
+    </>
+  );
 }
 
-function toggleVisibility() {
-    if (window.innerWidth <= 768) {
-        setView('timeGridWeek');
-        showCalendar('timeGridWeek');
-    } 
-    else {
-        setView('dayGridMonth');
-        showCalendar('dayGridMonth');
-    }
-}
-
-return (
-    <div>
-    <h1>Calendar</h1>
-    <center>
-        <div id="calendar"></div>
-    </center>
-    </div>
-);
-}
-
-export default MyCalendar;
+export default Calendar;
