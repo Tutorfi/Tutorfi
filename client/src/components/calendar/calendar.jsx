@@ -18,11 +18,10 @@ function Calendar() {
     const firstDayOfMonth = new Date(year, month, 1).getDay();
     const daysInMonth = getDaysInMonth(year, month);
 
-    console.log(`First day of the month: ${firstDayOfMonth}`);
-
     const calendar = [];
     let day = 1;
     let rows;
+
     if ((firstDayOfMonth === 5 && daysInMonth === 31) || (firstDayOfMonth === 6 && daysInMonth >= 30)) {
         rows = 6;
     } else {
@@ -57,28 +56,28 @@ function Calendar() {
     setCurrentDate(date);
   };
 
-return (
-    <>
-        <h1>Calendar</h1>
-        <div class={styles.header}>
-            <button onClick={goToPreviousMonth}>Previous</button>
-            <h2>{currentDate().toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}</h2>
-            <button onClick={goToNextMonth}>Next</button>
-        </div>
-        <table class={styles.calendar}>
-            <thead>
-            <tr>
-                {daysOfWeek.map(day => (
-                <th>{day}</th>
-                ))}
-            </tr>
-            </thead>
-            <tbody>
-            {generateCalendar()}
-            </tbody>
-        </table>
-    </>
-);
+  return (
+    <div class={styles['calendar-container']}>
+      <h1>Calendar</h1>
+      <div class={styles.header}>
+        <button onClick={goToPreviousMonth}>&#9664;</button> {/* Left arrow */}
+        <h2>{currentDate().toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}</h2>
+        <button onClick={goToNextMonth}>&#9654;</button> {/* Right arrow */}
+      </div>
+      <table class={styles.calendar}>
+        <thead>
+          <tr>
+            {daysOfWeek.map(day => (
+              <th>{day}</th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {generateCalendar()}
+        </tbody>
+      </table>
+    </div>
+  );
 }
 
 export default Calendar;
