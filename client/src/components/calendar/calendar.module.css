@@ -1,35 +1,57 @@
 .calendar {
-    width: 100%;
-    border-collapse: collapse;
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
 }
 
-.calendar th, .calendar td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: center;
+.calendar th,
+.calendar td {
+  border: 1px solid #ddd;
+  padding: 12px;  /* Increase padding for better spacing */
+  text-align: center;
+  width: 14.2857%; /* Ensures each column is equally spaced (100% / 7 days) */
 }
 
 .calendar th {
-    background-color: #f2f2f2;
+  background-color: #f2f2f2;
+  font-weight: bold;
+  padding: 15px;  /* Increase padding for header cells */
 }
 
-.calendar td {
-    height: 50px;
-}  
+.calendar td.empty {
+  background-color: #f9f9f9;
+}
 
-.day {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    border-width: 0;
-    border: 1px solid black;
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;  /* Increase margin-bottom for better spacing */
+}
+
+.header button {
+  padding: 8px 12px;
+  cursor: pointer;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+}
+
+.header button:hover {
+  background-color: #0056b3;
+}
+
+.header h2 {
+  margin: 0;
+  font-size: 1.5em;
 }
 
 ::-webkit-scrollbar {
-    width: 4px;
+  width: 4px;
 }
 
 ::-webkit-scrollbar-thumb {
-    background: var(--calendar-scrolbar-color); 
-    border-radius: 10px;
+  background: var(--calendar-scrollbar-color);
+  border-radius: 10px;
 }
