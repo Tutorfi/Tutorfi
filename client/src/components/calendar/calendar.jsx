@@ -1,55 +1,76 @@
-import { createSignal, onMount } from 'solid-js';
+import { createSignal } from 'solid-js';
 import styles from './calendar.module.css';
 
 function Calendar() {
-  const [days, setDays] = createSignal([]);
+  const [currentDate, setCurrentDate] = createSignal(new Date());
 
-  onMount(() => {
-    const date = new Date();
+  const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+  const getDaysInMonth = (year, month) => {
+    return new Date(year, month + 1, 0).getDate();
+  };
+
+  const generateCalendar = () => {
+    const date = currentDate();
     const year = date.getFullYear();
     const month = date.getMonth();
 
-    const firstDay = new Date(year, month, 1).getDay();
-    const lastDate = new Date(year, month + 1, 0).getDate();
+    const firstDayOfMonth = new Date(year, month, 1).getDay();
+    const daysInMonth = getDaysInMonth(year, month);
 
-    const dayArray = [];
-    for (let i = 0; i < firstDay; i++) {
-      dayArray.push("");
-    }
-    for (let i = 1; i <= lastDate; i++) {
-      dayArray.push(i);
-    }
-    setDays(dayArray);
-  });
+    const calendar = [];
+    let day = 1;
 
-  return (
+    for (let i = 0; i < 6; i++) {
+      const week = [];
+      for (let j = 0; j < 7; j++) {
+        if (i === 0 && j < firstDayOfMonth) {
+          week.push(<td class={styles.empty}></td>);
+        } else if (day > daysInMonth) {
+          week.push(<td class={styles.empty}></td>);
+        } else {
+          week.push(<td>{day}</td>);
+          day++;
+        }
+      }
+      calendar.push(<tr>{week}</tr>);
+    }
+
+    return calendar;
+  };
+
+  const goToPreviousMonth = () => {
+    const date = new Date(currentDate().setMonth(currentDate().getMonth() - 1));
+    setCurrentDate(date);
+  };
+
+  const goToNextMonth = () => {
+    const date = new Date(currentDate().setMonth(currentDate().getMonth() + 1));
+    setCurrentDate(date);
+  };
+
+return (
     <>
-      <h1>Calendar</h1>
-      <table class={styles.calendar}>
-        <thead>
-          <tr>
-            <th>Sunday</th>
-            <th>Monday</th>
-            <th>Tuesday</th>
-            <th>Wednesday</th>
-            <th>Thursday</th>
-            <th>Friday</th>
-            <th>Saturday</th>
-          </tr>
-        </thead>
-        <tbody>
-          {Array.from({ length: Math.ceil(days().length / 7) }, (_, weekIndex) => (
+        <h1>Calendar</h1>
+        <div class={styles.header}>
+            <button onClick={goToPreviousMonth}>Previous</button>
+            <h2>{currentDate().toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}</h2>
+            <button onClick={goToNextMonth}>Next</button>
+        </div>
+        <table class={styles.calendar}>
+            <thead>
             <tr>
-              {Array.from({ length: 7 }, (_, dayIndex) => {
-                const day = days()[weekIndex * 7 + dayIndex];
-                return <td>{day}</td>;
-              })}
+                {daysOfWeek.map(day => (
+                <th>{day}</th>
+                ))}
             </tr>
-          ))}
-        </tbody>
-      </table>
+            </thead>
+            <tbody>
+            {generateCalendar()}
+            </tbody>
+        </table>
     </>
-  );
+);
 }
 
 export default Calendar;
