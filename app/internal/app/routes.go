@@ -32,4 +32,5 @@ func apiRoutes(e *echo.Echo, a *App) {
     e.POST("/api/account/create", accounthandler.CreateAccount)
     e.POST("/api/account/login", accounthandler.Login)
     e.GET("/api/account/verify", accounthandler.VerifyCookie)
+    e.GET("/api/account/logout", accounthandler.Logout)
 }
