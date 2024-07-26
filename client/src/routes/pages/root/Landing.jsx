@@ -4,6 +4,8 @@ import { register } from '../../../api_calls/authentication/register'
 function Landing () {
   document.title = 'Tutorfi'
 
+  // Change to click button to register
+  // remove the register button here
   return (
     <>
       <NavbarLanding />

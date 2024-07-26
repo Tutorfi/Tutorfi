@@ -1,12 +1,12 @@
 import { lazy } from 'solid-js'
 import { render } from 'solid-js/web'
 import { Router, Route } from '@solidjs/router'
-
 // tailwind + flowbite
 import './index.css'
 import 'flowbite'
 
 // lazy load pages
+const RouteGuard = lazy(() => import('./routes/RouteGuard'))
 const RootPage = lazy(() => import('./routes/pages/root/index'))
 const OrgsPage = lazy(() => import('./routes/pages/orgs/index'))
 const GroupsPage = lazy(() => import('./routes/pages/groups/index'))
@@ -25,10 +25,12 @@ if (import.meta.env.DEV && !(root instanceof HTMLElement)) {
 render(() => (
   <Router>
     <Route path="/" component={RootPage} />
-    <Route path="/dashboard" component={RootPage} />
-    <Route path="/orgs" component={OrgsPage} />
-    <Route path="/groups" component={GroupsPage} />
-    <Route path="/calendar" component={CalendarPage} />
-    <Route path="*404" component={NotFound} />
+    <Route path="/user" component={RouteGuard}>
+        <Route path="/dashboard" component={RootPage} />
+        <Route path="/orgs" component={OrgsPage} />
+        <Route path="/groups" component={GroupsPage} />
+        <Route path="/calendar" component={CalendarPage} />
+        <Route path="*404" component={NotFound} />
+    </Route>
   </Router>
 ), document.getElementById('root'))
