@@ -18,10 +18,18 @@ function Calendar() {
     const firstDayOfMonth = new Date(year, month, 1).getDay();
     const daysInMonth = getDaysInMonth(year, month);
 
+    console.log(`First day of the month: ${firstDayOfMonth}`);
+
     const calendar = [];
     let day = 1;
+    let rows;
+    if ((firstDayOfMonth === 5 && daysInMonth === 31) || (firstDayOfMonth === 6 && daysInMonth >= 30)) {
+        rows = 6;
+    } else {
+        rows = 5;
+    }
 
-    for (let i = 0; i < 6; i++) {
+    for (let i = 0; i < rows; i++) {
       const week = [];
       for (let j = 0; j < 7; j++) {
         if (i === 0 && j < firstDayOfMonth) {
