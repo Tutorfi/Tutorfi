@@ -4,9 +4,5 @@
     "ignorePatterns": [
         "src/index.css",
         "src/assets/favicon/*"
-    ],
-    // 0 = off, 1 = warn, 2 = error
-    "rules": {
-        "solid/self-closing-comp": 0
-    }
+    ]
 }
