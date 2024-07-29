@@ -3,6 +3,7 @@ import styles from './calendar.module.css';
 
 function Calendar() {
   const [currentDate, setCurrentDate] = createSignal(new Date());
+  const today = new Date();
 
   const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
@@ -23,20 +24,33 @@ function Calendar() {
     let rows;
 
     if ((firstDayOfMonth === 5 && daysInMonth === 31) || (firstDayOfMonth === 6 && daysInMonth >= 30)) {
-        rows = 6;
+      rows = 6;
     } else {
-        rows = 5;
+      rows = 5;
     }
 
     for (let i = 0; i < rows; i++) {
       const week = [];
       for (let j = 0; j < 7; j++) {
+        const dayClass = `day${daysOfWeek[j].slice(0, 3)}`;
         if (i === 0 && j < firstDayOfMonth) {
-          week.push(<td class={styles.empty}></td>);
+          week.push(<td class={`${styles.dayOther} ${styles.days}`}></td>);
         } else if (day > daysInMonth) {
-          week.push(<td class={styles.empty}></td>);
+          week.push(<td class={`${styles.dayOther} ${styles.days}`}></td>);
         } else {
-          week.push(<td>{day}</td>);
+          const cellDate = new Date(year, month, day);
+          let dayStateClass = '';
+          if (cellDate.toDateString() === today.toDateString()) {
+            dayStateClass = styles.dayToday;
+          } else if (cellDate < today) {
+            dayStateClass = styles.dayPast;
+          } else {
+            dayStateClass = styles.dayFuture;
+          }
+
+          week.push(
+            <td class={`${dayStateClass} ${styles.days}`}>{day}</td>
+          );
           day++;
         }
       }

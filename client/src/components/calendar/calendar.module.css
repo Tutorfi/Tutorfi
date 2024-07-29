@@ -26,7 +26,7 @@
     padding: 15px;  /* Increase padding for header cells */
   }
   
-  .calendar td.empty {
+  .calendar td.dayOther {
     background-color: #f9f9f9;
   }
   
@@ -35,6 +35,10 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;  /* Increase margin-bottom for better spacing */
+  }
+
+  .dayToday {
+    background-color: rgb(254, 255, 213);
   }
   
   .header button {
