@@ -77,6 +77,22 @@ function Calendar() {
     setCurrentDate(date);
   };
 
+  const dayView = () => {
+
+  }
+
+  const weekView = () => {
+    
+  }
+
+  const monthView = () => {
+    
+  }
+
+  const yearView = () => {
+    
+  }
+
   return (
     <div class={styles['calendar-container']}>
         <div class={styles.header}>
@@ -86,7 +102,10 @@ function Calendar() {
             </div>
             <h2>{currentDate().toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}</h2>
             <div class={styles.modes}>
-
+                <button onClick={dayView}>day</button>
+                <button onClick={weekView}>week</button>
+                <button onClick={monthView}>month</button>
+                <button onClick={yearView}>year</button>
             </div>
         </div>
         <table class={styles.calendar}>
