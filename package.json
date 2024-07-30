@@ -1,15 +1,15 @@
 {
   "devDependencies": {
-    "@playwright/test": "^1.45.1",
-    "@types/node": "^20.14.10",
+    "@playwright/test": "^1.45.3",
+    "@types/node": "^20.14.11",
     "eslint": "^8.57.0",
     "eslint-config-standard": "^17.1.0",
     "eslint-plugin-import": "^2.29.1",
     "eslint-plugin-n": "^16.6.2",
-    "eslint-plugin-promise": "^6.4.0",
+    "eslint-plugin-promise": "^6.6.0",
     "eslint-plugin-solid": "^0.14.1",
     "standard": "^17.1.0",
-    "stylelint": "^16.6.1",
+    "stylelint": "^16.7.0",
     "stylelint-config-standard": "^36.0.1"
   },
   "scripts": {}
