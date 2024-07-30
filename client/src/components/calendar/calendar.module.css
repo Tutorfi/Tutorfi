@@ -1,71 +1,90 @@
 .calendar-container {
-    padding: 20px; /* Add padding around the entire calendar */
-    margin: 0 auto; /* Center the calendar horizontally */
-    max-width: 90%; /* Ensure the calendar doesn't stretch too wide */
-  }
-  
-  .calendar {
+    padding: 20px;
+    margin: 0 auto;
+}
+
+.calendar {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
     border-radius: 8px; /* Add rounded corners */
     overflow: hidden; /* Ensure the corners are properly rounded */
-  }
-  
-  .calendar th,
-  .calendar td {
+}
+
+.calendar th,
+.calendar td {
     border: 1px solid #ddd;
-    padding: 12px;
-    text-align: center;
-    width: 14.2857%;
-  }
-  
-  .calendar th {
+}
+
+.calendar th {
     background-color: #f2f2f2;
     font-weight: bold;
     padding: 15px;  /* Increase padding for header cells */
-  }
-  
-  .calendar td.dayOther {
+    width: 14.2857%;
+}
+
+.calendar td.dayOther {
     background-color: #f9f9f9;
-  }
-  
-  .header {
+}
+
+
+.header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;  /* Increase margin-bottom for better spacing */
-  }
+}
 
-  .dayToday {
+.days {
+
+}
+
+.details {
+    padding-bottom: 80%;
+}
+
+.dayPast {
+    background-color: white;
+}
+
+.dayToday {
     background-color: rgb(254, 255, 213);
-  }
-  
-  .header button {
-    padding: 0.8%;
+}
+
+.dayFuture {
+    background-color: white;
+}
+
+.monthButtons {
+    display: flex;
+    width: 30px;
+}
+
+.monthButtons button {
+    margin-right: 5px;
+    padding: 50% 100%;
     cursor: pointer;
     background-color: #6474ff;
     color: white;
     border: none;
     border-radius: 4px;
-    width: 4%;
-  }
-  
-  .header button:hover {
+    justify-content: space-around;
+}
+
+.header button:hover {
     background-color: #4653cf;
-  }
-  
-  .header h2 {
+}
+
+.header h2 {
     margin: 0;
     font-size: 1.5em;
-  }
-  
-  ::-webkit-scrollbar {
+}
+
+::-webkit-scrollbar {
     width: 4px;
-  }
-  
-  ::-webkit-scrollbar-thumb {
+}
+
+::-webkit-scrollbar-thumb {
     background: var(--calendar-scrollbar-color);
     border-radius: 10px;
-  }
-  
+}
