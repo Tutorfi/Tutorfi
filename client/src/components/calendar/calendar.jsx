@@ -102,10 +102,10 @@ function Calendar() {
             </div>
             <h2>{currentDate().toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}</h2>
             <div class={styles.modes}>
-                <button onClick={dayView}>day</button>
-                <button onClick={weekView}>week</button>
-                <button onClick={monthView}>month</button>
-                <button onClick={yearView}>year</button>
+                <button name='day view' onClick={dayView}>day</button>
+                <button name='week view' onClick={weekView}>week</button>
+                <button name='month view' onClick={monthView}>month</button>
+                <button name='year view' onClick={yearView}>year</button>
             </div>
         </div>
         <table class={styles.calendar}>
