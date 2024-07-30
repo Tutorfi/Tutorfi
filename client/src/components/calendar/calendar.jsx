@@ -49,7 +49,14 @@ function Calendar() {
           }
 
           week.push(
-            <td class={`${dayStateClass} ${styles.days}`}>{day}</td>
+            <td class={dayStateClass}>
+                <div class={styles.days}>
+                    {day}
+                </div>
+                <div class={styles.details}>
+
+                </div>
+            </td>
           );
           day++;
         }
@@ -72,24 +79,28 @@ function Calendar() {
 
   return (
     <div class={styles['calendar-container']}>
-      <h1>Calendar</h1>
-      <div class={styles.header}>
-        <button onClick={goToPreviousMonth}>&#9664;</button> {/* Left arrow */}
-        <h2>{currentDate().toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}</h2>
-        <button onClick={goToNextMonth}>&#9654;</button> {/* Right arrow */}
-      </div>
-      <table class={styles.calendar}>
-        <thead>
-          <tr>
-            {daysOfWeek.map(day => (
-              <th>{day}</th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {generateCalendar()}
-        </tbody>
-      </table>
+        <div class={styles.header}>
+            <div class={styles.monthButtons}>
+                <button name='previous month' onClick={goToPreviousMonth}>&#9664;</button> {/* Left arrow */}
+                <button name='next month' onClick={goToNextMonth}>&#9654;</button> {/* Right arrow */}
+            </div>
+            <h2>{currentDate().toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}</h2>
+            <div class={styles.modes}>
+
+            </div>
+        </div>
+        <table class={styles.calendar}>
+            <thead>
+            <tr>
+                {daysOfWeek.map(day => (
+                <th>{day}</th>
+                ))}
+            </tr>
+            </thead>
+            <tbody>
+            {generateCalendar()}
+            </tbody>
+        </table>
     </div>
   );
 }
