@@ -6,14 +6,6 @@ import AuthenticationModal from '../../authentication/AuthenticationModal'
 function NavbarLanding () {
   const [authRef, setAuthRef] = createSignal(false)
 
-  // Change this to redirect to login page
-  // const loginTest = async () => {
-  //   const res = await login('123@email.com', 'password')
-  //   if (res.ok) {
-  //     location.reload()
-  //   }
-  // }
-
   return (
     <header>
       <nav class="bg-white dark:bg-gray-900 fixed w-full z-20 top-0 start-0 border-b border-gray-200 dark:border-gray-600">

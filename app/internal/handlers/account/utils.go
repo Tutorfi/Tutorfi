@@ -11,7 +11,9 @@ type accountAuth struct {
     Fname string `json:"fname"`
     Lname string `json:"lname"`
     Email string `json:"email"`
+    Username string `json:"username"`
     Password string `json:"password"`
+    Remember bool `json:"remember"`
 }
 
 /*
@@ -34,11 +36,15 @@ func fillResponse(status string, msg string) response {
     }
 }
 
-func createCookie(sessionid string) *http.Cookie {
+func createCookie(sessionid string, remember bool) *http.Cookie {
 	var cookie = new(http.Cookie)
 	cookie.Name = "Tutorfi_Account"
 	cookie.Value = sessionid
-	cookie.Expires = time.Now().Add(24 * time.Hour)
+    if remember {
+        cookie.Expires = time.Now().AddDate(1,0,0)
+    } else {
+        cookie.Expires = time.Now().AddDate(0,0,1)
+    }
 	cookie.HttpOnly = true
 	cookie.Secure = true
 	cookie.Path = "/"

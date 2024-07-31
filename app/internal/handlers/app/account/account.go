@@ -96,7 +96,7 @@ func (handle *AccountHandler) CreateAccount(c echo.Context) error {
 		return utils.RenderComponents(c, 200, createAccountTempl.CreateAccountForm(form, "Invalid email or password", true), nil)
 	}
 
-	err = handle.store.CreateAccount(form.Fname, form.Lname, form.Email, string(hash))
+	err = handle.store.CreateAccount(form.Fname, form.Lname, form.Email, "", string(hash))
 	if err != nil {
 		fmt.Println(err)
 		return utils.RenderComponents(c, 200, logintempl.Error(err.Error()), nil)

@@ -1,4 +1,6 @@
 import { createSignal, createContext, onMount } from 'solid-js'
+import { login } from '../../api_calls/authentication/login'
+import { register } from '../../api_calls/authentication/register'
 // import { useNavigate } from '@solidjs/router'
 
 export default function AuthenticationModal (props) {
@@ -15,6 +17,21 @@ export default function AuthenticationModal (props) {
 
   const [loginVisible, setLoginVisible] = createSignal(false)
   const [signupVisible, setSignupVisible] = createSignal(false)
+
+  // Change this to redirect to login page
+  const handlelogin = async () => {
+    const res = await login('123@email.com', 'password')
+    if (res.ok) {
+      location.reload()
+    }
+  }
+
+  const handleSignup = async () => {
+    const res = await register("","","","")
+    if (res.ok) {
+      location.reload()
+    }
+  }
 
   onMount(() => {
     props.authRef?.({
