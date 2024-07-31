@@ -11,6 +11,9 @@ export default function AuthenticationModal (props) {
   const [loginPassword, setLoginPassword] = createSignal('')
   const [loginRemember, setLoginRemember] = createSignal(false)
 
+  const [signupFirstName, setSignupFirstName] = createSignal('')
+  const [signupLastName, setSignupLastName] = createSignal('')
+  const [signupEmail, setSignupEmail] = createSignal('')
   const [signupUsername, setSignupUsername] = createSignal('')
   const [signupPassword, setSignupPassword] = createSignal('')
   const [signupRepeatPassword, setSignupRepeatPassword] = createSignal('')
@@ -57,7 +60,7 @@ export default function AuthenticationModal (props) {
       class={'absolute overflow-y-auto overflow-x-hidden z-10 top-0 left-0 right-0 flex justify-center items-center w-full h-full' + ((loginVisible() || signupVisible()) ? '' : ' hidden')}
     >
       <div
-        onClick={toggleModal()}
+        onClick={toggleModal}
         class="fixed w-full h-full bg-black bg-opacity-50"
       ></div>
       <div class="fixed w-full h-full z-50">
@@ -109,7 +112,7 @@ export default function AuthenticationModal (props) {
                   <input
                     type="username"
                     id="loginUsername"
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 autofill:transparent"
                     placeholder="username"
                     required
                     value={loginUsername()}
@@ -214,6 +217,60 @@ export default function AuthenticationModal (props) {
               <div class="mx-auto space-y-4">
                 <div class="relative z-0 w-full mb-5 group">
                   <input
+                    type="fname"
+                    name="floating_fname"
+                    id="floating_fname"
+                    class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                    placeholder=" "
+                    required
+                    value={signupFirstName()}
+                    onChange={(e) => setSignupFirstName(e.target.value)}
+                  />
+                  <label
+                    for="floating_fname"
+                    class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                  >
+                    First Name
+                  </label>
+                </div>
+                <div class="relative z-0 w-full mb-5 group">
+                  <input
+                    type="lname"
+                    name="floating_lname"
+                    id="floating_lname"
+                    class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                    placeholder=" "
+                    required
+                    value={signupLastName()}
+                    onChange={(e) => setSignupLastName(e.target.value)}
+                  />
+                  <label
+                    for="floating_lname"
+                    class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                  >
+                    Last Name
+                  </label>
+                </div>
+                <div class="relative z-0 w-full mb-5 group">
+                  <input
+                    type="email"
+                    name="floating_email"
+                    id="floating_email"
+                    class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                    placeholder=" "
+                    required
+                    value={signupEmail()}
+                    onChange={(e) => setSignupEmail(e.target.value)}
+                  />
+                  <label
+                    for="floating_email"
+                    class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                  >
+                    Email
+                  </label>
+                </div>
+                <div class="relative z-0 w-full mb-5 group">
+                  <input
                     type="username"
                     name="floating_username"
                     id="floating_username"
@@ -311,7 +368,7 @@ export default function AuthenticationModal (props) {
             </div>
           </form>
         </div>
-      </div>
-    </div>
+      </div >
+    </div >
   )
 }
