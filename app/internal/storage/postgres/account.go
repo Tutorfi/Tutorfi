@@ -38,9 +38,10 @@ func (s *PostgresStorage) GetAccountSessionId(sessionId string) (*models.Account
 }
 
 // Inserts an account into the database, does not return the created account.
-func (s *PostgresStorage) CreateAccount(fname, lname, email, password string) error {
+func (s *PostgresStorage) CreateAccount(fname string, lname string, email string, password string) error {
 	//var acc models.Account
-	res := s.db.QueryRow(`INSERT INTO "account" VALUES (DEFAULT, null, null, $1, $2, $3, $4, null)`, fname, lname, email, password)
+	res := s.db.QueryRow(`INSERT INTO "account" ("firstname", "lastname", "email", "password") VALUES 
+                        ($1, $2, $3, $4)`, fname, lname, email, password)
 	return res.Err()
 }
 
@@ -50,8 +51,8 @@ func (s *PostgresStorage) GetPassword(email string) (string, error) {
 	return password, err
 }
 
-func (s *PostgresStorage) SetSessionID(email string, sessionid string) error {
-	_, err := s.db.Exec(`UPDATE "account" SET "session_id" = $1 WHERE "email" = $2`, sessionid, email)
+func (s *PostgresStorage) SetSessionID(id string, sessionid string) error {
+	_, err := s.db.Exec(`UPDATE "account" SET "session_id" = $1 WHERE "id" = $2`, sessionid, id)
 	return err
 }
 
@@ -61,7 +62,7 @@ func (s *PostgresStorage) DeleteAccount(id string) error {
 	return err
 }
 
-func (s *PostgresStorage) ResetSessionID(id string) error {
-	_, err := s.db.Exec(`UPDATE "account" SET "session_id" = null WHERE "id" = $1`, id)
+func (s *PostgresStorage) ResetSessionID(sessionid string) error {
+	_, err := s.db.Exec(`UPDATE "account" SET "session_id" = null WHERE "session_id" = $1`, sessionid)
 	return err
 }

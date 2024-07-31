@@ -1,13 +1,17 @@
 import { lazy, Show } from 'solid-js'
 import { A } from '@solidjs/router'
+import { logout } from '../../../api_calls/authentication/logout'
 import logo from '../../../assets/favicon/favicon.ico'
 const NavbarOrgs = lazy(() => import('./NavbarOrgs'))
 const NavbarGroups = lazy(() => import('./NavbarGroups'))
 
 function NavbarUser (props) {
-  const logout = () => {
-    sessionStorage.removeItem('token')
-    location.reload()
+  // Change this logout request and redirect to home page
+  const handleLogout = async () => {
+    const res = await logout()
+    if (res.ok) {
+      location.reload()
+    }
   }
 
   return (
@@ -25,13 +29,13 @@ function NavbarUser (props) {
             <p class="text-sm  text-gray-500 dark:text-white">Message</p>
             <p class="text-sm  text-gray-500 dark:text-white">Setting</p>
             <p class="text-sm  text-gray-500 dark:text-white">Profile</p>
-            <button class="text-sm text-blue-600 dark:text-blue-500 hover:underline" onClick={logout}>Log out</button>
+            <button class="text-sm text-blue-600 dark:text-blue-500 hover:underline" onClick={handleLogout}>Log out</button>
           </div>
         </div>
 
         <div class="ml-8 flex space-x-4">
-          <A href="/orgs" class="text-blue-600 dark:text-blue-500 hover:underline">Show Organization</A>
-          <A href="/groups" class="text-blue-600 dark:text-blue-500 hover:underline">Show Groups</A>
+          <A href="/user/orgs" class="text-blue-600 dark:text-blue-500 hover:underline">Show Organization</A>
+          <A href="/user/groups" class="text-blue-600 dark:text-blue-500 hover:underline">Show Groups</A>
           <A href="#" class="text-red-600 hover:underline">Autograder Config</A>
         </div>
 

@@ -1,9 +1,6 @@
-import RouteGuard from '../../RouteGuard'
 import NavbarUser from '../../../components/nav/user/NavbarUser'
 
 function Organization () {
-  RouteGuard()
-
   return (
     <>
       <NavbarUser type="organization" />
