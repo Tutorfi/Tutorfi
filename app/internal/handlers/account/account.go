@@ -75,7 +75,7 @@ func (handle *AccountHandler) CreateAccount(c echo.Context) error {
 	//Create a new account
 	hash, err := bcrypt.GenerateFromPassword([]byte(u.Password), 0)
 	if err != nil {
-        fmt.Println("ERROR: password hashing failed")
+		fmt.Println("ERROR: password hashing failed")
 		fmt.Println(err)
 		re := fillResponse("Failed", "Server error, try again later")
 		return c.JSON(http.StatusInternalServerError, re)
