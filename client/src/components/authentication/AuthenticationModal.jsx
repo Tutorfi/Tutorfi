@@ -7,7 +7,7 @@ export default function AuthenticationModal (props) {
   // const navigate = useNavigate()
   const context = createContext()
 
-  const [loginUsername, setLoginUsername] = createSignal('')
+  const [loginEmail, setLoginEmail] = createSignal('')
   const [loginPassword, setLoginPassword] = createSignal('')
   const [loginRemember, setLoginRemember] = createSignal(false)
 
@@ -22,19 +22,20 @@ export default function AuthenticationModal (props) {
   const [signupVisible, setSignupVisible] = createSignal(false)
 
   // Change this to redirect to login page
-  // const handlelogin = async () => {
-  //   const res = await login('123@email.com', 'password')
-  //   if (res.ok) {
-  //     location.reload()
-  //   }
-  // }
+  const handleLogin = async () => {
+    const res = await login(loginEmail(), loginPassword(), loginRemember())
+    if (res.ok) {
+      location.reload()
+    }
+  }
 
-  // const handleSignup = async () => {
-  //   const res = await register("","","","")
-  //   if (res.ok) {
-  //     location.reload()
-  //   }
-  // }
+  const handleSignup = async () => {
+    const res = await register(signupFirstName(), signupLastName(), signupEmail(), signupUsername(), signupPassword())
+    if (res.ok) {
+      setSignupVisible(false)
+      setLoginVisible(true)
+    }
+  }
 
   onMount(() => {
     props.authRef?.({
@@ -71,7 +72,7 @@ export default function AuthenticationModal (props) {
             class={'w-full md:max-w-md bg-white rounded-lg shadow dark:bg-gray-700' + (loginVisible() ? '' : ' hidden')}
             onSubmit={(e) => {
               e.preventDefault()
-              // handleLogIn()
+              handleLogin()
             }}
           >
             <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
@@ -107,16 +108,16 @@ export default function AuthenticationModal (props) {
                     for="loginUsername"
                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                   >
-                    Your username
+                    Your email
                   </label>
                   <input
-                    type="username"
+                    type="email"
                     id="loginUsername"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 autofill:transparent"
                     placeholder="username"
                     required
-                    value={loginUsername()}
-                    onChange={(e) => setLoginUsername(e.target.value)}
+                    value={loginEmail()}
+                    onChange={(e) => setLoginEmail(e.target.value)}
                   />
                 </div>
                 <div class="mb-5">
@@ -184,7 +185,7 @@ export default function AuthenticationModal (props) {
             class={'w-full md:max-w-md bg-white rounded-lg shadow dark:bg-gray-700' + (signupVisible() ? '' : ' hidden')}
             onSubmit={(e) => {
               e.preventDefault()
-              // handleSignUp()
+              handleSignup()
             }}
           >
             <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">

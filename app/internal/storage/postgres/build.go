@@ -116,7 +116,7 @@ func (s *PostgresStorage) BuildDevDB() error {
 	}
 	for i := 0; i < len(users); i++ {
 		hash, _ := bcrypt.GenerateFromPassword([]byte("password"), 0)
-		_, err = s.db.Exec(`INSERT INTO "account" (firstname,lastname,email,username,password) 
+		_, err = s.db.Exec(`INSERT INTO "account" (firstname,lastname,username,email,password) 
         VALUES ($1, $2, $3, $4, $5)`, users[i][0], users[i][1],
 			users[i][2], users[i][3], hash)
 		if err != nil {
@@ -125,7 +125,7 @@ func (s *PostgresStorage) BuildDevDB() error {
 			return err
 		}
 		var userId string
-		err = s.db.QueryRow(`SELECT ("id") FROM "account" WHERE "email"=$1`, users[i][2]).Scan(&userId)
+		err = s.db.QueryRow(`SELECT ("id") FROM "account" WHERE "email"=$1`, users[i][3]).Scan(&userId)
 		if err != nil {
 			fmt.Println("Unable to read user row")
 			fmt.Println(err)
