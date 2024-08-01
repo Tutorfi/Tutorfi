@@ -2,16 +2,16 @@ import { createSignal } from 'solid-js';
 import styles from './calendar.module.css';
 
 function Calendar() {
-  const [currentDate, setCurrentDate] = createSignal(new Date());
-  const today = new Date();
+const [currentDate, setCurrentDate] = createSignal(new Date());
+const today = new Date();
 
-  const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
-  const getDaysInMonth = (year, month) => {
+const getDaysInMonth = (year, month) => {
     return new Date(year, month + 1, 0).getDate();
-  };
+};
 
-  const generateCalendar = () => {
+const generateCalendar = () => {
     const date = currentDate();
     const year = date.getFullYear();
     const month = date.getMonth();
@@ -24,31 +24,31 @@ function Calendar() {
     let rows;
 
     if ((firstDayOfMonth === 5 && daysInMonth === 31) || (firstDayOfMonth === 6 && daysInMonth >= 30)) {
-      rows = 6;
+    rows = 6;
     } else {
-      rows = 5;
+    rows = 5;
     }
 
     for (let i = 0; i < rows; i++) {
-      const week = [];
-      for (let j = 0; j < 7; j++) {
+    const week = [];
+    for (let j = 0; j < 7; j++) {
         const dayClass = `day${daysOfWeek[j].slice(0, 3)}`;
         if (i === 0 && j < firstDayOfMonth) {
-          week.push(<td class={`${styles.dayOther} ${styles.days}`}></td>);
+        week.push(<td class={`${styles.dayOther} ${styles.days}`}></td>);
         } else if (day > daysInMonth) {
-          week.push(<td class={`${styles.dayOther} ${styles.days}`}></td>);
+        week.push(<td class={`${styles.dayOther} ${styles.days}`}></td>);
         } else {
-          const cellDate = new Date(year, month, day);
-          let dayStateClass = '';
-          if (cellDate.toDateString() === today.toDateString()) {
+        const cellDate = new Date(year, month, day);
+        let dayStateClass = '';
+        if (cellDate.toDateString() === today.toDateString()) {
             dayStateClass = styles.dayToday;
-          } else if (cellDate < today) {
+        } else if (cellDate < today) {
             dayStateClass = styles.dayPast;
-          } else {
+        } else {
             dayStateClass = styles.dayFuture;
-          }
+        }
 
-          week.push(
+        week.push(
             <td class={dayStateClass}>
                 <div class={styles.days}>
                     {day}
@@ -57,43 +57,43 @@ function Calendar() {
 
                 </div>
             </td>
-          );
-          day++;
+        );
+        day++;
         }
-      }
-      calendar.push(<tr>{week}</tr>);
+    }
+    calendar.push(<tr>{week}</tr>);
     }
 
     return calendar;
-  };
+};
 
-  const goToPreviousMonth = () => {
+const goToPreviousMonth = () => {
     const date = new Date(currentDate().setMonth(currentDate().getMonth() - 1));
     setCurrentDate(date);
-  };
+};
 
-  const goToNextMonth = () => {
+const goToNextMonth = () => {
     const date = new Date(currentDate().setMonth(currentDate().getMonth() + 1));
     setCurrentDate(date);
-  };
+};
 
-  const dayView = () => {
-
-  }
-
-  const weekView = () => {
+const dayView = () => {
     
-  }
+}
 
-  const monthView = () => {
+const weekView = () => {
     
-  }
+}
 
-  const yearView = () => {
+const monthView = () => {
     
-  }
+}
 
-  return (
+const yearView = () => {
+    
+}
+
+return (
     <div class={styles['calendar-container']}>
         <div class={styles.header}>
             <div class={styles.monthButtons}>
@@ -121,7 +121,7 @@ function Calendar() {
             </tbody>
         </table>
     </div>
-  );
+);
 }
 
 export default Calendar;

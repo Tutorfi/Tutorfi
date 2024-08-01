@@ -27,12 +27,43 @@
     background-color: #f9f9f9;
 }
 
-
 .header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;  /* Increase margin-bottom for better spacing */
+    position: relative;  /* To allow absolute positioning of the month name */
+}
+
+.monthButtons {
+    display: flex;
+}
+
+.modes {
+    display: flex;
+}
+
+.modes button,
+.monthButtons button {
+    margin-right: 5px;
+    padding: 10px 20px; /* Adjust padding to prevent overflow */
+    cursor: pointer;
+    background-color: #6474ff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+}
+
+.header button:hover {
+    background-color: #4653cf;
+}
+
+.header h2 {
+    margin: 0;
+    font-size: 1.5em;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 .days {
@@ -53,31 +84,6 @@
 
 .dayFuture {
     background-color: white;
-}
-
-.monthButtons {
-    display: flex;
-    width: 30px;
-}
-
-.monthButtons button {
-    margin-right: 5px;
-    padding: 50% 100%;
-    cursor: pointer;
-    background-color: #6474ff;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    justify-content: space-around;
-}
-
-.header button:hover {
-    background-color: #4653cf;
-}
-
-.header h2 {
-    margin: 0;
-    font-size: 1.5em;
 }
 
 ::-webkit-scrollbar {
