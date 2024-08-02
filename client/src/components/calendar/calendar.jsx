@@ -13,11 +13,53 @@ function Calendar() {
   };
 
   const generateCalendar = () => {
-    if (viewMode() === 'month') {
-      return generateMonthView();
+    if (viewMode() == 'day') {
+        return generateDayView();
     } else if (viewMode() === 'week') {
       return generateWeekView();
+    } else if (viewMode() == 'month') {
+        return generateMonthView();
+    } else if (viewMode() == 'year') {
+        return generateYearView;
     }
+  };
+
+  const generateDayView = () => {
+    
+  }
+
+  const generateWeekView = () => {
+    const date = currentDate();
+    const startOfWeek = new Date(date);
+    startOfWeek.setDate(date.getDate() - date.getDay());
+    const endOfWeek = new Date(startOfWeek);
+    endOfWeek.setDate(startOfWeek.getDate() + 6);
+
+    const week = [];
+    for (let i = 0; i < 7; i++) {
+      const currentDay = new Date(startOfWeek);
+      currentDay.setDate(startOfWeek.getDate() + i);
+      const dayClass = `day${daysOfWeek[i].slice(0, 3)}`;
+      let dayStateClass = '';
+      if (currentDay.toDateString() === today.toDateString()) {
+        dayStateClass = styles.dayToday;
+      } else if (currentDay < today) {
+        dayStateClass = styles.dayPast;
+      } else {
+        dayStateClass = styles.dayFuture;
+      }
+
+      week.push(
+        <td class={`${dayStateClass} ${styles.days} ${styles.weekView}`}>
+          <div>
+            {currentDay.getDate()}
+          </div>
+          <div class={styles.details}></div>
+        </td>
+      );
+    }
+
+    return [<tr>{week}</tr>];
   };
 
   const generateMonthView = () => {
@@ -58,7 +100,7 @@ function Calendar() {
           }
 
           week.push(
-            <td class={`${dayStateClass} ${styles.days} ${styles.monthView}`}>
+            <td class={`${daysOfWeek[j]} ${dayStateClass} ${styles.days} ${styles.monthView}`}>
               <div>
                 {day}
               </div>
@@ -74,39 +116,9 @@ function Calendar() {
     return calendar;
   };
 
-  const generateWeekView = () => {
-    const date = currentDate();
-    const startOfWeek = new Date(date);
-    startOfWeek.setDate(date.getDate() - date.getDay());
-    const endOfWeek = new Date(startOfWeek);
-    endOfWeek.setDate(startOfWeek.getDate() + 6);
+  const generateYearView = () => {
 
-    const week = [];
-    for (let i = 0; i < 7; i++) {
-      const currentDay = new Date(startOfWeek);
-      currentDay.setDate(startOfWeek.getDate() + i);
-      const dayClass = `day${daysOfWeek[i].slice(0, 3)}`;
-      let dayStateClass = '';
-      if (currentDay.toDateString() === today.toDateString()) {
-        dayStateClass = styles.dayToday;
-      } else if (currentDay < today) {
-        dayStateClass = styles.dayPast;
-      } else {
-        dayStateClass = styles.dayFuture;
-      }
-
-      week.push(
-        <td class={`${dayStateClass} ${styles.days} ${styles.weekView}`}>
-          <div>
-            {currentDay.getDate()}
-          </div>
-          <div class={styles.details}></div>
-        </td>
-      );
-    }
-
-    return [<tr>{week}</tr>];
-  };
+  }
 
   const goToPreviousMonth = () => {
     const date = new Date(currentDate().setMonth(currentDate().getMonth() - 1));
@@ -129,7 +141,7 @@ function Calendar() {
   };
 
   const dayView = () => {
-    // Implement day view logic
+    setViewMode('day');
   };
 
   const weekView = () => {
@@ -141,7 +153,7 @@ function Calendar() {
   };
 
   const yearView = () => {
-    // Implement year view logic
+    setViewMode('year');
   };
 
   return (

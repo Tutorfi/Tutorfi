@@ -1,7 +1,6 @@
 .calendar-container {
     padding: 20px;
     margin: 0 auto;
-    width: 60%
 }
 
 .calendar {
@@ -47,7 +46,7 @@
 .modes button,
 .monthButtons button {
     margin-right: 5px;
-    padding: 10px 20px; /* Adjust padding to prevent overflow */
+    padding: 10px 20px;
     cursor: pointer;
     background-color: #6474ff;
     color: white;
@@ -60,11 +59,10 @@
 }
 
 .header h2 {
-    margin: 0;
-    font-size: 1.5em;
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
+   font-size: 1.5em;
+   position: absolute;
+   left: 50%;
+   transform: translateX(-50%);
 }
 
 .days {
