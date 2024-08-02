@@ -26,6 +26,9 @@ export default function AuthenticationModal (props) {
     const res = await login(loginEmail(), loginPassword(), loginRemember())
     if (res.ok) {
       location.reload()
+    } else {
+      console.log(res.json())
+      // Invalid or failed
     }
   }
 
@@ -34,6 +37,9 @@ export default function AuthenticationModal (props) {
     if (res.ok) {
       setSignupVisible(false)
       setLoginVisible(true)
+    } else {
+      console.log(res.json())
+      // Invalid or failed
     }
   }
 
