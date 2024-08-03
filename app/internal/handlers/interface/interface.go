@@ -31,7 +31,7 @@ func (handle *InterfaceHandler) GetAccountGroups(c echo.Context) error {
     }
 	if err != nil {
 		fmt.Println(err)
-    re := fillResponse("Failed", "None", "Server error, try again later", nil, "")
+        re := fillResponse("Failed", "None", "Server error, try again later", nil, "")
 	    return c.JSON(http.StatusInternalServerError, re)
 	}
     groups, err := handle.store.GetGroups(acc)
@@ -48,4 +48,30 @@ func (handle *InterfaceHandler) GetAccountGroups(c echo.Context) error {
     re := fillResponse("Success", "None", "", groups, "name")
 	return c.JSON(http.StatusOK, re)
     
+}
+
+func (handle *InterfaceHandler) CreateGroup(c echo.Context) error {
+    cookie, err := c.Cookie("Tutorfi_Account")
+    u := new(response)
+    err = c.Bind(u)
+    if err != nil {
+        fmt.Println(err)
+        re := fillResponse("Invalid", "None", "No cookies", nil, "")
+        return c.JSON(http.StatusUnauthorized, re)
+    }
+
+    sessionId := cookie.Value
+    acc, err := handle.store.GetAccountSessionId(sessionId)
+    
+	if err == sql.ErrNoRows {
+	    return c.Redirect(302,"/login")
+    }
+	if err != nil {
+		fmt.Println(err)
+    re := fillResponse("Failed", "None", "Server error, try again later", nil, "")
+	    return c.JSON(http.StatusInternalServerError, re)
+	}
+
+    re := fillResponse("Success", "None", "created group", nil, "name")
+    return c.JSON(http.StatusOK, re);
 }
