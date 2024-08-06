@@ -140,20 +140,26 @@ function Calendar() {
     setCurrentDate(date);
   };
 
+  let dropdownButton;
+
   const dayView = () => {
     setViewMode('day');
+    dropdownButton.innerText = "day"
   };
 
   const weekView = () => {
     setViewMode('week');
+    dropdownButton.innerText = "week"
   };
 
   const monthView = () => {
     setViewMode('month');
+    dropdownButton.innerText = "month"
   };
 
   const yearView = () => {
     setViewMode('year');
+    dropdownButton.innerText = "year"
   };
 
   // styling mode buttons on change in screen size
@@ -203,12 +209,12 @@ function Calendar() {
           )}
         </div>
         <h2>{currentDate().toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}</h2>
-        <button onclick={dropdown} class={styles.dropdown}>hi</button>
+        <button ref={dropdownButton} onclick={dropdown} class={styles.dropdown}>hi</button>
         <div class={styles.modes}>
-          <button ref={buttons1} name='day view' onClick={dayView}>day</button>
-          <button ref={buttons2} name='week view' onClick={weekView}>week</button>
-          <button ref={buttons3} name='month view' onClick={monthView}>month</button>
-          <button ref={buttons4} name='year view' onClick={yearView}>year</button>
+          <button class={styles.day} ref={buttons1} name='day view' onClick={dayView}>day</button>
+          <button class={styles.week} ref={buttons2} name='week view' onClick={weekView}>week</button>
+          <button class={styles.month} ref={buttons3} name='month view' onClick={monthView}>month</button>
+          <button class={styles.year} ref={buttons4} name='year view' onClick={yearView}>year</button>
         </div>
       </div>
       <table class={`${styles.calendar} ${viewMode() === 'month' ? styles.monthView : styles.weekView}`}>
