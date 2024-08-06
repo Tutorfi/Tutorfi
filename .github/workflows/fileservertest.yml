@@ -1,0 +1,24 @@
+name: File Server Tests
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  container-test:
+    runs-on: ubuntu-latest
+    container: golang:1.22.5-alpine3.19
+    defaults:
+      run: 
+        working-directory: ./fileserver
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v4
+      - name: Install dependencies
+        run: go mod tidy
+      - name: Run tests
+        run: go test -v
+        
+        
