@@ -14,19 +14,17 @@ function Calendar() {
 
   const generateCalendar = () => {
     if (viewMode() == 'day') {
-        return generateDayView();
+      return generateDayView();
     } else if (viewMode() === 'week') {
       return generateWeekView();
     } else if (viewMode() == 'month') {
-        return generateMonthView();
+      return generateMonthView();
     } else if (viewMode() == 'year') {
-        return generateYearView;
+      return generateYearView();
     }
   };
 
-  const generateDayView = () => {
-    
-  }
+  const generateDayView = () => {};
 
   const generateWeekView = () => {
     const date = currentDate();
@@ -51,9 +49,7 @@ function Calendar() {
 
       week.push(
         <td class={`${dayStateClass} ${styles.days} ${styles.weekView}`}>
-          <div>
-            {currentDay.getDate()}
-          </div>
+          <div>{currentDay.getDate()}</div>
           <div class={styles.details}></div>
         </td>
       );
@@ -101,9 +97,7 @@ function Calendar() {
 
           week.push(
             <td class={`${daysOfWeek[j]} ${dayStateClass} ${styles.days} ${styles.monthView}`}>
-              <div>
-                {day}
-              </div>
+              <div>{day}</div>
               <div class={styles.details}></div>
             </td>
           );
@@ -116,9 +110,7 @@ function Calendar() {
     return calendar;
   };
 
-  const generateYearView = () => {
-
-  }
+  const generateYearView = () => {};
 
   const goToPreviousMonth = () => {
     const date = new Date(currentDate().setMonth(currentDate().getMonth() - 1));
@@ -144,53 +136,40 @@ function Calendar() {
 
   const dayView = () => {
     setViewMode('day');
-    dropdownButton.innerText = "day"
+    dropdownButton.innerText = 'day';
   };
 
   const weekView = () => {
     setViewMode('week');
-    dropdownButton.innerText = "week"
+    dropdownButton.innerText = 'week';
   };
 
   const monthView = () => {
     setViewMode('month');
-    dropdownButton.innerText = "month"
+    dropdownButton.innerText = 'month';
   };
 
   const yearView = () => {
     setViewMode('year');
-    dropdownButton.innerText = "year"
+    dropdownButton.innerText = 'year';
   };
 
   // styling mode buttons on change in screen size
-  let buttons1;
-  let buttons2;
-  let buttons3;
-  let buttons4;
+  let buttons = {};
 
   const dropdown = () => {
-    if (buttons1.style.display == "none" || buttons1.style.display == "") {
-      buttons1.style.display = "inline-block";
-      buttons2.style.display = "inline-block";
-      buttons3.style.display = "inline-block";
-      buttons4.style.display = "inline-block";
-    }
-    else {
-      buttons1.style.display = "";
-      buttons2.style.display = "";
-      buttons3.style.display = "";
-      buttons4.style.display = "";
-    }
-  }
+    Object.values(buttons).forEach((button) => {
+      button.style.display = button.style.display === 'none' || button.style.display === '' ? 'inline-block' : '';
+    });
+  };
 
-  const mql = window.matchMedia("(max-width: 880px)");
+  const mql = window.matchMedia('(max-width: 880px)');
 
   mql.onchange = () => {
-    buttons1.style.display = "";
-    buttons2.style.display = "";
-    buttons3.style.display = "";
-    buttons4.style.display = "";
-  }
+    Object.values(buttons).forEach((button) => {
+      button.style.display = '';
+    });
+  };
 
   return (
     <div class={styles['calendar-container']}>
@@ -198,36 +177,56 @@ function Calendar() {
         <div class={styles.monthButtons}>
           {viewMode() === 'month' ? (
             <>
-              <button name='previous month' onClick={goToPreviousMonth}>&#9664;</button> {/* Left arrow */}
-              <button name='next month' onClick={goToNextMonth}>&#9654;</button> {/* Right arrow */}
+              <button name="previous month" onClick={goToPreviousMonth}>
+                &#9664;
+              </button>{' '}
+              {/* Left arrow */}
+              <button name="next month" onClick={goToNextMonth}>
+                &#9654;
+              </button>{' '}
+              {/* Right arrow */}
             </>
           ) : (
             <>
-              <button name='previous week' onClick={goToPreviousWeek}>&#9664;</button> {/* Left arrow */}
-              <button name='next week' onClick={goToNextWeek}>&#9654;</button> {/* Right arrow */}
+              <button name="previous week" onClick={goToPreviousWeek}>
+                &#9664;
+              </button>{' '}
+              {/* Left arrow */}
+              <button name="next week" onClick={goToNextWeek}>
+                &#9654;
+              </button>{' '}
+              {/* Right arrow */}
             </>
           )}
         </div>
         <h2>{currentDate().toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}</h2>
-        <button ref={dropdownButton} onclick={dropdown} class={styles.dropdown}>hi</button>
+        <button ref={dropdownButton} onclick={dropdown} class={styles.dropdown}>
+          modes
+        </button>
         <div class={styles.modes}>
-          <button class={styles.day} ref={buttons1} name='day view' onClick={dayView}>day</button>
-          <button class={styles.week} ref={buttons2} name='week view' onClick={weekView}>week</button>
-          <button class={styles.month} ref={buttons3} name='month view' onClick={monthView}>month</button>
-          <button class={styles.year} ref={buttons4} name='year view' onClick={yearView}>year</button>
+          <button ref={(el) => (buttons.day = el)} name="day view" onClick={dayView} class={styles.modeButton}>
+            day
+          </button>
+          <button ref={(el) => (buttons.week = el)} name="week view" onClick={weekView} class={styles.modeButton}>
+            week
+          </button>
+          <button ref={(el) => (buttons.month = el)} name="month view" onClick={monthView} class={styles.modeButton}>
+            month
+          </button>
+          <button ref={(el) => (buttons.year = el)} name="year view" onClick={yearView} class={styles.modeButton}>
+            year
+          </button>
         </div>
       </div>
       <table class={`${styles.calendar} ${viewMode() === 'month' ? styles.monthView : styles.weekView}`}>
         <thead>
           <tr>
-            {daysOfWeek.map(day => (
+            {daysOfWeek.map((day) => (
               <th>{day}</th>
             ))}
           </tr>
         </thead>
-        <tbody>
-          {generateCalendar()}
-        </tbody>
+        <tbody>{generateCalendar()}</tbody>
       </table>
     </div>
   );
