@@ -65,23 +65,17 @@
         position: absolute;
         display: flex;
         flex-direction: column;
+        top: 40px; /* Adjust this value to position the dropdown correctly */
         right: 0px;
-        align-items:flex-end;
-        /* justify-content: space-betwee n; */
+        align-items: flex-end;
     }
 
     .modes button {
         display: none;
-        position: absolute;
         background-color: #f9f9f9;
-        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
         padding: 10px 20px;
         z-index: 1;
-        right: 0px;
-    }
-
-    .day {
-        translate: ;
     }
 }
 
@@ -101,14 +95,13 @@
 }
 
 .header h2 {
-   font-size: 1.5em;
-   position: absolute;
-   left: 50%;
-   transform: translateX(-50%);
+    font-size: 1.5em;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 .days {
-
 }
 
 .dayPast {
