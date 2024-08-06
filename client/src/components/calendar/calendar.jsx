@@ -1,4 +1,4 @@
-import { createSignal } from 'solid-js';
+import { children, createSignal } from 'solid-js';
 import styles from './calendar.module.css';
 
 function Calendar() {
@@ -156,6 +156,36 @@ function Calendar() {
     setViewMode('year');
   };
 
+  // styling mode buttons on change in screen size
+  let buttons1;
+  let buttons2;
+  let buttons3;
+  let buttons4;
+
+  const dropdown = () => {
+    if (buttons1.style.display == "none" || buttons1.style.display == "") {
+      buttons1.style.display = "inline-block";
+      buttons2.style.display = "inline-block";
+      buttons3.style.display = "inline-block";
+      buttons4.style.display = "inline-block";
+    }
+    else {
+      buttons1.style.display = "";
+      buttons2.style.display = "";
+      buttons3.style.display = "";
+      buttons4.style.display = "";
+    }
+  }
+
+  const mql = window.matchMedia("(max-width: 880px)");
+
+  mql.onchange = () => {
+    buttons1.style.display = "";
+    buttons2.style.display = "";
+    buttons3.style.display = "";
+    buttons4.style.display = "";
+  }
+
   return (
     <div class={styles['calendar-container']}>
       <div class={styles.header}>
@@ -173,11 +203,12 @@ function Calendar() {
           )}
         </div>
         <h2>{currentDate().toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}</h2>
+        <button onclick={dropdown} class={styles.dropdown}>hi</button>
         <div class={styles.modes}>
-          <button name='day view' onClick={dayView}>day</button>
-          <button name='week view' onClick={weekView}>week</button>
-          <button name='month view' onClick={monthView}>month</button>
-          <button name='year view' onClick={yearView}>year</button>
+          <button ref={buttons1} name='day view' onClick={dayView}>day</button>
+          <button ref={buttons2} name='week view' onClick={weekView}>week</button>
+          <button ref={buttons3} name='month view' onClick={monthView}>month</button>
+          <button ref={buttons4} name='year view' onClick={yearView}>year</button>
         </div>
       </div>
       <table class={`${styles.calendar} ${viewMode() === 'month' ? styles.monthView : styles.weekView}`}>
