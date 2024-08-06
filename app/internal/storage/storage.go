@@ -6,6 +6,7 @@ import (
 
 type Storage interface {
 	GetAccount(email string) (*models.Account, error)
+    CreateGroups(account *models.Account, group *models.Group) error 
     GetGroups(acc *models.Account) ([]models.Group, error)
     GetAccountSessionId(sessionId string) (*models.Account, error)
 	CreateAccount(fname, lname, email, password string) error
