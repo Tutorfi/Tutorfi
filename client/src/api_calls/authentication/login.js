@@ -4,7 +4,7 @@ export async function login (email, password, remember) {
     body: JSON.stringify({
       email,
       password,
-      remember,
+      remember
     }),
     headers: {
       'Content-type': 'application/json; charset=UTF-8'

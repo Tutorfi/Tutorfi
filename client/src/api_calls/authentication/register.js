@@ -7,7 +7,7 @@ export async function register (fname, lname, email, username, password) {
       lname,
       email,
       username,
-      password,
+      password
     }),
     headers: {
       'Content-type': 'application/json; charset=UTF-8'
