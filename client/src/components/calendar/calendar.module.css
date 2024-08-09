@@ -47,7 +47,7 @@
     display: flex;
 }
 
-.monthButtons button{
+.monthButtons button {
     margin-right: 5px;
     padding: 10px 20px;
     cursor: pointer;
@@ -63,16 +63,21 @@
 
 @media (max-width: 880px) {
     .dropdown {
-        display: inline-block;
-        position: absolute;
-        right: 10px;
-        margin-right: 5px;
-        padding: 10px 20px;
+        display:flex; /* Flexbox to align text and arrow */
+        justify-content: space-between;
         cursor: pointer;
         background-color: #6474ff;
         color: white;
         border: none;
         border-radius: 10px;
+        text-align: center;
+        padding: 10px 20px;
+        width: 105px;
+    }
+
+    .dropdown::after {
+        content: '\25BC'; /* Unicode for a down arrow */
+        font-size: 1em;
     }
 
     .modes {
@@ -82,7 +87,8 @@
         display: flex;
         flex-direction: column;
         top: 110%;
-        right: 2%;
+        right: 0%;
+        width: 105px;
     }
 
     .modes button {
