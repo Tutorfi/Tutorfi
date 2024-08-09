@@ -21,7 +21,7 @@ export default function AuthenticationModal (props) {
   const [loginVisible, setLoginVisible] = createSignal(false)
   const [signupVisible, setSignupVisible] = createSignal(false)
 
-  const [error, setError] = createSignal("")
+  const [error, setError] = createSignal('')
 
   // Change this to redirect to login page
   const handleLogin = async () => {
