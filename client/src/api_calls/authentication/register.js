@@ -13,6 +13,5 @@ export async function register (fname, lname, email, username, password) {
       'Content-type': 'application/json; charset=UTF-8'
     }
   })
-  console.log(res.json())
   return res
 }

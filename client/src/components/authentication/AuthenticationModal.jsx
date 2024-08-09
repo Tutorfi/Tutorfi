@@ -21,25 +21,39 @@ export default function AuthenticationModal (props) {
   const [loginVisible, setLoginVisible] = createSignal(false)
   const [signupVisible, setSignupVisible] = createSignal(false)
 
+  const [error, setError] = createSignal("")
+
   // Change this to redirect to login page
   const handleLogin = async () => {
     const res = await login(loginEmail(), loginPassword(), loginRemember())
+    const result = await res.json()
     if (res.ok) {
       location.reload()
     } else {
-      console.log(res.json())
-      // Invalid or failed
+      if (result.status !== undefined) {
+        if (result.status === "Invalid") {
+          setError(result.msg)
+        } else {
+          alert(result.msg)
+        }
+      } 
     }
   }
 
   const handleSignup = async () => {
     const res = await register(signupFirstName(), signupLastName(), signupEmail(), signupUsername(), signupPassword())
+    const result = await res.json()
     if (res.ok) {
       setSignupVisible(false)
       setLoginVisible(true)
     } else {
-      console.log(res.json())
-      // Invalid or failed
+      if (result.status !== undefined) {
+        if (result.status === "Invalid") {
+          setError(result.msg)
+        } else {
+          alert(result.msg)
+        }
+      } 
     }
   }
 
@@ -161,6 +175,9 @@ export default function AuthenticationModal (props) {
                   >
                     Remember me
                   </label>
+                </div>
+                <div class="font-medium text-red-700">
+                  {error()}
                 </div>
                 <button
                   type="submit"

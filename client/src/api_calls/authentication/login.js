@@ -10,6 +10,5 @@ export async function login (email, password, remember) {
       'Content-type': 'application/json; charset=UTF-8'
     }
   })
-  console.log(res.json())
   return res
 }
