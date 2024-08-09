@@ -11,8 +11,8 @@ import (
 
 func (s *PostgresStorage) GetAccount(email string) (*models.Account, error) {
 	var acc models.Account
-	err := s.db.QueryRow("SELECT id, firstname, lastname, email, password, session_id, organization_id FROM \"account\" WHERE email = $1", email).Scan(
-		&acc.Id, &acc.Firstname, &acc.Lastname, &acc.Email, &acc.Password, &acc.SessionId, &acc.OrganizationId)
+	err := s.db.QueryRow("SELECT id, firstname, lastname, email, username, password, session_id, organization_id FROM \"account\" WHERE email = $1", email).Scan(
+		&acc.Id, &acc.Firstname, &acc.Lastname, &acc.Email, &acc.Username, &acc.Password, &acc.SessionId, &acc.OrganizationId)
 	if err != nil {
 		return nil, err
 	}
@@ -21,11 +21,11 @@ func (s *PostgresStorage) GetAccount(email string) (*models.Account, error) {
 
 func (s *PostgresStorage) GetAccountSessionId(sessionId string) (*models.Account, error) {
 	var acc models.Account
-    err := s.db.QueryRow(`
-        SELECT id, firstname, lastname, email, password, session_id, 
+	err := s.db.QueryRow(`
+        SELECT id, firstname, lastname, email, username, password, session_id, 
         organization_id FROM "account" WHERE "session_id" = $1`, sessionId).Scan(
-		    &acc.Id, &acc.Firstname, &acc.Lastname, &acc.Email, &acc.Password, &acc.SessionId, 
-            &acc.OrganizationId)
+		&acc.Id, &acc.Firstname, &acc.Lastname, &acc.Email, &acc.Username, &acc.Password, &acc.SessionId,
+		&acc.OrganizationId)
 	if err == sql.ErrNoRows {
 		return &models.Account{}, nil
 	}
@@ -38,10 +38,10 @@ func (s *PostgresStorage) GetAccountSessionId(sessionId string) (*models.Account
 }
 
 // Inserts an account into the database, does not return the created account.
-func (s *PostgresStorage) CreateAccount(fname string, lname string, email string, password string) error {
+func (s *PostgresStorage) CreateAccount(fname string, lname string, email string, username string, password string) error {
 	//var acc models.Account
-	res := s.db.QueryRow(`INSERT INTO "account" ("firstname", "lastname", "email", "password") VALUES 
-                        ($1, $2, $3, $4)`, fname, lname, email, password)
+    res := s.db.QueryRow(`INSERT INTO "account" ("firstname", "lastname", "email", "username", "password") VALUES 
+                        ($1, $2, $3, $4, $5)`, fname, lname, email, username, password)
 	return res.Err()
 }
 
@@ -49,6 +49,16 @@ func (s *PostgresStorage) GetPassword(email string) (string, error) {
 	var password string
 	err := s.db.QueryRow(`SELECT "password" FROM "account" WHERE "email" = $1`, email).Scan(password)
 	return password, err
+}
+
+func (s *PostgresStorage) UpdateEmail(id string, email string) error {
+    _, err := s.db.Exec(`UPDATE "account" SET "email" = $1 WHERE "id" = $2`, email, id);
+    return err
+}
+
+func (s *PostgresStorage) UpdateUsername(id string, username string) error {
+    _, err := s.db.Exec(`UPDATE "account" SET "username" = $1 WHERE "id" = $2`, username, id);
+    return err
 }
 
 func (s *PostgresStorage) SetSessionID(id string, sessionid string) error {

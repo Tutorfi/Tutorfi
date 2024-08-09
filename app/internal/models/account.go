@@ -9,5 +9,6 @@ type Account struct {
 	Firstname      string
 	Lastname       string
 	Email          string
+	Username       string
 	Password       string
 }
