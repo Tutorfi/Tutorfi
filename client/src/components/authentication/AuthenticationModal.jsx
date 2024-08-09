@@ -31,12 +31,12 @@ export default function AuthenticationModal (props) {
       location.reload()
     } else {
       if (result.status !== undefined) {
-        if (result.status === "Invalid") {
+        if (result.status === 'Invalid') {
           setError(result.msg)
         } else {
           alert(result.msg)
         }
-      } 
+      }
     }
   }
 
@@ -48,12 +48,12 @@ export default function AuthenticationModal (props) {
       setLoginVisible(true)
     } else {
       if (result.status !== undefined) {
-        if (result.status === "Invalid") {
+        if (result.status === 'Invalid') {
           setError(result.msg)
         } else {
           alert(result.msg)
         }
-      } 
+      }
     }
   }
 

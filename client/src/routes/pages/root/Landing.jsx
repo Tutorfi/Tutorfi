@@ -1,5 +1,4 @@
 import NavbarLanding from '../../../components/nav/root/NavbarLanding'
-import { register } from '../../../api_calls/authentication/register'
 
 function Landing () {
   document.title = 'Tutorfi'
