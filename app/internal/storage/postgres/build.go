@@ -28,6 +28,7 @@ func (s *PostgresStorage) BuildDevDB() error {
       "session_id" uuid UNIQUE,
       "organization_id" INTEGER UNIQUE,
       "email" varchar UNIQUE NOT NULL,
+      "username" varchar NOT NULL,
       "firstname" varchar NOT NULL,
       "lastname" varchar NOT NULL,
       "password" varchar NOT NULL,
@@ -87,7 +88,7 @@ func (s *PostgresStorage) BuildDevDB() error {
 		fmt.Println(err)
 		return err
 	}
-    fmt.Println("Created the tables")
+	fmt.Println("Created the tables")
 	_, err = s.db.Exec(`INSERT INTO "organization" ("name") VALUES ('Tutorfi')`)
 	if err != nil {
 		fmt.Println("unable to insert values into test database")
@@ -95,13 +96,13 @@ func (s *PostgresStorage) BuildDevDB() error {
 		return err
 	}
 	users := [][]string{
-		{"bob", "Builder", "bob@gmail.com"},
-		{"Jane", "Lin", "Jane@gmail.com"},
-		{"Me", "Bull", "Bull@gmail.com"},
-		{"John", "Doe", "JohnDoe@gmail.com"},
+        {"bob", "Builder", "BuilderB5", "bob@gmail.com"},
+		{"Jane", "Lin", "LinJ3", "Jane@gmail.com"},
+		{"Me", "Bull", "BullM", "Bull@gmail.com"},
+		{"John", "Doe", "DoeJ", "JohnDoe@gmail.com"},
 	}
 	var orgId int
-    err = s.db.QueryRow(`SELECT ("id") FROM "organization" WHERE "name"='Tutorfi'`).Scan(&orgId)
+	err = s.db.QueryRow(`SELECT ("id") FROM "organization" WHERE "name"='Tutorfi'`).Scan(&orgId)
 	if err != nil {
 		fmt.Println("Unable to read organization row")
 		fmt.Println(err)
@@ -115,19 +116,21 @@ func (s *PostgresStorage) BuildDevDB() error {
 	}
 	for i := 0; i < len(users); i++ {
 		hash, _ := bcrypt.GenerateFromPassword([]byte("password"), 0)
-		_, err = s.db.Exec(`INSERT INTO "account" (firstname,lastname,email,password) VALUES ($1, $2, $3, $4)`, users[i][0], users[i][1], users[i][2], hash)
+		_, err = s.db.Exec(`INSERT INTO "account" (firstname,lastname,username,email,password) 
+        VALUES ($1, $2, $3, $4, $5)`, users[i][0], users[i][1],
+			users[i][2], users[i][3], hash)
 		if err != nil {
 			fmt.Println("unable to insert users into database")
 			fmt.Println(err)
 			return err
 		}
-        var userId string
-        err = s.db.QueryRow(`SELECT ("id") FROM "account" WHERE "email"=$1`, users[i][2]).Scan(&userId)
-	    if err != nil {
-	    	fmt.Println("Unable to read user row")
-	    	fmt.Println(err)
-	    	return err
-	    }
+		var userId string
+		err = s.db.QueryRow(`SELECT ("id") FROM "account" WHERE "email"=$1`, users[i][3]).Scan(&userId)
+		if err != nil {
+			fmt.Println("Unable to read user row")
+			fmt.Println(err)
+			return err
+		}
 		_, err = s.db.Exec(`INSERT INTO "group_account" ("group_id", "account_id") VALUES ($1, $2)`, orgId, userId)
 		if err != nil {
 			fmt.Println("unable to insert users into database")
