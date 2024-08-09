@@ -201,19 +201,19 @@ function Calendar() {
         </div>
         <h2>{currentDate().toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}</h2>
         <button ref={dropdownButton} onclick={dropdown} class={styles.dropdown}>
-          modes
+          month
         </button>
         <div class={styles.modes}>
-          <button ref={(el) => (buttons.day = el)} name="day view" onClick={dayView} class={styles.modeButton}>
+          <button ref={(el) => (buttons.day = el)} name="day view" onClick={dayView} class={`${styles.dayButton} ${styles.modeButton}`}>
             day
           </button>
-          <button ref={(el) => (buttons.week = el)} name="week view" onClick={weekView} class={styles.modeButton}>
+          <button ref={(el) => (buttons.week = el)} name="week view" onClick={weekView} class={`${styles.weekButton} ${styles.modeButton}`}>
             week
           </button>
-          <button ref={(el) => (buttons.month = el)} name="month view" onClick={monthView} class={styles.modeButton}>
+          <button ref={(el) => (buttons.month = el)} name="month view" onClick={monthView} class={`${styles.monthButton} ${styles.modeButton}`}>
             month
           </button>
-          <button ref={(el) => (buttons.year = el)} name="year view" onClick={yearView} class={styles.modeButton}>
+          <button ref={(el) => (buttons.year = el)} name="year view" onClick={yearView} class={`${styles.yearButton} ${styles.modeButton}`}>
             year
           </button>
         </div>
