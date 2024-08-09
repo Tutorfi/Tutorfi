@@ -47,40 +47,7 @@
     display: flex;
 }
 
-@media (max-width: 880px) {
-    .dropdown {
-        display: inline-block;
-        position: absolute;
-        right: 10px;
-        margin-right: 5px;
-        padding: 10px 20px;
-        cursor: pointer;
-        background-color: #6474ff;
-        color: white;
-        border: none;
-        border-radius: 25px;
-    }
-
-    .modes {
-        position: absolute;
-        display: flex;
-        flex-direction: column;
-        top: 40px; /* Adjust this value to position the dropdown correctly */
-        right: 0px;
-        align-items: flex-end;
-    }
-
-    .modes button {
-        display: none;
-        background-color: #f9f9f9;
-        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-        padding: 10px 20px;
-        z-index: 1;
-    }
-}
-
-.modes button,
-.monthButtons button {
+.monthButtons button{
     margin-right: 5px;
     padding: 10px 20px;
     cursor: pointer;
@@ -92,6 +59,67 @@
 
 .header button:hover {
     background-color: #4653cf;
+}
+
+@media (max-width: 880px) {
+    .dropdown {
+        display: inline-block;
+        position: absolute;
+        right: 10px;
+        margin-right: 5px;
+        padding: 10px 20px;
+        cursor: pointer;
+        background-color: #6474ff;
+        color: white;
+        border: none;
+        border-radius: 10px;
+    }
+
+    .modes {
+        border: 1px solid rgb(185, 185, 185);
+        border-radius: 10px;
+        position: absolute;
+        display: flex;
+        flex-direction: column;
+        top: 110%;
+        right: 2%;
+    }
+
+    .modes button {
+        display: none;
+        background-color: #f9f9f9;
+        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+        padding: 10px 20px;
+        z-index: 1;
+    }
+
+    .dayButton, .weekButton, .monthButton {
+        border-bottom: 1px solid rgb(185, 185, 185);
+    }
+
+    .dayButton {
+        border-radius: 10px 10px 0 0;
+    }
+
+    .yearButton {
+        border-radius: 0 0 10px 10px;
+    }
+
+    .modes button:hover {
+        background-color: #d5d5d5;
+    }
+}
+
+@media (min-width: 881px) {
+    .modes button {
+        margin-right: 5px;
+        padding: 10px 20px;
+        cursor: pointer;
+        background-color: #6474ff;
+        color: white;
+        border: none;
+        border-radius: 25px;
+    }
 }
 
 .header h2 {
