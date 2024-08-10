@@ -30,6 +30,10 @@ services:
         condition: service_healthy
       pgsqlTest:
         condition: service_healthy
+  fileserver:
+    container_name: fileserver
+    build: 
+      context: ../fileserver
   client:
     container_name: client
     build:

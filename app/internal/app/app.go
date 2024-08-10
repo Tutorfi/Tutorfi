@@ -11,12 +11,14 @@ import (
 type App struct {
 	listenAddr string
 	store      storage.Storage
+    fileserver string
 }
 
-func NewApp(listenAddr string, store storage.Storage) *App {
+func NewApp(listenAddr string, store storage.Storage, fileserver string) *App {
 	return &App{
 		listenAddr: listenAddr,
 		store:      store,
+        fileserver: fileserver,
 	}
 }
 
