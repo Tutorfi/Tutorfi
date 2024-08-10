@@ -10,6 +10,7 @@ func (s *PostgresStorage) BuildDevDB() error {
 	val := ` 
     DROP TABLE IF EXISTS "group_account";
     DROP TABLE IF EXISTS "group";
+    DROP TABLE IF EXISTS "events";
     DROP TABLE IF EXISTS "schedule";
     DROP TABLE IF EXISTS "user_schedule";
     DROP TABLE IF EXISTS "permission";
