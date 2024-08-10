@@ -52,6 +52,11 @@ func (handle *InterfaceHandler) GetAccountGroups(c echo.Context) error {
 
 func (handle *InterfaceHandler) CreateGroup(c echo.Context) error {
 	cookie, err := c.Cookie("Tutorfi_Account")
+    if err != nil {
+        fmt.Println(err)
+        re := fillResponse("Failed", "None", "Server error, try again later", nil, "")
+        return c.JSON(http.StatusInternalServerError, re)
+    }
 	u := new(responseCreateGroup)
 	err = c.Bind(u)
 	if err != nil {
