@@ -9,6 +9,10 @@ type response struct {
 	GroupName []string `json:"groupName"`
 }
 
+type responseCreateGroup struct {
+	GroupName string `json:"groupName"`
+}
+
 func fillResponse(stat string, auth string, msg string, groups []models.Group, dataType string) response {
 	if groups == nil {
 		return response{

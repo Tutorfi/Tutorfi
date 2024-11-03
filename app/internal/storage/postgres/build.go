@@ -6,6 +6,7 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
+
 func (s *PostgresStorage) BuildDevDB() error {
 	val := ` 
     DROP TABLE IF EXISTS "group_account";
@@ -54,9 +55,10 @@ func (s *PostgresStorage) BuildDevDB() error {
 
     CREATE TABLE "group" (
       "id" SERIAL UNIQUE PRIMARY KEY,
-      "organization_id" INTEGER NOT NULL,
+      "group_id" varchar(17) UNIQUE NOT NULL,
+      "organization_id" INTEGER,
       "name" varchar UNIQUE NOT NULL,
-      "data" jsonb,
+      "created_at" timestamptz DEFAULT current_timestamp,
       FOREIGN KEY ("organization_id") REFERENCES "organization"("id") ON DELETE CASCADE
     );
 
@@ -108,7 +110,13 @@ func (s *PostgresStorage) BuildDevDB() error {
 		fmt.Println(err)
 		return err
 	}
-	_, err = s.db.Exec(`INSERT INTO "group" ("organization_id","name") VALUES ($1, 'Linear Algebra')`, orgId)
+    token, err := tokenGenerator()
+    if err != nil {
+        fmt.Println("Can't generate token")
+        fmt.Println(err)
+        return err
+    }
+	_, err = s.db.Exec(`INSERT INTO "group" ("group_id", "organization_id","name") VALUES ($1, $2, 'Linear Algebra')`, token, orgId)
 	if err != nil {
 		fmt.Println("unable to insert users into database")
 		fmt.Println(err)
