@@ -65,10 +65,10 @@ func (handle *AccountHandler) CreateAccount(c echo.Context) error {
 	}
 
 	//Check and hash the password
-	//For the future when we figure out error handeling better
+	// Make sure to check for special characeters
 	//https://stackoverflow.com/questions/19605150/regex-for-password-must-contain-at-least-eight-characters-at-least-one-number-a
 	if utf8.RuneCountInString(u.Password) < 8 {
-		re := fillResponse("Invalid", "Invalid number of characters is it this")
+		re := fillResponse("Invalid", "Invalid number of characters in password")
 		return c.JSON(http.StatusUnprocessableEntity, re)
 	}
 	//In the future we may need a restriction on passwords too long
