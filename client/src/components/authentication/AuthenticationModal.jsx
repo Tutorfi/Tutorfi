@@ -45,7 +45,7 @@ export default function AuthenticationModal (props) {
     const res = await register(signupFirstName(), signupLastName(), signupEmail(), signupUsername(), signupPassword())
     const result = await res.json()
     if (res.ok) {
-      setError("")
+      setError('')
       setSignupVisible(false)
       setLoginVisible(true)
     } else {
@@ -62,11 +62,11 @@ export default function AuthenticationModal (props) {
   onMount(() => {
     props.authRef?.({
       loginVisible: () => {
-        setError("")
+        setError('')
         setLoginVisible(true)
       },
       signupVisible: () => {
-        setError("")
+        setError('')
         setSignupVisible(true)
       }
     })
@@ -74,7 +74,7 @@ export default function AuthenticationModal (props) {
 
   // toggle modal visibility
   const toggleModal = () => {
-    setError("")
+    setError('')
     setLoginVisible(false)
     setSignupVisible(false)
   }
