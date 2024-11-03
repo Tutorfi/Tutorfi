@@ -13,7 +13,7 @@
     "eslint": "^8.57.0",
     "eslint-plugin-solid": "^0.14.0",
     "solid-devtools": "^0.29.2",
-    "vite": "^5.2.13",
+    "vite": "^5.4.10",
     "vite-plugin-solid": "^2.8.2"
   },
   "dependencies": {
