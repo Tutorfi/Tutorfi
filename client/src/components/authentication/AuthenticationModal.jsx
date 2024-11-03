@@ -27,6 +27,7 @@ export default function AuthenticationModal (props) {
   const handleLogin = async () => {
     const res = await login(loginEmail(), loginPassword(), loginRemember())
     const result = await res.json()
+
     if (res.ok) {
       location.reload()
     } else {
@@ -44,6 +45,7 @@ export default function AuthenticationModal (props) {
     const res = await register(signupFirstName(), signupLastName(), signupEmail(), signupUsername(), signupPassword())
     const result = await res.json()
     if (res.ok) {
+      setError('')
       setSignupVisible(false)
       setLoginVisible(true)
     } else {
@@ -60,9 +62,11 @@ export default function AuthenticationModal (props) {
   onMount(() => {
     props.authRef?.({
       loginVisible: () => {
+        setError('')
         setLoginVisible(true)
       },
       signupVisible: () => {
+        setError('')
         setSignupVisible(true)
       }
     })
@@ -70,6 +74,7 @@ export default function AuthenticationModal (props) {
 
   // toggle modal visibility
   const toggleModal = () => {
+    setError('')
     setLoginVisible(false)
     setSignupVisible(false)
   }
@@ -369,6 +374,9 @@ export default function AuthenticationModal (props) {
                       terms and conditions
                     </a>
                   </label>
+                </div>
+                <div class="font-medium text-red-700">
+                  {error()}
                 </div>
                 <button
                   type="submit"
