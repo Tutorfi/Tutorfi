@@ -5,7 +5,6 @@ import (
 	"app/internal/public/views/home"
 	"app/internal/utils"
 	"net/http"
-
 	"github.com/labstack/echo/v4"
 )
 

@@ -11,6 +11,7 @@ const RootPage = lazy(() => import('./routes/pages/root/index'))
 const OrgsPage = lazy(() => import('./routes/pages/orgs/index'))
 const GroupsPage = lazy(() => import('./routes/pages/groups/index'))
 const NotFound = lazy(() => import('./routes/pages/NotFound'))
+const CalendarPage = lazy(() => import('./components/calendar/calendar'))
 
 const root = document.getElementById('root')
 
@@ -28,6 +29,7 @@ render(() => (
         <Route path="/dashboard" component={RootPage} />
         <Route path="/orgs" component={OrgsPage} />
         <Route path="/groups" component={GroupsPage} />
+        <Route path="/calendar" component={CalendarPage} />
         <Route path="*404" component={NotFound} />
     </Route>
   </Router>
