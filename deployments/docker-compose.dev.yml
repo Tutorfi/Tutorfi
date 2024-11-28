@@ -23,6 +23,14 @@ services:
       - "8000:8000"
     volumes:
       - ../app:/app/
+  fileserver:
+    build:
+      context: ../fileserver
+      dockerfile: Dockerfile.dev
+    ports:
+      - "8080:8080"
+    volumes:
+      - ../fileserver:/fileserver/
   client:
     build:
       context: ../client
